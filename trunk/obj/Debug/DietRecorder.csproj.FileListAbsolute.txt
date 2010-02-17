@@ -1,0 +1,12 @@
+C:\Programs\DietRecorder\obj\Debug\ResolveAssemblyReference.cache
+C:\Programs\DietRecorder\obj\Debug\DietRecorder_MarkupCompile.cache
+C:\Programs\DietRecorder\obj\Debug\DietRecorder.g.resources
+C:\Programs\DietRecorder\obj\Debug\DietRecorder.Properties.Resources.resources
+C:\Programs\DietRecorder\obj\Debug\DietRecorder.csproj.GenerateResource.Cache
+C:\Programs\DietRecorder\bin\Debug\DietRecorder.exe
+C:\Programs\DietRecorder\bin\Debug\DietRecorder.pdb
+C:\Programs\DietRecorder\obj\Debug\DietRecorder.exe
+C:\Programs\DietRecorder\obj\Debug\DietRecorder.pdb
+C:\Programs\DietRecorder\obj\Debug\Client\DetailsList.baml
+C:\Programs\DietRecorder\obj\Debug\Client\DetailsList.g.cs
+C:\Programs\DietRecorder\obj\Debug\Client\App.g.cs
