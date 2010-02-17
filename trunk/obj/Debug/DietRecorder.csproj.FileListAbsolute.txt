@@ -22,3 +22,17 @@ C:\Programs\wpf-diet-recorder\obj\Debug\DietRecorder_MarkupCompile.cache
 C:\Programs\wpf-diet-recorder\obj\Debug\DietRecorder.g.resources
 C:\Programs\wpf-diet-recorder\obj\Debug\DietRecorder.Properties.Resources.resources
 C:\Programs\wpf-diet-recorder\obj\Debug\DietRecorder.csproj.GenerateResource.Cache
+E:\Programming\wpf-diet-recorder\obj\Debug\DietRecorder.exe
+E:\Programming\wpf-diet-recorder\obj\Debug\DietRecorder.pdb
+E:\Programming\wpf-diet-recorder\obj\Debug\ResolveAssemblyReference.cache
+E:\Programming\wpf-diet-recorder\obj\Debug\Client\DetailsList.baml
+E:\Programming\wpf-diet-recorder\obj\Debug\Client\DetailsList.g.cs
+E:\Programming\wpf-diet-recorder\obj\Debug\Client\App.g.cs
+E:\Programming\wpf-diet-recorder\obj\Debug\DietRecorder_MarkupCompile.cache
+E:\Programming\wpf-diet-recorder\obj\Debug\DietRecorder.g.resources
+E:\Programming\wpf-diet-recorder\obj\Debug\DietRecorder.Properties.Resources.resources
+E:\Programming\wpf-diet-recorder\obj\Debug\DietRecorder.csproj.GenerateResource.Cache
+E:\Programming\wpf-diet-recorder\bin\Debug\DietRecorder.Contracts.dll
+E:\Programming\wpf-diet-recorder\bin\Debug\DietRecorder.Contracts.pdb
+E:\Programming\wpf-diet-recorder\bin\Debug\DietRecorder.exe
+E:\Programming\wpf-diet-recorder\bin\Debug\DietRecorder.pdb
