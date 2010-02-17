@@ -10,3 +10,15 @@ C:\Programs\DietRecorder\obj\Debug\DietRecorder.pdb
 C:\Programs\DietRecorder\obj\Debug\Client\DetailsList.baml
 C:\Programs\DietRecorder\obj\Debug\Client\DetailsList.g.cs
 C:\Programs\DietRecorder\obj\Debug\Client\App.g.cs
+C:\Programs\wpf-diet-recorder\obj\Debug\DietRecorder.exe
+C:\Programs\wpf-diet-recorder\obj\Debug\DietRecorder.pdb
+C:\Programs\wpf-diet-recorder\bin\Debug\DietRecorder.exe
+C:\Programs\wpf-diet-recorder\bin\Debug\DietRecorder.pdb
+C:\Programs\wpf-diet-recorder\obj\Debug\ResolveAssemblyReference.cache
+C:\Programs\wpf-diet-recorder\obj\Debug\Client\DetailsList.baml
+C:\Programs\wpf-diet-recorder\obj\Debug\Client\DetailsList.g.cs
+C:\Programs\wpf-diet-recorder\obj\Debug\Client\App.g.cs
+C:\Programs\wpf-diet-recorder\obj\Debug\DietRecorder_MarkupCompile.cache
+C:\Programs\wpf-diet-recorder\obj\Debug\DietRecorder.g.resources
+C:\Programs\wpf-diet-recorder\obj\Debug\DietRecorder.Properties.Resources.resources
+C:\Programs\wpf-diet-recorder\obj\Debug\DietRecorder.csproj.GenerateResource.Cache
