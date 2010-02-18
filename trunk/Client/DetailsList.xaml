@@ -7,7 +7,15 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <ListView Grid.Row="0" Name="MeasurementList" ItemsSource="{Binding}"/>
+        <ListView Grid.Row="0" Name="MeasurementGrid" ItemsSource="{Binding}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="50" Header="Date" DisplayMemberBinding="{Binding Path=Date}"/>
+                    <GridViewColumn Width="50" Header="Name" DisplayMemberBinding="{Binding Path=Name}"/>
+                    <GridViewColumn Width="50" Header="Weight (Kg)" DisplayMemberBinding="{Binding Path=WeightKg}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -17,15 +25,15 @@
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0">
                 <TextBlock Text="Name"/>
-                <TextBox Name="Name"/>
+                <TextBox Name="NameText"/>
             </StackPanel>
             <StackPanel Grid.Column="1">
                 <TextBlock Text="Date"/>
-                <TextBox Name="Date"/>
+                <TextBox Name="DateText"/>
             </StackPanel>
             <StackPanel Grid.Column="2">
                 <TextBlock Text="Weight Kg"/>
-                <TextBox Name="Weight"/>
+                <TextBox Name="WeightText"/>
             </StackPanel>
             <Button Grid.Column="3" Content="+" Name="AddButton" Click="AddButton_Click"/>
         </Grid>

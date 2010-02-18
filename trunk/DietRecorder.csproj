@@ -73,8 +73,8 @@
     <Compile Include="Client\DetailsListPresenter.cs" />
     <Compile Include="DataAccess\IRepository.cs" />
     <Compile Include="DataAccess\Repository.cs" />
-    <Compile Include="Model\Dieter.cs" />
     <Compile Include="Model\Measurement.cs" />
+    <Compile Include="Model\MeasurementList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
