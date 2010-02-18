@@ -12,6 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using DietRecorder.Model;
+
 namespace DietRecorder.Client
 {
     /// <summary>
@@ -19,14 +21,62 @@ namespace DietRecorder.Client
     /// </summary>
     public partial class DetailsList : Window
     {
+        private DetailsListPresenter presenter;
+
+
         public DetailsList()
         {
             InitializeComponent();
         }
 
+        public DetailsListPresenter Presenter
+        {
+            set
+            {
+                presenter = value;
+                MeasurementGrid.DataContext = presenter.Measurements;
+            }
+        }
+
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
+            presenter.AddMeasurement();
+        }
 
+        public string Name
+        {
+            get
+            {
+                return NameText.Text;
+            }
+            set
+            {
+                NameText.Text = value;
+            }
+        }
+
+        public string Date
+        {
+            get
+            {
+                return DateText.Text;
+            }
+            set
+            {
+                DateText.Text = value;
+            }
+        }
+
+        public string Weight
+        {
+            get
+            {
+                return WeightText.Text;
+            }
+            set
+            {
+                WeightText.Text = value;
+            }
         }
     }
 }
