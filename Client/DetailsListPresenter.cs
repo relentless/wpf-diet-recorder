@@ -32,19 +32,29 @@ namespace DietRecorder.Client
         public void DisplayView()
         {
             measurements = dietLogic.LoadMeasurementList();
+            view.SetGridBinding(measurements);
             view.Show();
         }
 
         public void AddMeasurement()
         {
-            string name = view.Name;
-            DateTime date = Convert.ToDateTime(view.Date);
-            double weight = Convert.ToDouble(view.Weight);
+            try
+            {
+                string name = view.Name;
+                DateTime date = Convert.ToDateTime(view.Date);
+                double weight = Convert.ToDouble(view.Weight);
 
-            Measurement newMeasurement = new Measurement(name, date, weight);
-            measurements.Add(newMeasurement);
+                Measurement newMeasurement = new Measurement(name, date, weight);
+                measurements.Add(newMeasurement);
 
-            ClearViewFields();
+                dietLogic.SaveMeasurementList(measurements);
+
+                ClearViewFields();
+            }
+            catch (FormatException)
+            {
+                view.ShowMesage("Write it proper, would ya!");
+            }
         }
 
         private void ClearViewFields()

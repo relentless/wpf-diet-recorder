@@ -6,7 +6,7 @@ namespace DietRecorder.DataAccess
 {
     public class Repository: IRepository
     {
-        public MeasurementList Get()
+        public MeasurementList Load()
         {
             throw new NotImplementedException();
         }

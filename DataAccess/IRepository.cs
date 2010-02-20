@@ -6,7 +6,7 @@ namespace DietRecorder.DataAccess
 {
     public interface IRepository
     {
-        MeasurementList Get();
+        MeasurementList Load();
         void Save(MeasurementList measurements);
     }
 }
