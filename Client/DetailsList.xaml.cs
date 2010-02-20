@@ -43,6 +43,11 @@ namespace DietRecorder.Client
             MeasurementGrid.DataContext = measurements;
         }
 
+        public void SetBindingForFields(Measurement measurement)
+        {
+            DetailsGrid.DataContext = measurement;
+        }
+
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             presenter.AddMeasurement();
@@ -51,42 +56,6 @@ namespace DietRecorder.Client
         public void ShowMesage(string message)
         {
             MessageBox.Show(message);
-        }
-
-        public string Name
-        {
-            get
-            {
-                return NameText.Text;
-            }
-            set
-            {
-                NameText.Text = value;
-            }
-        }
-
-        public string Date
-        {
-            get
-            {
-                return DateText.Text;
-            }
-            set
-            {
-                DateText.Text = value;
-            }
-        }
-
-        public string Weight
-        {
-            get
-            {
-                return WeightText.Text;
-            }
-            set
-            {
-                WeightText.Text = value;
-            }
         }
     }
 }
