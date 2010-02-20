@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using DietRecorder.BusinessLeyer;
 using DietRecorder.Model;
+using DietRecorder.DataAccess;
 
 namespace DietRecorder.Client
 {
@@ -16,7 +17,9 @@ namespace DietRecorder.Client
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            DetailsListPresenter detailsListPresenter = new DetailsListPresenter(new DetailsList(), new DietLogic());
+            Repository dietRepository = new Repository();
+            DietLogic dietLogic = new DietLogic(dietRepository);
+            DetailsListPresenter detailsListPresenter = new DetailsListPresenter(new DetailsList(), dietLogic);
             detailsListPresenter.DisplayView();
         }
     }

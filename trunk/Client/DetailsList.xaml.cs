@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
 
 using DietRecorder.Model;
 
@@ -34,13 +35,22 @@ namespace DietRecorder.Client
             set
             {
                 presenter = value;
-                MeasurementGrid.DataContext = presenter.Measurements;
             }
+        }
+
+        public void SetGridBinding(ObservableCollection<Measurement> measurements)
+        {
+            MeasurementGrid.DataContext = measurements;
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             presenter.AddMeasurement();
+        }
+
+        public void ShowMesage(string message)
+        {
+            MessageBox.Show(message);
         }
 
         public string Name

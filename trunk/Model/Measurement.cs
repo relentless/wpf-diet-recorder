@@ -11,8 +11,13 @@ namespace DietRecorder.Model
             this.WeightKg = weight;
         }
 
-        string Name { get; set; }
-        DateTime Date { get; set; }
-        double WeightKg { get; set; }
+        public string Name { get; set; }
+        public DateTime Date { get; set; }
+        public double WeightKg { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("On {0}, {1} weighed {2} Kg", Date, Name, WeightKg);
+        }
     }
 }
