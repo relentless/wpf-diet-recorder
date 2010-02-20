@@ -16,7 +16,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Name="DetailsGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -25,18 +25,17 @@
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0">
                 <TextBlock Text="Name"/>
-                <TextBox Name="NameText" Text="Tim"/>
+                <TextBox Name="NameText" Text="{Binding Path=Name}"/>
             </StackPanel>
             <StackPanel Grid.Column="1">
                 <TextBlock Text="Date"/>
-                <TextBox Name="DateText" Text="1/1/1"/>
+                <TextBox Name="DateText" Text="{Binding Path=Date}"/>
             </StackPanel>
             <StackPanel Grid.Column="2">
                 <TextBlock Text="Weight Kg"/>
-                <TextBox Name="WeightText" Text="10"/>
+                <TextBox Name="WeightText" Text="{Binding Path=WeightKg}"/>
             </StackPanel>
             <Button Grid.Column="3" Content="+" Name="AddButton" Click="AddButton_Click"/>
         </Grid>
-
     </Grid>
 </Window>

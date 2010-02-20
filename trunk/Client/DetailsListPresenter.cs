@@ -13,6 +13,7 @@ namespace DietRecorder.Client
         private DetailsList view;
         private IDietLogic dietLogic;
         private MeasurementList measurements;
+        private Measurement measurement = new Measurement();
 
         public DetailsListPresenter(DetailsList view, IDietLogic logic)
         {
@@ -33,6 +34,7 @@ namespace DietRecorder.Client
         {
             measurements = dietLogic.LoadMeasurementList();
             view.SetGridBinding(measurements);
+            view.SetBindingForFields(measurement);
             view.Show();
         }
 
@@ -40,16 +42,12 @@ namespace DietRecorder.Client
         {
             try
             {
-                string name = view.Name;
-                DateTime date = Convert.ToDateTime(view.Date);
-                double weight = Convert.ToDouble(view.Weight);
-
-                Measurement newMeasurement = new Measurement(name, date, weight);
-                measurements.Add(newMeasurement);
-
+                Measurement listMeasurement = new Measurement(measurement.Name, measurement.Date, measurement.WeightKg);
+                measurements.Add(listMeasurement);
+                
                 dietLogic.SaveMeasurementList(measurements);
 
-                ClearViewFields();
+                ResetMeasurement();
             }
             catch (FormatException)
             {
@@ -57,11 +55,11 @@ namespace DietRecorder.Client
             }
         }
 
-        private void ClearViewFields()
+        private void ResetMeasurement()
         {
-            view.Name = string.Empty;
-            view.Date = string.Empty;
-            view.Weight = string.Empty;
+            measurement.Name = string.Empty;
+            measurement.Date = new DateTime();
+            measurement.WeightKg = 0;
         }
     }
 }
