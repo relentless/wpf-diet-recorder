@@ -38,3 +38,4 @@ E:\Programming\wpf-diet-recorder\bin\Debug\DietRecorder.exe
 E:\Programming\wpf-diet-recorder\bin\Debug\DietRecorder.pdb
 E:\Programming\wpf-diet-recorder\obj\Debug\DietRecorder_MarkupCompile.lref
 E:\Programming\wpf-diet-recorder\obj\Debug\GeneratedInternalTypeHelper.g.cs
+E:\Programming\wpf-diet-recorder\bin\Debug\Db4objects.Db4o.dll

@@ -16,14 +16,7 @@ namespace DietRecorder.BusinessLeyer
 
         public MeasurementList LoadMeasurementList()
         {
-            MeasurementList measurements = null;
-
-            try
-            {
-                measurements = repository.Load();
-            }
-            catch (Exception)
-            { }
+            MeasurementList measurements = repository.Load();
 
             if (measurements != null)
                 return measurements;
@@ -33,12 +26,7 @@ namespace DietRecorder.BusinessLeyer
 
         public void SaveMeasurementList(MeasurementList measurements)
         {
-            try
-            {
-                repository.Save(measurements);
-            }
-            catch (Exception)
-            { }
+            repository.Save(measurements);
         }
     }
 }
