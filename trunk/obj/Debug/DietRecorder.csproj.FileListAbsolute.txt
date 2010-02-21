@@ -36,3 +36,5 @@ E:\Programming\wpf-diet-recorder\bin\Debug\DietRecorder.Contracts.dll
 E:\Programming\wpf-diet-recorder\bin\Debug\DietRecorder.Contracts.pdb
 E:\Programming\wpf-diet-recorder\bin\Debug\DietRecorder.exe
 E:\Programming\wpf-diet-recorder\bin\Debug\DietRecorder.pdb
+E:\Programming\wpf-diet-recorder\obj\Debug\DietRecorder_MarkupCompile.lref
+E:\Programming\wpf-diet-recorder\obj\Debug\GeneratedInternalTypeHelper.g.cs

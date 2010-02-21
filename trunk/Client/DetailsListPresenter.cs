@@ -13,13 +13,23 @@ namespace DietRecorder.Client
         private DetailsList view;
         private IDietLogic dietLogic;
         private MeasurementList measurements;
-        private Measurement measurement = new Measurement();
+        private Measurement measurement;
 
         public DetailsListPresenter(DetailsList view, IDietLogic logic)
         {
             this.view = view;
             view.Presenter = this;
             this.dietLogic = logic;
+
+            measurement = new Measurement();
+            measurement.SetDefaultValues();
+
+            LoadMeasurements();
+        }
+
+        private void LoadMeasurements()
+        {
+            measurements = dietLogic.LoadMeasurementList();
         }
 
         public MeasurementList Measurements
@@ -32,7 +42,6 @@ namespace DietRecorder.Client
 
         public void DisplayView()
         {
-            measurements = dietLogic.LoadMeasurementList();
             view.SetGridBinding(measurements);
             view.SetBindingForFields(measurement);
             view.Show();
@@ -40,26 +49,36 @@ namespace DietRecorder.Client
 
         public void AddMeasurement()
         {
-            try
+            List<string> validationFailures = measurement.GetValidationFailures();
+
+            if (validationFailures.Count == 0)
             {
                 Measurement listMeasurement = new Measurement(measurement.Name, measurement.Date, measurement.WeightKg);
                 measurements.Add(listMeasurement);
-                
+
                 dietLogic.SaveMeasurementList(measurements);
 
-                ResetMeasurement();
+                measurement.SetDefaultValues();
             }
-            catch (FormatException)
+            else
             {
-                view.ShowMesage("Write it proper, would ya!");
+                ShowValidationFailures(validationFailures);
             }
         }
 
-        private void ResetMeasurement()
+        private void ShowValidationFailures(List<string> validationFailures)
         {
-            measurement.Name = string.Empty;
-            measurement.Date = new DateTime();
-            measurement.WeightKg = 0;
+            StringBuilder failuresMessage = new StringBuilder();
+            failuresMessage.Append("Please sort out these issues:");
+            failuresMessage.Append(Environment.NewLine);
+
+            foreach (string failure in validationFailures)
+            {
+                failuresMessage.Append(Environment.NewLine);
+                failuresMessage.Append(failure);
+            }
+
+            view.ShowMesage("Validation Problem", failuresMessage.ToString());
         }
     }
 }

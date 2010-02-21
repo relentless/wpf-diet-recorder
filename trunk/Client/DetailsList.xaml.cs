@@ -53,9 +53,9 @@ namespace DietRecorder.Client
             presenter.AddMeasurement();
         }
 
-        public void ShowMesage(string message)
+        public void ShowMesage(string title, string message)
         {
-            MessageBox.Show(message);
+            MessageBox.Show(message, title);
         }
     }
 }
