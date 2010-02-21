@@ -12,8 +12,8 @@ namespace DietRecorder.Model
 
         private const double MIN_WEIGHT = 0.1;
         private const double MAX_WEIGHT = 999;
-        private readonly DateTime MIN_DATE = new DateTime(1999, 1, 1);
-        private readonly DateTime MAX_DATE = new DateTime(2099, 12, 31);
+        private const int MIN_DATE_YEAR = 1999;
+        private const int MAX_DATE_YEAR = 2099;
         private const int MIN_NAME_CHARS = 1;
         private const int MAX_NAME_CHARS = 99;
 
@@ -113,11 +113,11 @@ namespace DietRecorder.Model
                 validationFailures.Add(string.Format("Weight must be at least {0} Kg", MIN_WEIGHT));
             else if (weightKg > MAX_WEIGHT)
                 validationFailures.Add(string.Format("Weight cannot be more then {0} Kg", MAX_WEIGHT));
-
-            if(date < MIN_DATE)
-                validationFailures.Add(string.Format("Date must be at no earlier than {0}", MIN_DATE.ToShortDateString()));
-            else if (date > MAX_DATE)
-                validationFailures.Add(string.Format("Date must be at no later than {0}", MAX_DATE.ToShortDateString()));
+            
+            if(date.Year < MIN_DATE_YEAR)
+                validationFailures.Add(string.Format("Date must be no earlier than {0}", MIN_DATE_YEAR));
+            else if (date.Year > MAX_DATE_YEAR)
+                validationFailures.Add(string.Format("Date must be no later than {0}", MAX_DATE_YEAR));
 
             return validationFailures;
         }
