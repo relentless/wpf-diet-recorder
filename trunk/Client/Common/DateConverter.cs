@@ -16,8 +16,16 @@ namespace DietRecorder.Client.Common
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             string dateValue = value.ToString();
-            DateTime date = DateTime.Parse(dateValue);
-            return date;
+            try
+            {
+                DateTime date = DateTime.Parse(dateValue);
+                return date;
+            }
+            catch (FormatException)
+            {
+                return DateTime.MinValue;
+            }
+            
         }
     }
 }
