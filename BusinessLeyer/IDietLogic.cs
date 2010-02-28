@@ -8,5 +8,6 @@ namespace DietRecorder.BusinessLeyer
     {
         MeasurementList LoadMeasurementList();
         void SaveMeasurementList(MeasurementList measurements);
+        void DeleteMeasurement(Measurement measurement);
     }
 }

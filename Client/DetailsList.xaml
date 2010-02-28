@@ -11,7 +11,7 @@
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ListView Grid.Row="0" Name="MeasurementGrid" ItemsSource="{Binding}">
+        <ListView Grid.Row="0" Name="MeasurementGrid" ItemsSource="{Binding}"  SelectionChanged="MeasurementGrid_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="75" Header="Date" DisplayMemberBinding="{Binding Path=Date, Converter={StaticResource DateConverter}}"/>
@@ -25,7 +25,8 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0">
                 <TextBlock Text="Name"/>
@@ -39,7 +40,8 @@
                 <TextBlock Text="Weight Kg"/>
                 <TextBox Name="WeightText" Text="{Binding Path=WeightKg}"/>
             </StackPanel>
-            <Button Grid.Column="3" Content="+" Name="AddButton" Click="AddButton_Click"/>
+            <Button Grid.Column="3" Content="+" Width="40" Name="AddButton" Click="AddButton_Click"/>
+            <Button Grid.Column="4" Content="-" Width="40" Name="DeleteButton" Click="DeleteButton_Click"/>
         </Grid>
     </Grid>
 </Window>

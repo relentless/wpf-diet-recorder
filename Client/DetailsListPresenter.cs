@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-
+using System.Collections.Generic;
 using DietRecorder.Model;
 using DietRecorder.BusinessLeyer;
 
@@ -53,7 +51,7 @@ namespace DietRecorder.Client
 
             if (validationFailures.Count == 0)
             {
-                Measurement listMeasurement = new Measurement(measurement.Name, measurement.Date, measurement.WeightKg);
+                Measurement listMeasurement = measurement.Clone();
                 measurements.Add(listMeasurement);
 
                 dietLogic.SaveMeasurementList(measurements);
@@ -63,6 +61,24 @@ namespace DietRecorder.Client
             else
             {
                 ShowValidationFailures(validationFailures);
+            }
+        }
+
+        public void ListSelectionChanged()
+        {
+            if (view.MeasurementGrid.SelectedItem != null)
+            {
+                Measurement selectedMeasurement = (Measurement)view.MeasurementGrid.SelectedItem;
+                measurement.SetValues(selectedMeasurement);
+            }
+        }
+
+        public void DeleteMeasurement()
+        {
+            if (view.MeasurementGrid.SelectedItem != null)
+            {
+                dietLogic.DeleteMeasurement((Measurement)view.MeasurementGrid.SelectedItem);
+                measurements.Remove((Measurement)view.MeasurementGrid.SelectedItem);
             }
         }
 

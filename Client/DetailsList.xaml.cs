@@ -57,5 +57,20 @@ namespace DietRecorder.Client
         {
             MessageBox.Show(message, title);
         }
+
+        private void MeasurementGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            presenter.ListSelectionChanged();
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            presenter.DeleteMeasurement();
+        }
+
+        private void DeleteButton_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
