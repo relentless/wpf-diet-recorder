@@ -6,52 +6,47 @@ using Db4objects.Db4o.Config;
 
 namespace DietRecorder.DataAccess
 {
-    public class Repository: IRepository
+    public class Repository: IRepository, IDisposable
     {
+        private static IObjectContainer database = Db4oEmbedded.OpenFile(Db4oEmbedded.NewConfiguration(), "DietDB.db4o");
+
         public MeasurementList Load()
         {
-            using (IObjectContainer database = Db4oEmbedded.OpenFile(Db4oEmbedded.NewConfiguration(), "DietDB.db4o"))
-            {
-                IList<MeasurementList> measurementLists = database.Query<MeasurementList>();
+            IList<Measurement> measurements = database.Query<Measurement>();
 
-                if (measurementLists.Count == 0)
+            if (measurements.Count == 0)
+            {
+                return null;
+            }
+            else
+            {
+                MeasurementList measurementList = new MeasurementList();
+
+                foreach (Measurement measurement in measurements)
                 {
-                    return null;
+                    measurementList.Add(measurement);
                 }
-                else if (measurementLists.Count == 1)
-                {
-                    return measurementLists[0];
-                }
-                else
-                {
-                    throw new ApplicationException("Database Error: Incorrect number of measurement lists found");
-                }
+
+                return measurementList;
             }
         }
 
         public void Save(MeasurementList measurements)
         {
-            using (IObjectContainer database = Db4oEmbedded.OpenFile(Db4oEmbedded.NewConfiguration(), "DietDB.db4o"))
+            foreach (Measurement measurement in measurements)
             {
-                DeleteExistingMeasurementLists(database);
-
-                database.Store(measurements);
+                database.Store(measurement);
             }
         }
 
-        private void DeleteExistingMeasurementLists(IObjectContainer database)
+        public void Delete(Measurement measurement)
         {
-            IList<MeasurementList> currectDBItems = database.Query<MeasurementList>();
+            database.Delete(measurement);
+        }
 
-            foreach (MeasurementList measurementList in currectDBItems)
-            {
-                foreach (Measurement measurement in measurementList)
-                {
-                    database.Delete(measurement);
-                }
-
-                database.Delete(measurementList);
-            }
+        public void Dispose()
+        {
+            database.Close();
         }
     }
 }

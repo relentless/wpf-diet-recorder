@@ -35,6 +35,18 @@ namespace DietRecorder.Model
             WeightKg = 0;
         }
 
+        public Measurement Clone()
+        {
+            return new Measurement(name, date, weightKg);
+        }
+
+        public void SetValues(Measurement measurement)
+        {
+            Name = measurement.Name;
+            Date = measurement.Date;
+            WeightKg = measurement.WeightKg;
+        }
+
         public string Name
         {
             get

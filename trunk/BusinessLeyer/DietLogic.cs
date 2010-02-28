@@ -28,5 +28,10 @@ namespace DietRecorder.BusinessLeyer
         {
             repository.Save(measurements);
         }
+
+        public void DeleteMeasurement(Measurement measurement)
+        {
+            repository.Delete(measurement);
+        }
     }
 }

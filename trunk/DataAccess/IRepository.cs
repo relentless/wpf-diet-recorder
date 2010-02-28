@@ -8,5 +8,6 @@ namespace DietRecorder.DataAccess
     {
         MeasurementList Load();
         void Save(MeasurementList measurements);
+        void Delete(Measurement measurement);
     }
 }
