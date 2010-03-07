@@ -14,21 +14,6 @@ namespace DietRecorder.BusinessLeyer
             this.repository = repository;
         }
 
-        public MeasurementList LoadMeasurementList()
-        {
-            MeasurementList measurements = repository.Load();
-
-            if (measurements != null)
-                return measurements;
-            else
-                return new MeasurementList();
-        }
-
-        public void SaveMeasurementList(MeasurementList measurements)
-        {
-            repository.Save(measurements);
-        }
-
         public void DeleteMeasurement(Measurement measurement)
         {
             repository.Delete(measurement);
@@ -36,7 +21,17 @@ namespace DietRecorder.BusinessLeyer
 
         public UserList LoadUserList()
         {
-            return new UserList();
+            UserList userList = repository.Load();
+
+            if (userList != null)
+                return userList;
+            else
+                return new UserList();
+        }
+
+        public void SaveUserList(UserList userList)
+        {
+            repository.Save(userList);
         }
     }
 }

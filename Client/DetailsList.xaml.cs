@@ -48,6 +48,11 @@ namespace DietRecorder.Client
             DetailsGrid.DataContext = measurement;
         }
 
+        public void SetUserBinding(UserList userList)
+        {
+            UserCombo.DataContext = userList;
+        }
+
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             presenter.AddMeasurement();
@@ -71,6 +76,11 @@ namespace DietRecorder.Client
         private void UsersMenu_Click(object sender, RoutedEventArgs e)
         {
             presenter.ShowUserView();
+        }
+
+        private void UserCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            presenter.LoadSelectedUser();
         }
     }
 }

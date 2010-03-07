@@ -8,34 +8,41 @@ namespace DietRecorder.DataAccess
 {
     public class Repository: IRepository, IDisposable
     {
-        private static IObjectContainer database = Db4oEmbedded.OpenFile(Db4oEmbedded.NewConfiguration(), "DietDB.db4o");
+        private IObjectContainer database;
 
-        public MeasurementList Load()
+        public Repository()
         {
-            IList<Measurement> measurements = database.Query<Measurement>();
+            IEmbeddedConfiguration config = Db4oEmbedded.NewConfiguration();
+            config.Common.ObjectClass(typeof(DietRecorder.Model.User)).CascadeOnUpdate(true);
+            database = Db4oEmbedded.OpenFile(config, "DietDB.db4o");
+        }
 
-            if (measurements.Count == 0)
+        public UserList Load()
+        {
+            IList<DietRecorder.Model.User> users = database.Query<DietRecorder.Model.User>();
+
+            if (users.Count == 0)
             {
                 return null;
             }
             else
             {
-                MeasurementList measurementList = new MeasurementList();
+                UserList userList = new UserList();
 
-                foreach (Measurement measurement in measurements)
+                foreach (DietRecorder.Model.User user in users)
                 {
-                    measurementList.Add(measurement);
+                    userList.Add(user);
                 }
 
-                return measurementList;
+                return userList;
             }
         }
 
-        public void Save(MeasurementList measurements)
+        public void Save(UserList userList)
         {
-            foreach (Measurement measurement in measurements)
+            foreach (DietRecorder.Model.User user in userList)
             {
-                database.Store(measurement);
+                database.Store(user);
             }
         }
 

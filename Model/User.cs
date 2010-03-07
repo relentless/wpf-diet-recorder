@@ -6,13 +6,14 @@ namespace DietRecorder.Model
     public class User
     {
         //private List<CustomMeasurementDefinition> definitions;
-        private MeasurementList measurements;
 
         public User(string name)
         {
-            this.UserName = name;
+            UserName = name;
+            Measurements = new MeasurementList();
         }
 
         public string UserName { get; set; }
+        public MeasurementList Measurements { get; set; }
     }
 }

@@ -13,16 +13,16 @@ namespace DietRecorder.Client
         private IDietLogic dietLogic;
         private UserList userList;
 
-        public UserListPresenter(UserListView view, IDietLogic dietLogic)
+        public UserListPresenter(UserListView view, IDietLogic dietLogic, UserList userList)
         {
             this.view = view;
             view.Presenter = this;
             this.dietLogic = dietLogic;
+            this.userList = userList;
         }
 
         public void DisplayView()
         {
-            userList = dietLogic.LoadUserList();
             view.SetListBinding(userList);
             view.ShowDialog();
         }
@@ -31,6 +31,7 @@ namespace DietRecorder.Client
         {
             string userName = view.UserName;
             userList.Add(new User(userName));
+            dietLogic.SaveUserList(userList);
             view.UserName = string.Empty;
         }
     }
