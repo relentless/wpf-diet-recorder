@@ -68,9 +68,9 @@ namespace DietRecorder.Client
             presenter.DeleteMeasurement();
         }
 
-        private void DeleteButton_Click_1(object sender, RoutedEventArgs e)
+        private void UsersMenu_Click(object sender, RoutedEventArgs e)
         {
-
+            presenter.ShowUserView();
         }
     }
 }

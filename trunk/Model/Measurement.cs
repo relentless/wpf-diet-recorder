@@ -9,6 +9,7 @@ namespace DietRecorder.Model
         private string name;
         private DateTime date;
         private double weightKg;
+        //private List<CustomMeasurement> customMeasurements;
 
         private const double MIN_WEIGHT = 0.1;
         private const double MAX_WEIGHT = 999;

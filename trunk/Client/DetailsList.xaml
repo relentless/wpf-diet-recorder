@@ -6,42 +6,47 @@
     <Window.Resources>
         <converters:DateConverter x:Key="DateConverter"/>
     </Window.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <ListView Grid.Row="0" Name="MeasurementGrid" ItemsSource="{Binding}"  SelectionChanged="MeasurementGrid_SelectionChanged">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Width="75" Header="Date" DisplayMemberBinding="{Binding Path=Date, Converter={StaticResource DateConverter}}"/>
-                    <GridViewColumn Width="100" Header="Name" DisplayMemberBinding="{Binding Path=Name}"/>
-                    <GridViewColumn Width="75" Header="Weight (Kg)" DisplayMemberBinding="{Binding Path=WeightKg}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <Grid Grid.Row="1" Name="DetailsGrid">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0">
-                <TextBlock Text="Name"/>
-                <TextBox Name="NameText" Text="{Binding Path=Name}"/>
-            </StackPanel>
-            <StackPanel Grid.Column="1">
-                <TextBlock Text="Date"/>
-                <TextBox Name="DateText" Text="{Binding Path=Date, Converter={StaticResource DateConverter}}"/>
-            </StackPanel>
-            <StackPanel Grid.Column="2">
-                <TextBlock Text="Weight Kg"/>
-                <TextBox Name="WeightText" Text="{Binding Path=WeightKg}"/>
-            </StackPanel>
-            <Button Grid.Column="3" Content="+" Width="40" Name="AddButton" Click="AddButton_Click"/>
-            <Button Grid.Column="4" Content="-" Width="40" Name="DeleteButton" Click="DeleteButton_Click"/>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Name="UsersMenu" Header="_Users" Click="UsersMenu_Click"/>
+        </Menu>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ListView Grid.Row="0" Name="MeasurementGrid" ItemsSource="{Binding}"  SelectionChanged="MeasurementGrid_SelectionChanged">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="75" Header="Date" DisplayMemberBinding="{Binding Path=Date, Converter={StaticResource DateConverter}}"/>
+                        <GridViewColumn Width="100" Header="Name" DisplayMemberBinding="{Binding Path=Name}"/>
+                        <GridViewColumn Width="75" Header="Weight (Kg)" DisplayMemberBinding="{Binding Path=WeightKg}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Grid Grid.Row="1" Name="DetailsGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Name"/>
+                    <TextBox Name="NameText" Text="{Binding Path=Name}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="Date"/>
+                    <TextBox Name="DateText" Text="{Binding Path=Date, Converter={StaticResource DateConverter}}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Weight Kg"/>
+                    <TextBox Name="WeightText" Text="{Binding Path=WeightKg}"/>
+                </StackPanel>
+                <Button Grid.Column="3" Content="+" Width="40" Name="AddButton" Click="AddButton_Click"/>
+                <Button Grid.Column="4" Content="-" Width="40" Name="DeleteButton" Click="DeleteButton_Click"/>
+            </Grid>
         </Grid>
-    </Grid>
+    </DockPanel>
 </Window>
