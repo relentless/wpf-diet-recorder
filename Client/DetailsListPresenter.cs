@@ -96,5 +96,11 @@ namespace DietRecorder.Client
 
             view.ShowMesage("Validation Problem", failuresMessage.ToString());
         }
+
+        public void ShowUserView()
+        {
+            UserListPresenter userPresenter = new UserListPresenter(new UserListView(), dietLogic);
+            userPresenter.DisplayView();
+        }
     }
 }

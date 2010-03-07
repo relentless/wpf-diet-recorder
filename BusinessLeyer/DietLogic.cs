@@ -33,5 +33,10 @@ namespace DietRecorder.BusinessLeyer
         {
             repository.Delete(measurement);
         }
+
+        public UserList LoadUserList()
+        {
+            return new UserList();
+        }
     }
 }
