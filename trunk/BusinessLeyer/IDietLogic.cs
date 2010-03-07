@@ -6,8 +6,7 @@ namespace DietRecorder.BusinessLeyer
 {
     public interface IDietLogic
     {
-        MeasurementList LoadMeasurementList();
-        void SaveMeasurementList(MeasurementList measurements);
+        void SaveUserList(UserList userList);
         void DeleteMeasurement(Measurement measurement);
         UserList LoadUserList();
     }
