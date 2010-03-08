@@ -14,11 +14,6 @@ namespace DietRecorder.BusinessLeyer
             this.repository = repository;
         }
 
-        public void DeleteMeasurement(Measurement measurement)
-        {
-            repository.Delete(measurement);
-        }
-
         public UserList LoadUserList()
         {
             UserList userList = repository.Load();
@@ -32,6 +27,11 @@ namespace DietRecorder.BusinessLeyer
         public void SaveUserList(UserList userList)
         {
             repository.Save(userList);
+        }
+
+        public void DeleteUser(User user)
+        {
+            repository.Delete(user);
         }
     }
 }

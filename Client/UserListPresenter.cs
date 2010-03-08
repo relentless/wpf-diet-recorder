@@ -34,5 +34,14 @@ namespace DietRecorder.Client
             dietLogic.SaveUserList(userList);
             view.UserName = string.Empty;
         }
+
+        public void DeleteUser()
+        {
+            if (view.UserList.SelectedItem != null)
+            {
+                dietLogic.DeleteUser((User)view.UserList.SelectedItem);
+                userList.Remove((User)view.UserList.SelectedItem);
+            }
+        }
     }
 }

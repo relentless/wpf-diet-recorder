@@ -14,6 +14,7 @@ namespace DietRecorder.DataAccess
         {
             IEmbeddedConfiguration config = Db4oEmbedded.NewConfiguration();
             config.Common.ObjectClass(typeof(DietRecorder.Model.User)).CascadeOnUpdate(true);
+            config.Common.ObjectClass(typeof(DietRecorder.Model.User)).CascadeOnDelete(true);
             database = Db4oEmbedded.OpenFile(config, "DietDB.db4o");
         }
 
@@ -46,9 +47,9 @@ namespace DietRecorder.DataAccess
             }
         }
 
-        public void Delete(Measurement measurement)
+        public void Delete(DietRecorder.Model.User user)
         {
-            database.Delete(measurement);
+            database.Delete(user);
         }
 
         public void Dispose()
