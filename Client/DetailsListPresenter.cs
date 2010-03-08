@@ -44,11 +44,23 @@ namespace DietRecorder.Client
             {
                 selectedUser = (User)view.UserCombo.SelectedItem;
                 view.SetGridBinding(selectedUser.Measurements);
+                ShowCustomMeasurementControls();
             }
             else
             {
                 selectedUser = null;
                 view.SetGridBinding(null);
+            }
+        }
+
+        private void ShowCustomMeasurementControls()
+        {
+            if (selectedUser != null)
+            {
+                foreach (CustomMeasurementDefinition definition in selectedUser.Definitions)
+                {
+                    view.AddCustomMeasurementControl(definition);
+                }
             }
         }
 
@@ -61,15 +73,17 @@ namespace DietRecorder.Client
                 if (selectedUser != null)
                 {
                     Measurement measurementToAdd = measurement.Clone();
+                    measurementToAdd.CustomMeasurements = view.GetCustomMeasurements();
                     selectedUser.Measurements.Add(measurementToAdd);
 
                     dietLogic.SaveUserList(userList);
 
                     measurement.SetDefaultValues();
+                    view.ClearCustomMeasurements();
                 }
                 else
                 {
-                    view.ShowMesage("Problem", "Please select a user");
+                    view.ShowMessage("Problem", "Please select a user");
                 }
             }
             else
@@ -78,7 +92,7 @@ namespace DietRecorder.Client
             }
         }
 
-        public void ListSelectionChanged()
+        public void ShowMeasurement()
         {
             if (view.MeasurementGrid.SelectedItem != null)
             {
@@ -91,8 +105,8 @@ namespace DietRecorder.Client
         {
             if (view.MeasurementGrid.SelectedItem != null)
             {
+                dietLogic.Delete(view.MeasurementGrid.SelectedItem);
                 selectedUser.Measurements.Remove((Measurement)view.MeasurementGrid.SelectedItem);
-                dietLogic.SaveUserList(userList);
             }
         }
 
@@ -108,7 +122,7 @@ namespace DietRecorder.Client
                 failuresMessage.Append(failure);
             }
 
-            view.ShowMesage("Validation Problem", failuresMessage.ToString());
+            view.ShowMessage("Validation Problem", failuresMessage.ToString());
         }
 
         public void ShowUserView()

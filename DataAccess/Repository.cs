@@ -47,9 +47,9 @@ namespace DietRecorder.DataAccess
             }
         }
 
-        public void Delete(DietRecorder.Model.User user)
+        public void Delete(object obj)
         {
-            database.Delete(user);
+            database.Delete(obj);
         }
 
         public void Dispose()

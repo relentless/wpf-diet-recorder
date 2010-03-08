@@ -4,15 +4,15 @@
 winexe
 C#
 .cs
-C:\Programs\wpf-diet-recorder\obj\Debug\
+E:\Programming\wpf-diet-recorder\obj\Debug\
 DietRecorder
 none
 false
 DEBUG;TRACE
-C:\Programs\wpf-diet-recorder\Client\App.xaml
+E:\Programming\wpf-diet-recorder\Client\App.xaml
 2-1170314850
 
-19132099424
-11-1421442929
+20-1691761958
+11-141275427
 Client\DetailsList.xaml;Client\UserListView.xaml;
 

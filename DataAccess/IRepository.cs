@@ -8,6 +8,6 @@ namespace DietRecorder.DataAccess
     {
         UserList Load();
         void Save(UserList userList);
-        void Delete(User user);
+        void Delete(object obj);
     }
 }

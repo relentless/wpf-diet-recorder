@@ -29,9 +29,9 @@ namespace DietRecorder.BusinessLeyer
             repository.Save(userList);
         }
 
-        public void DeleteUser(User user)
+        public void Delete(object obj)
         {
-            repository.Delete(user);
+            repository.Delete(obj);
         }
     }
 }

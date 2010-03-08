@@ -9,7 +9,7 @@ namespace DietRecorder.Model
         private DateTime date;
         private double weightKg;
         private string notes;
-        //private List<CustomMeasurement> customMeasurements;
+        public List<CustomMeasurement> CustomMeasurements { get; set; }
 
         private const double MIN_WEIGHT = 0.1;
         private const double MAX_WEIGHT = 999;
@@ -18,10 +18,13 @@ namespace DietRecorder.Model
 
         //needed for the new measurement in the view
         public Measurement()
-        {}
+        {
+            CustomMeasurements = new List<CustomMeasurement>();
+        }
 
         public Measurement( DateTime date, double weight, string notes)
         {
+            CustomMeasurements = new List<CustomMeasurement>();
             this.Date = date;
             this.WeightKg = weight;
             this.notes = notes;
