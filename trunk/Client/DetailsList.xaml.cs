@@ -58,14 +58,14 @@ namespace DietRecorder.Client
             presenter.AddMeasurement();
         }
 
-        public void ShowMesage(string title, string message)
+        public void ShowMessage(string title, string message)
         {
             MessageBox.Show(message, title);
         }
 
         private void MeasurementGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            presenter.ListSelectionChanged();
+            presenter.ShowMeasurement();
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
@@ -81,6 +81,62 @@ namespace DietRecorder.Client
         private void UserCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             presenter.LoadSelectedUser();
+        }
+
+        public void AddCustomMeasurementControl(CustomMeasurementDefinition definition)
+        {
+            DetailsGrid.RowDefinitions.Add(new RowDefinition());
+            StackPanel controlPanel = new StackPanel();
+            Grid.SetRow(controlPanel, DetailsGrid.RowDefinitions.Count);
+            controlPanel.Orientation=Orientation.Horizontal;
+            TextBlock controlName = new TextBlock();
+            controlName.Text = definition.Name;
+            controlPanel.Children.Add(controlName);
+            controlPanel.DataContext = definition;
+            TextBox controlValue = new TextBox();
+            controlPanel.Children.Add(controlValue);
+            DetailsGrid.Children.Add(controlPanel);
+        }
+
+        public List<CustomMeasurement> GetCustomMeasurements()
+        {
+            List<CustomMeasurement> customMeasurements = new List<CustomMeasurement>();
+
+            foreach (UIElement element in DetailsGrid.Children)
+            {
+                if (element is StackPanel)
+                {
+                    if (((StackPanel)element).DataContext != null)
+                    {
+                        if (((StackPanel)element).DataContext is CustomMeasurementDefinition)
+                        {
+                            CustomMeasurement measurement = new CustomMeasurement();
+                            measurement.Definition = (CustomMeasurementDefinition)((StackPanel)element).DataContext;
+                            measurement.Value = ((TextBox)((StackPanel)element).Children[1]).Text;
+                            customMeasurements.Add(measurement);
+                        }
+                    }
+                }
+            }
+
+            return customMeasurements;
+        }
+
+        public void ClearCustomMeasurements()
+        {
+            foreach (UIElement element in DetailsGrid.Children)
+            {
+                if (element is StackPanel)
+                {
+                    if (((StackPanel)element).DataContext != null)
+                    {
+                        if (((StackPanel)element).DataContext is CustomMeasurementDefinition)
+                        {
+                            ((TextBox)((StackPanel)element).Children[1]).Text = string.Empty;
+                        }
+                    }
+                }
+            }
         }
     }
 }

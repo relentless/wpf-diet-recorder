@@ -44,3 +44,5 @@ C:\Programs\wpf-diet-recorder\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Programs\wpf-diet-recorder\obj\Debug\DietRecorder_MarkupCompile.lref
 C:\Programs\wpf-diet-recorder\obj\Debug\Client\UserListView.baml
 C:\Programs\wpf-diet-recorder\obj\Debug\Client\UserListView.g.cs
+E:\Programming\wpf-diet-recorder\obj\Debug\Client\UserListView.baml
+E:\Programming\wpf-diet-recorder\obj\Debug\Client\UserListView.g.cs

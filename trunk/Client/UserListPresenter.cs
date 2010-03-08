@@ -12,6 +12,7 @@ namespace DietRecorder.Client
         private UserListView view;
         private IDietLogic dietLogic;
         private UserList userList;
+        private User selectedUser;
 
         public UserListPresenter(UserListView view, IDietLogic dietLogic, UserList userList)
         {
@@ -23,7 +24,7 @@ namespace DietRecorder.Client
 
         public void DisplayView()
         {
-            view.SetListBinding(userList);
+            view.SetUserListBinding(userList);
             view.ShowDialog();
         }
 
@@ -39,8 +40,48 @@ namespace DietRecorder.Client
         {
             if (view.UserList.SelectedItem != null)
             {
-                dietLogic.DeleteUser((User)view.UserList.SelectedItem);
+                dietLogic.Delete(view.UserList.SelectedItem);
                 userList.Remove((User)view.UserList.SelectedItem);
+            }
+        }
+
+        public void DisplayUser()
+        {
+            if (view.UserList.SelectedItem != null)
+            {
+                selectedUser = (User)view.UserList.SelectedItem;
+                view.SetCustomMeasurementListBinding(selectedUser.Definitions);
+            }
+            else
+            {
+                view.SetCustomMeasurementListBinding(null);
+            }
+        }
+
+        public void AddMeasurementDefinition()
+        {
+            if (selectedUser != null)
+            {
+                string measurementName = view.MeasurementName;
+                selectedUser.Definitions.Add(new CustomMeasurementDefinition(measurementName));
+                dietLogic.SaveUserList(userList);
+                view.MeasurementName = string.Empty;
+            }
+            else
+            {
+                view.ShowMessage("Problem", "Please select a user");
+            }
+        }
+
+        public void DeleteMeasurementDefinition()
+        {
+            if (view.CustomMeasurementList.SelectedItem != null)
+            {
+                if (selectedUser != null)
+                {
+                    dietLogic.Delete(view.CustomMeasurementList.SelectedItem);
+                    selectedUser.Definitions.Remove((CustomMeasurementDefinition)view.CustomMeasurementList.SelectedItem);
+                }
             }
         }
     }

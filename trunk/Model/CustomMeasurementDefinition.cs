@@ -1,11 +1,13 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
+﻿
+namespace DietRecorder.Model
+{
+    public class CustomMeasurementDefinition
+    {
+        public CustomMeasurementDefinition(string Name)
+        {
+            this.Name = Name;
+        }
 
-//namespace DietRecorder.Model
-//{
-//    class CustomMeasurementDefinition
-//    {
-//    }
-//}
+        public string Name { get; set; }
+    }
+}

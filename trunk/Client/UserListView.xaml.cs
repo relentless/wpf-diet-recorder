@@ -30,9 +30,14 @@ namespace DietRecorder.Client
             }
         }
 
-        public void SetListBinding(ObservableCollection<User> users)
+        public void SetUserListBinding(ObservableCollection<User> users)
         {
             UserList.DataContext = users;
+        }
+
+        public void SetCustomMeasurementListBinding(ObservableCollection<CustomMeasurementDefinition> customDefinitions)
+        {
+            CustomMeasurementList.DataContext = customDefinitions;
         }
 
         public string UserName
@@ -41,14 +46,40 @@ namespace DietRecorder.Client
             set { NameText.Text = value; }
         }
 
-        private void AddButton_Click(object sender, RoutedEventArgs e)
+        public string MeasurementName
+        {
+            get { return CustomMeasurementText.Text; }
+            set { CustomMeasurementText.Text = value; }
+        }
+
+        private void AddUserButton_Click(object sender, RoutedEventArgs e)
         {
             presenter.AddUser();
         }
 
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        private void DeleteUserButton_Click(object sender, RoutedEventArgs e)
         {
             presenter.DeleteUser();
+        }
+
+        private void AddCustomMeasurementButton_Click(object sender, RoutedEventArgs e)
+        {
+            presenter.AddMeasurementDefinition();
+        }
+
+        private void DeleteCustomMeasurementButton_Click(object sender, RoutedEventArgs e)
+        {
+            presenter.DeleteMeasurementDefinition();
+        }
+
+        public void ShowMessage(string title, string message)
+        {
+            MessageBox.Show(message, title);
+        }
+
+        private void UserList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            presenter.DisplayUser();
         }
     }
 }

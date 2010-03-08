@@ -8,6 +8,6 @@ namespace DietRecorder.BusinessLeyer
     {
         void SaveUserList(UserList userList);
         UserList LoadUserList();
-        void DeleteUser(User user);
+        void Delete(object obj);
     }
 }

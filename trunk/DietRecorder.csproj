@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{51F16517-1152-4140-958A-EFB808FE602E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -97,6 +97,7 @@
     <Compile Include="DataAccess\Repository.cs" />
     <Compile Include="Model\CustomMeasurement.cs" />
     <Compile Include="Model\CustomMeasurementDefinition.cs" />
+    <Compile Include="Model\CustomMeasurementDefinitionList.cs" />
     <Compile Include="Model\Measurement.cs" />
     <Compile Include="Model\MeasurementList.cs" />
     <Compile Include="Model\User.cs" />
