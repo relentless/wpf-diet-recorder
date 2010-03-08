@@ -91,8 +91,8 @@ namespace DietRecorder.Client
         {
             if (view.MeasurementGrid.SelectedItem != null)
             {
-                dietLogic.DeleteMeasurement((Measurement)view.MeasurementGrid.SelectedItem);
                 selectedUser.Measurements.Remove((Measurement)view.MeasurementGrid.SelectedItem);
+                dietLogic.SaveUserList(userList);
             }
         }
 

@@ -22,7 +22,7 @@
             </Grid.ColumnDefinitions>
             <TextBox Grid.Column="0" Name="NameText"/>
             <Button Grid.Column="1" Name="AddButton" Content="+" Click="AddButton_Click"/>
-            <Button Grid.Column="2" Name="DeleteButton" Content="-"/>
+            <Button Grid.Column="2" Name="DeleteButton" Content="-" Click="DeleteButton_Click"/>
         </Grid>
     </Grid>
 </Window>

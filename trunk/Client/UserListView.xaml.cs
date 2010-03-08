@@ -45,5 +45,10 @@ namespace DietRecorder.Client
         {
             presenter.AddUser();
         }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            presenter.DeleteUser();
+        }
     }
 }
