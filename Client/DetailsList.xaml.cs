@@ -85,57 +85,71 @@ namespace DietRecorder.Client
 
         public void AddCustomMeasurementControl(CustomMeasurementDefinition definition)
         {
-            DetailsGrid.RowDefinitions.Add(new RowDefinition());
-            StackPanel controlPanel = new StackPanel();
-            Grid.SetRow(controlPanel, DetailsGrid.RowDefinitions.Count);
-            controlPanel.Orientation=Orientation.Horizontal;
+            Grid controlGrid = CreateControlGrid();
+
             TextBlock controlName = new TextBlock();
             controlName.Text = definition.Name;
-            controlPanel.Children.Add(controlName);
-            controlPanel.DataContext = definition;
+            controlGrid.Children.Add(controlName);
+            controlGrid.DataContext = definition;
+
             TextBox controlValue = new TextBox();
-            controlPanel.Children.Add(controlValue);
-            DetailsGrid.Children.Add(controlPanel);
+            controlGrid.Children.Add(controlValue);
+            Grid.SetColumn(controlValue, 1);
+            CustomMeasurementsPanel.Children.Add(controlGrid);
+        }
+
+        private Grid CreateControlGrid()
+        {
+            Grid controlGrid = new Grid();
+            ColumnDefinition labelDefinition = new ColumnDefinition();
+            labelDefinition.Width = GridLength.Auto;
+            controlGrid.ColumnDefinitions.Add(labelDefinition);
+            controlGrid.ColumnDefinitions.Add(new ColumnDefinition());
+            return controlGrid;
+        }
+
+        public void ShowCustomMeasurements(List<CustomMeasurement> measurements)
+        {
+            if (measurements.Count > 0)
+            {
+                foreach (Grid controlGrid in CustomMeasurementsPanel.Children)
+                {
+                    if (controlGrid.DataContext != null)
+                    {
+                        CustomMeasurement matchingMeasurement = (from measurement in measurements
+                                                                 where measurement.Definition == (CustomMeasurementDefinition)controlGrid.DataContext
+                                                                 select measurement).First();
+
+                        ((TextBox)controlGrid.Children[1]).Text = matchingMeasurement.Value;
+                    }
+                }
+            }
         }
 
         public List<CustomMeasurement> GetCustomMeasurements()
         {
-            List<CustomMeasurement> customMeasurements = new List<CustomMeasurement>();
+            List<CustomMeasurement> returnList = new List<CustomMeasurement>();
 
-            foreach (UIElement element in DetailsGrid.Children)
+            foreach (Grid controlGrid in CustomMeasurementsPanel.Children)
             {
-                if (element is StackPanel)
+                if (controlGrid.DataContext != null)
                 {
-                    if (((StackPanel)element).DataContext != null)
-                    {
-                        if (((StackPanel)element).DataContext is CustomMeasurementDefinition)
-                        {
-                            CustomMeasurement measurement = new CustomMeasurement();
-                            measurement.Definition = (CustomMeasurementDefinition)((StackPanel)element).DataContext;
-                            measurement.Value = ((TextBox)((StackPanel)element).Children[1]).Text;
-                            customMeasurements.Add(measurement);
-                        }
-                    }
+                    CustomMeasurement returnMeasurement = new CustomMeasurement();
+                    returnMeasurement.Definition = (CustomMeasurementDefinition)controlGrid.DataContext;
+                    returnMeasurement.Value = ((TextBox)controlGrid.Children[1]).Text;
+
+                    returnList.Add(returnMeasurement);
                 }
             }
 
-            return customMeasurements;
+            return returnList;
         }
 
         public void ClearCustomMeasurements()
         {
-            foreach (UIElement element in DetailsGrid.Children)
+            foreach (Grid controlGrid in CustomMeasurementsPanel.Children)
             {
-                if (element is StackPanel)
-                {
-                    if (((StackPanel)element).DataContext != null)
-                    {
-                        if (((StackPanel)element).DataContext is CustomMeasurementDefinition)
-                        {
-                            ((TextBox)((StackPanel)element).Children[1]).Text = string.Empty;
-                        }
-                    }
-                }
+                ((TextBox)controlGrid.Children[1]).Text = string.Empty;
             }
         }
     }
