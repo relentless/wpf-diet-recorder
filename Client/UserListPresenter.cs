@@ -13,6 +13,7 @@ namespace DietRecorder.Client
         private IDietLogic dietLogic;
         private UserList userList;
         private User selectedUser;
+        private CustomMeasurementDefinition customMeasurementDefinition;
 
         public UserListPresenter(UserListView view, IDietLogic dietLogic, UserList userList)
         {
@@ -20,20 +21,38 @@ namespace DietRecorder.Client
             view.Presenter = this;
             this.dietLogic = dietLogic;
             this.userList = userList;
+
+            selectedUser = new User();
+            selectedUser.SetDefaultValues();
+
+            customMeasurementDefinition = new CustomMeasurementDefinition();
+            customMeasurementDefinition.SetDefaultValues();
         }
 
         public void DisplayView()
         {
             view.SetUserListBinding(userList);
+            view.SetUserBinding(selectedUser);
+            view.SetCustomMeasurementListBinding(selectedUser.Definitions);
+            view.SetCustomMeasurementDefinitionBinding(customMeasurementDefinition);
             view.ShowDialog();
         }
 
         public void AddUser()
         {
-            string userName = view.UserName;
-            userList.Add(new User(userName));
-            dietLogic.SaveUserList(userList);
-            view.UserName = string.Empty;
+            List<string> validationFailures = selectedUser.GetValidationFailures();
+
+            if (validationFailures.Count == 0)
+            {
+                User userToAdd = selectedUser.Clone();
+                userList.Add(userToAdd);
+                dietLogic.SaveUserList(userList);
+                selectedUser.SetDefaultValues();
+            }
+            else
+            {
+                ShowValidationFailures(validationFailures);
+            }
         }
 
         public void DeleteUser()
@@ -49,12 +68,11 @@ namespace DietRecorder.Client
         {
             if (view.UserList.SelectedItem != null)
             {
-                selectedUser = (User)view.UserList.SelectedItem;
-                view.SetCustomMeasurementListBinding(selectedUser.Definitions);
+                selectedUser.SetValues((User)view.UserList.SelectedItem);
             }
             else
             {
-                view.SetCustomMeasurementListBinding(null);
+                selectedUser = null;
             }
         }
 
@@ -62,10 +80,19 @@ namespace DietRecorder.Client
         {
             if (selectedUser != null)
             {
-                string measurementName = view.MeasurementName;
-                selectedUser.Definitions.Add(new CustomMeasurementDefinition(measurementName));
-                dietLogic.SaveUserList(userList);
-                view.MeasurementName = string.Empty;
+                List<string> validationFailures = customMeasurementDefinition.GetValidationFailures();
+
+                if (validationFailures.Count == 0)
+                {
+                    CustomMeasurementDefinition definitionToAdd = customMeasurementDefinition.Clone();
+                    selectedUser.Definitions.Add(definitionToAdd);
+                    dietLogic.SaveUserList(userList);
+                    customMeasurementDefinition.SetDefaultValues();
+                }
+                else
+                {
+                    ShowValidationFailures(validationFailures);
+                }
             }
             else
             {
@@ -83,6 +110,21 @@ namespace DietRecorder.Client
                     selectedUser.Definitions.Remove((CustomMeasurementDefinition)view.CustomMeasurementList.SelectedItem);
                 }
             }
+        }
+
+        private void ShowValidationFailures(List<string> validationFailures)
+        {
+            StringBuilder failuresMessage = new StringBuilder();
+            failuresMessage.Append("Please sort out these issues:");
+            failuresMessage.Append(Environment.NewLine);
+
+            foreach (string failure in validationFailures)
+            {
+                failuresMessage.Append(Environment.NewLine);
+                failuresMessage.Append(failure);
+            }
+
+            view.ShowMessage("Validation Problem", failuresMessage.ToString());
         }
     }
 }
