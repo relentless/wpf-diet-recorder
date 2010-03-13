@@ -98,6 +98,8 @@ namespace DietRecorder.Client
             {
                 Measurement selectedMeasurement = (Measurement)view.MeasurementGrid.SelectedItem;
                 measurement.SetValues(selectedMeasurement);
+
+                view.ShowCustomMeasurements(selectedMeasurement.CustomMeasurements);
             }
         }
 

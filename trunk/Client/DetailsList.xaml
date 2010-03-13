@@ -43,6 +43,7 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Column="0">
                     <TextBlock Text="Date"/>
@@ -59,6 +60,16 @@
                          AcceptsReturn="True"/>
                 <Button Grid.Column="2" Grid.RowSpan="3" Content="+" Width="40" Name="AddButton" Click="AddButton_Click"/>
                 <Button Grid.Column="3" Grid.RowSpan="3" Content="-" Width="40" Name="DeleteButton" Click="DeleteButton_Click"/>
+                <StackPanel Grid.Row="4" Name="CustomMeasurementsPanel" Grid.ColumnSpan="4" Width="Auto">
+                    <!--Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="test" />
+                        <TextBox Grid.Column="1"/>
+                    </Grid-->
+                </StackPanel>
             </Grid>
         </Grid>
     </DockPanel>
