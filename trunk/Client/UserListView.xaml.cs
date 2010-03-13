@@ -81,5 +81,15 @@ namespace DietRecorder.Client
         {
             presenter.DisplayUser();
         }
+
+        public void SetCustomMeasurementDefinitionBinding(CustomMeasurementDefinition definition)
+        {
+            CustomMeasurementDetailsGrid.DataContext = definition;
+        }
+
+        public void SetUserBinding(User user)
+        {
+            UserGrid.DataContext = user;
+        }
     }
 }
