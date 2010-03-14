@@ -46,9 +46,10 @@
                     <TextBlock Grid.Row="0" Text="Name" Background="LightBlue"/>
                     <TextBox Grid.Row="1" Name="NameText" Text="{Binding Path=UserName}"/>
                 </Grid>
-                
-                <Button Grid.Column="1" Name="AddUserButton" Content="+" Click="AddUserButton_Click"/>
-                <Button Grid.Column="2" Name="DeleteUserButton" Content="-" Click="DeleteUserButton_Click"/>
+                <Button Grid.Column="1" Name="NewUserButton" Content="New" Click="NewUserButton_Click"/>
+                <Button Grid.Column="1" Name="AddUserButton" Content="Add" Click="AddUserButton_Click" Visibility="Hidden"/>
+                <Button Grid.Column="2" Name="CancelUserButton" Content="Cancel" Click="CancelUserButton_Click"/>
+                <Button Grid.Column="2" Name="DeleteUserButton" Content="Delete" Click="DeleteUserButton_Click"/>
             </Grid>
         </Grid>
         <Grid Grid.Row="1">

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DietRecorder.BusinessLeyer;
 using DietRecorder.Model;
+using DietRecorder.Client.Common;
 
 namespace DietRecorder.Client
 {
@@ -14,6 +15,7 @@ namespace DietRecorder.Client
         private UserList userList;
         private User selectedUser;
         private CustomMeasurementDefinition customMeasurementDefinition;
+        private ViewMode mode;
 
         public UserListPresenter(UserListView view, IDietLogic dietLogic, UserList userList)
         {
@@ -22,8 +24,9 @@ namespace DietRecorder.Client
             this.dietLogic = dietLogic;
             this.userList = userList;
 
-            selectedUser = new User();
-            selectedUser.SetDefaultValues();
+            mode = ViewMode.View;
+
+            SetBlankUser();
 
             customMeasurementDefinition = new CustomMeasurementDefinition();
             customMeasurementDefinition.SetDefaultValues();
@@ -32,8 +35,7 @@ namespace DietRecorder.Client
         public void DisplayView()
         {
             view.SetUserListBinding(userList);
-            view.SetUserBinding(selectedUser);
-            view.SetCustomMeasurementListBinding(selectedUser.Definitions);
+            BindUser();
             view.SetCustomMeasurementDefinitionBinding(customMeasurementDefinition);
             view.ShowDialog();
         }
@@ -48,6 +50,9 @@ namespace DietRecorder.Client
                 userList.Add(userToAdd);
                 dietLogic.SaveUserList(userList);
                 selectedUser.SetDefaultValues();
+
+                mode = ViewMode.View;
+                view.SetMode(mode);
             }
             else
             {
@@ -61,18 +66,24 @@ namespace DietRecorder.Client
             {
                 dietLogic.Delete(view.UserList.SelectedItem);
                 userList.Remove((User)view.UserList.SelectedItem);
+                SetBlankUser();
             }
         }
 
         public void DisplayUser()
         {
-            if (view.UserList.SelectedItem != null)
+            if (mode == ViewMode.View)
             {
-                selectedUser.SetValues((User)view.UserList.SelectedItem);
-            }
-            else
-            {
-                selectedUser = null;
+                if (view.UserList.SelectedItem != null)
+                {
+                    //selectedUser.SetValues((User)view.UserList.SelectedItem);
+                    selectedUser = (User)view.UserList.SelectedItem;
+                    BindUser();
+                }
+                else
+                {
+                    selectedUser = null;
+                }
             }
         }
 
@@ -125,6 +136,33 @@ namespace DietRecorder.Client
             }
 
             view.ShowMessage("Validation Problem", failuresMessage.ToString());
+        }
+
+        public void NewUser()
+        {
+            mode = ViewMode.Edit;
+            view.SetMode(mode);
+            SetBlankUser();
+        }
+
+        private void SetBlankUser()
+        {
+            selectedUser = new User();
+            selectedUser.SetDefaultValues();
+            BindUser();
+        }
+
+        private void BindUser()
+        {
+            view.SetUserBinding(selectedUser);
+            view.SetCustomMeasurementListBinding(selectedUser.Definitions);
+        }
+
+        public void CancelAddingUser()
+        {
+            mode = ViewMode.View;
+            view.SetMode(mode);
+            SetBlankUser();
         }
     }
 }

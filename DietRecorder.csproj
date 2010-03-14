@@ -88,6 +88,7 @@
     <Compile Include="BusinessLeyer\DietLogic.cs" />
     <Compile Include="BusinessLeyer\IDietLogic.cs" />
     <Compile Include="Client\Common\DateConverter.cs" />
+    <Compile Include="Client\Common\ViewMode.cs" />
     <Compile Include="Client\DetailsListPresenter.cs" />
     <Compile Include="Client\UserListView.xaml.cs">
       <DependentUpon>UserListView.xaml</DependentUpon>

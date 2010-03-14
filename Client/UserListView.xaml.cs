@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using DietRecorder.Model;
+using DietRecorder.Client.Common;
 
 namespace DietRecorder.Client
 {
@@ -90,6 +91,34 @@ namespace DietRecorder.Client
         public void SetUserBinding(User user)
         {
             UserGrid.DataContext = user;
+        }
+
+        private void NewUserButton_Click(object sender, RoutedEventArgs e)
+        {
+            presenter.NewUser();
+        }
+
+        public void SetMode(ViewMode mode)
+        {
+            if (mode == ViewMode.View)
+            {
+                NewUserButton.Visibility = Visibility.Visible;
+                AddUserButton.Visibility = Visibility.Hidden;
+                DeleteUserButton.Visibility = Visibility.Visible;
+                CancelUserButton.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                NewUserButton.Visibility = Visibility.Hidden;
+                AddUserButton.Visibility = Visibility.Visible;
+                DeleteUserButton.Visibility = Visibility.Hidden;
+                CancelUserButton.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void CancelUserButton_Click(object sender, RoutedEventArgs e)
+        {
+            presenter.CancelAddingUser();
         }
     }
 }
