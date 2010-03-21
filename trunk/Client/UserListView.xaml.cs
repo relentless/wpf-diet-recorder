@@ -106,6 +106,7 @@ namespace DietRecorder.Client
                 AddUserButton.Visibility = Visibility.Hidden;
                 DeleteUserButton.Visibility = Visibility.Visible;
                 CancelUserButton.Visibility = Visibility.Hidden;
+                NameText.IsEnabled = false;
             }
             else
             {
@@ -113,6 +114,7 @@ namespace DietRecorder.Client
                 AddUserButton.Visibility = Visibility.Visible;
                 DeleteUserButton.Visibility = Visibility.Hidden;
                 CancelUserButton.Visibility = Visibility.Visible;
+                NameText.IsEnabled = true;
             }
         }
 

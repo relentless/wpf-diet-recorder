@@ -44,7 +44,9 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="Name" Background="LightBlue"/>
-                    <TextBox Grid.Row="1" Name="NameText" Text="{Binding Path=UserName}"/>
+                    <TextBox Grid.Row="1" 
+                             Name="NameText" 
+                             Text="{Binding Path=UserName}"/>
                 </Grid>
                 <Button Grid.Column="1" Name="NewUserButton" Content="New" Click="NewUserButton_Click"/>
                 <Button Grid.Column="1" Name="AddUserButton" Content="Add" Click="AddUserButton_Click" Visibility="Hidden"/>

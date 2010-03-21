@@ -119,6 +119,7 @@ namespace DietRecorder.Client
                 {
                     dietLogic.Delete(view.CustomMeasurementList.SelectedItem);
                     selectedUser.Definitions.Remove((CustomMeasurementDefinition)view.CustomMeasurementList.SelectedItem);
+                    dietLogic.SaveUserList(userList);
                 }
             }
         }
