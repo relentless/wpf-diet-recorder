@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="DietRecorder.Client.View.CustomMeasurementDefinitionView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:converters="clr-namespace:DietRecorder.Client.Common"
+    xmlns:model="clr-namespace:DietRecorder.Model">
+    <UserControl.Resources>
+        <converters:VisibleCoverter x:Key="VisibleConverter"/>
+        <converters:ReverseVisibleCoverter x:Key="ReverseVisibleConverter"/>
+        <converters:ReverseBooleanConverter x:Key="ReverseBooleanConverter"/>
+        <ObjectDataProvider MethodName="GetValues" 
+                            ObjectType="{x:Type sys:Enum}" 
+                            x:Key="sysEnum">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="model:MeasurementType" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Custom Measurements"  Background="LightBlue"/>
+        <ListBox Grid.Row="1" Name="CustomMeasurementList" 
+                 ItemsSource="{Binding Path=MeasurementDefinitions}"
+                 SelectedItem="{Binding Path=SelectedDefinition}"
+                 Visibility="{Binding Path=IsError, Converter={StaticResource ReverseVisibleConverter}}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Path=Name}"/>
+                        <TextBlock Text=" ("/>
+                        <TextBlock Text="{Binding Path=Type}"/>
+                        <TextBlock Text=")"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Grid Grid.Row="1" Visibility="{Binding Path=IsError, Converter={StaticResource VisibleConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="{Binding Path=ErrorMessage}" Background="Orange"/>
+            <Button Grid.Column="1" 
+                    Content="Ok"
+                    Command="{Binding Path=AcceptError}"/>
+        </Grid>
+        <Grid Grid.Row="2" Name="CustomMeasurementDetailsGrid" IsEnabled="{Binding Path=IsError, Converter={StaticResource ReverseBooleanConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Name" Background="LightBlue"/>
+                <TextBox Grid.Row="1" Name="CustomMeasurementText" Text="{Binding Path=DefinitionName}"/>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Type" Background="LightBlue"/>
+                <ComboBox Grid.Row="1" Name="CustomMeasurementType" 
+                              ItemsSource="{Binding Source={StaticResource sysEnum}}" 
+                              SelectedItem="{Binding Path=MeasurementType}"/>
+            </Grid>
+            <Button Grid.Column="2" Name="AddCustomMeasurementButton" Command="{Binding Path=AddDefinition}" Content="+"/>
+            <Button Grid.Column="3" Name="DeleteCustomMeasurementButton" Content="-" Command="{Binding Path=RemoveDefinition}"/>
+        </Grid>
+    </Grid>
+</UserControl>

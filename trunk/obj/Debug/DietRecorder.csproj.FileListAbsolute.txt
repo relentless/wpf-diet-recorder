@@ -46,3 +46,7 @@ C:\Programs\wpf-diet-recorder\obj\Debug\Client\UserListView.baml
 C:\Programs\wpf-diet-recorder\obj\Debug\Client\UserListView.g.cs
 E:\Programming\wpf-diet-recorder\obj\Debug\Client\UserListView.baml
 E:\Programming\wpf-diet-recorder\obj\Debug\Client\UserListView.g.cs
+C:\Programs\wpf-diet-recorder\obj\Debug\Client\View\CustomMeasurementDefinitionView.baml
+C:\Programs\wpf-diet-recorder\obj\Debug\Client\View\CustomMeasurementDefinitionView.g.cs
+C:\Programs\wpf-diet-recorder\obj\Debug\Client\View\UserView.g.cs
+C:\Programs\wpf-diet-recorder\obj\Debug\Client\View\UserView.baml
