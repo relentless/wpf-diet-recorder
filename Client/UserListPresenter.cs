@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DietRecorder.BusinessLeyer;
+using DietRecorder.BusinessLayer;
 using DietRecorder.Model;
 using DietRecorder.Client.Common;
 

@@ -10,9 +10,9 @@ none
 false
 DEBUG;TRACE
 C:\Programs\wpf-diet-recorder\Client\App.xaml
-2-1170314850
+4-1398651579
 
-22-78197271
+28-14907198
 11-1421442929
-Client\DetailsList.xaml;Client\UserListView.xaml;
+Client\DetailsList.xaml;Client\UserListView.xaml;Client\View\CustomMeasurementDefinitionView.xaml;Client\View\UserView.xaml;
 
