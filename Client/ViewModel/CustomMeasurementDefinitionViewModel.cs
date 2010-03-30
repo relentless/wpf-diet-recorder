@@ -6,19 +6,25 @@ using DietRecorder.BusinessLayer;
 using DietRecorder.Model;
 using System.Windows.Input;
 using System.Text;
+using DietRecorder.Client.Common;
 
 namespace DietRecorder.Client.ViewModel
 {
-    public class CustomMeasurementDefinitionViewModel:INotifyPropertyChanged
+    public class CustomMeasurementDefinitionViewModel : INotifyPropertyChanged
     {
         private string definitionName = string.Empty;
         private MeasurementType measurementType = MeasurementType.Text;
         private string errorMessage = string.Empty;
         private bool isError = false;
         public CustomMeasurementDefinition SelectedDefinition { get; set; }
+        private DelegateCommand acceptErrorCommand;
+        private DelegateCommand addDefinitionCommand;
+        private DelegateCommand removeDefinitionCommand;
 
         public CustomMeasurementDefinitionViewModel()
-        {}
+        {
+            SetupCommands();
+        }
 
         public ObservableCollection<CustomMeasurementDefinition> MeasurementDefinitions { get; set; }
 
@@ -143,124 +149,32 @@ namespace DietRecorder.Client.ViewModel
             MeasurementType = MeasurementType.Text;
         }
 
-        private void AcceptErrorMessage()
+        public void AcceptErrorMessage()
         {
             IsError = false;
             ErrorMessage = string.Empty;
         }
 
-        #region Add Definition
-        private class AddDefinitionCommand : ICommand
+        public void SetupCommands()
         {
-            private CustomMeasurementDefinitionViewModel viewModel;
-
-            public AddDefinitionCommand(CustomMeasurementDefinitionViewModel viewModel)
-            {
-                this.viewModel = viewModel;
-            }
-
-            public bool CanExecute(object parameter)
-            {
-                return true;
-            }
-
-            public event EventHandler CanExecuteChanged;
-
-            public void Execute(object parameter)
-            {
-                viewModel.AddMeasurementDefinition();
-            }
+            acceptErrorCommand = new DelegateCommand(this.AcceptErrorMessage);
+            addDefinitionCommand = new DelegateCommand(AddMeasurementDefinition);
+            removeDefinitionCommand = new DelegateCommand(RemoveMeasurementDefinition);
         }
 
-        private AddDefinitionCommand addDefinitionCommand;
-
-        public ICommand AddDefinition
+        public ICommand AcceptErrorCommand
         {
-            get
-            {
-                if (addDefinitionCommand == null)
-                {
-                    addDefinitionCommand = new AddDefinitionCommand(this);
-                }
-                return addDefinitionCommand;
-            }
-        }
-        #endregion Add Definition
-
-        #region Remove Definition
-        private class RemoveDefinitionCommand : ICommand
-        {
-            private CustomMeasurementDefinitionViewModel viewModel;
-
-            public RemoveDefinitionCommand(CustomMeasurementDefinitionViewModel viewModel)
-            {
-                this.viewModel = viewModel;
-            }
-
-            public bool CanExecute(object parameter)
-            {
-                return true;
-            }
-
-            public event EventHandler CanExecuteChanged;
-
-            public void Execute(object parameter)
-            {
-                viewModel.RemoveMeasurementDefinition();
-            }
+            get { return acceptErrorCommand; }
         }
 
-        private RemoveDefinitionCommand removeDefinitionCommand;
-
-        public ICommand RemoveDefinition
+        public ICommand AddDefinitionCommand
         {
-            get
-            {
-                if (removeDefinitionCommand == null)
-                {
-                    removeDefinitionCommand = new RemoveDefinitionCommand(this);
-                }
-                return removeDefinitionCommand;
-            }
-        }
-        #endregion Remove Definition
-
-        #region Accept Error
-        private class AcceptErrorCommand : ICommand
-        {
-            private CustomMeasurementDefinitionViewModel viewModel;
-
-            public AcceptErrorCommand(CustomMeasurementDefinitionViewModel viewModel)
-            {
-                this.viewModel = viewModel;
-            }
-
-            public bool CanExecute(object parameter)
-            {
-                return true;
-            }
-
-            public event EventHandler CanExecuteChanged;
-
-            public void Execute(object parameter)
-            {
-                viewModel.AcceptErrorMessage();
-            }
+            get { return addDefinitionCommand; }
         }
 
-        private AcceptErrorCommand acceptErrorCommand;
-
-        public ICommand AcceptError
+        public ICommand RemoveDefinitionCommand
         {
-            get
-            {
-                if (acceptErrorCommand == null)
-                {
-                    acceptErrorCommand = new AcceptErrorCommand(this);
-                }
-                return acceptErrorCommand;
-            }
+            get { return removeDefinitionCommand; }
         }
-        #endregion Accept Error
     }
 }

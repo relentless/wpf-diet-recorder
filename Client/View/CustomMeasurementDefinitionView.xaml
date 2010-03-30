@@ -46,7 +46,7 @@
             <TextBlock Grid.Column="0" Text="{Binding Path=ErrorMessage}" Background="Orange"/>
             <Button Grid.Column="1" 
                     Content="Ok"
-                    Command="{Binding Path=AcceptError}"/>
+                    Command="{Binding Path=AcceptErrorCommand}"/>
         </Grid>
         <Grid Grid.Row="2" Name="CustomMeasurementDetailsGrid" IsEnabled="{Binding Path=IsError, Converter={StaticResource ReverseBooleanConverter}}">
             <Grid.ColumnDefinitions>
@@ -73,8 +73,13 @@
                               ItemsSource="{Binding Source={StaticResource sysEnum}}" 
                               SelectedItem="{Binding Path=MeasurementType}"/>
             </Grid>
-            <Button Grid.Column="2" Name="AddCustomMeasurementButton" Command="{Binding Path=AddDefinition}" Content="+"/>
-            <Button Grid.Column="3" Name="DeleteCustomMeasurementButton" Content="-" Command="{Binding Path=RemoveDefinition}"/>
+            
+            <Button Grid.Column="2" 
+                    Name="AddCustomMeasurementButton" 
+                    Command="{Binding Path=AddDefinitionCommand}" 
+                    Content="+"/>
+            
+            <Button Grid.Column="3" Name="DeleteCustomMeasurementButton" Content="-" Command="{Binding Path=RemoveDefinitionCommand}"/>
         </Grid>
     </Grid>
 </UserControl>
