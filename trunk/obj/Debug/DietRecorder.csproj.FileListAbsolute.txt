@@ -50,3 +50,7 @@ C:\Programs\wpf-diet-recorder\obj\Debug\Client\View\CustomMeasurementDefinitionV
 C:\Programs\wpf-diet-recorder\obj\Debug\Client\View\CustomMeasurementDefinitionView.g.cs
 C:\Programs\wpf-diet-recorder\obj\Debug\Client\View\UserView.g.cs
 C:\Programs\wpf-diet-recorder\obj\Debug\Client\View\UserView.baml
+E:\Programming\wpf-diet-recorder\obj\Debug\Client\View\CustomMeasurementDefinitionView.g.cs
+E:\Programming\wpf-diet-recorder\obj\Debug\Client\View\UserView.g.cs
+E:\Programming\wpf-diet-recorder\obj\Debug\Client\View\CustomMeasurementDefinitionView.baml
+E:\Programming\wpf-diet-recorder\obj\Debug\Client\View\UserView.baml
