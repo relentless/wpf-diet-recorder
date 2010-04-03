@@ -4,8 +4,51 @@
     xmlns:views="clr-namespace:DietRecorder.Client.View"
     Title="UserView" Height="300" Width="300">
     <Grid>
-        <views:CustomMeasurementDefinitionView 
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="Users" Background="LightBlue"/>
+            <ListBox Grid.Row="1" Name="Users" ItemsSource="{Binding}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Name}"/>
+                </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Grid Grid.Row="2" Name="UserGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Name" Background="LightBlue"/>
+                    <TextBox Grid.Row="1" 
+                             Name="NameText" 
+                             Text="{Binding Path=UserName}"/>
+                </Grid>
+                <Button Grid.Column="1" Name="NewUserButton" Content="New"/>
+                <Button Grid.Column="1" Name="AddUserButton" Content="Add" Visibility="Hidden"/>
+                <Button Grid.Column="2" Name="CancelUserButton" Content="Cancel"/>
+                <Button Grid.Column="2" Name="DeleteUserButton" Content="Delete"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1">
+            <views:CustomMeasurementDefinitionView 
             x:Name="DefinitionView"
             DataContext="{Binding Path=DataContext}"/>
+        </Grid>
     </Grid>
+
 </Window>

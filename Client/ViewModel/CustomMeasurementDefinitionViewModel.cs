@@ -59,7 +59,7 @@ namespace DietRecorder.Client.ViewModel
                 }
             }
         }
-
+        
         public string ErrorMessage
         {
             get
