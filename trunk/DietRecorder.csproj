@@ -108,6 +108,7 @@
     </Compile>
     <Compile Include="Client\UserListPresenter.cs" />
     <Compile Include="Client\ViewModel\CustomMeasurementDefinitionViewModel.cs" />
+    <Compile Include="Client\ViewModel\UserViewModel.cs" />
     <Compile Include="Client\View\CustomMeasurementDefinitionView.xaml.cs">
       <DependentUpon>CustomMeasurementDefinitionView.xaml</DependentUpon>
     </Compile>
