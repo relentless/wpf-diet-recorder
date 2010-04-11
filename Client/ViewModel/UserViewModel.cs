@@ -3,11 +3,41 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using DietRecorder.Model;
+using DietRecorder.Client.Common;
+using System.Windows.Input;
 
 namespace DietRecorder.Client.ViewModel
 {
     class UserViewModel: INotifyPropertyChanged
     {
+        private DelegateCommand addUserCommand;
+        private DelegateCommand deleteUserCommand;
+
+        public UserViewModel()
+        {
+            addUserCommand = new DelegateCommand(AddUser);
+            deleteUserCommand = new DelegateCommand(DeleteUser);
+        }
+
+        public ICommand AddUserCommand
+        {
+            get { return addUserCommand; }
+        }
+
+        public ICommand DeleteUserCommand
+        {
+            get { return deleteUserCommand; }
+        }
+
+        private void AddUser()
+        {
+
+        }
+
+        private void DeleteUser()
+        {
+
+        }
 
         private string name;
         public string Name

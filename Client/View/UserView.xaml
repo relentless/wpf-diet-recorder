@@ -36,7 +36,7 @@
                     <TextBlock Grid.Row="0" Text="Name" Background="LightBlue"/>
                     <TextBox Grid.Row="1" 
                              Name="NameText" 
-                             Text="{Binding Path=UserName}"/>
+                             Text="{Binding Path=Name}"/>
                 </Grid>
                 <Button Grid.Column="1" Name="NewUserButton" Content="New"/>
                 <Button Grid.Column="1" Name="AddUserButton" Content="Add" Visibility="Hidden"/>
