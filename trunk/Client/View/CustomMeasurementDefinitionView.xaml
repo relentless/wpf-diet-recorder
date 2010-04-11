@@ -25,7 +25,7 @@
         <TextBlock Grid.Row="0" Text="Custom Measurements"  Background="LightBlue"/>
         <ListBox Grid.Row="1" Name="CustomMeasurementList" 
                  ItemsSource="{Binding Path=MeasurementDefinitions}"
-                 SelectedItem="{Binding Path=SelectedDefinition}"
+                 SelectedItem="{Binding Path=SelectedDefinitionX}"
                  Visibility="{Binding Path=IsError, Converter={StaticResource ReverseVisibleConverter}}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
