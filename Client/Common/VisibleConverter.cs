@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace DietRecorder.Client.Common
 {
-    class VisibleCoverter: IValueConverter
+    class VisibleConverter: IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

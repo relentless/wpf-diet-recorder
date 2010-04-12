@@ -25,11 +25,14 @@ namespace DietRecorder.Client
             //DetailsListPresenter detailsListPresenter = new DetailsListPresenter(new DetailsList(), dietLogic);
             //detailsListPresenter.DisplayView();
 
-            CustomMeasurementDefinitionViewModel viewModel = new CustomMeasurementDefinitionViewModel();
-            viewModel.MeasurementDefinitions = new ObservableCollection<CustomMeasurementDefinition>();
+            //CustomMeasurementDefinitionViewModel viewModel = new CustomMeasurementDefinitionViewModel();
+            //viewModel.MeasurementDefinitions = new ObservableCollection<CustomMeasurementDefinition>();
             UserView view = new UserView();
-            view.DataContext = viewModel;
+            //view.DataContext = viewModel;
 
+            UserViewModel userViewModel = new UserViewModel();
+            userViewModel.Users = new ObservableCollection<User>();
+            view.DataContext = userViewModel;
             view.Show();
             
         }
