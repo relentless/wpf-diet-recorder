@@ -5,7 +5,7 @@
     xmlns:converters="clr-namespace:DietRecorder.Client.Common"
     xmlns:model="clr-namespace:DietRecorder.Model">
     <UserControl.Resources>
-        <converters:VisibleCoverter x:Key="VisibleConverter"/>
+        <converters:VisibleConverter x:Key="VisibleConverter"/>
         <converters:ReverseVisibleCoverter x:Key="ReverseVisibleConverter"/>
         <converters:ReverseBooleanConverter x:Key="ReverseBooleanConverter"/>
         <ObjectDataProvider MethodName="GetValues" 
