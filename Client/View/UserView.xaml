@@ -54,7 +54,7 @@
         <Grid Grid.Row="1">
             <views:CustomMeasurementDefinitionView 
             x:Name="DefinitionView"
-            DataContext="{Binding Path=DataContext}"/>
+            DataContext="{Binding DefinitionViewModel}"/>
         </Grid>
     </Grid>
 
