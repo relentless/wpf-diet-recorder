@@ -5,6 +5,7 @@ using System.ComponentModel;
 using DietRecorder.Model;
 using DietRecorder.Client.Common;
 using System.Windows.Input;
+using System.Linq;
 
 namespace DietRecorder.Client.ViewModel
 {
@@ -15,14 +16,17 @@ namespace DietRecorder.Client.ViewModel
         private DelegateCommand newUserCommand;
         private DelegateCommand cancelNewUserCommand;
 
-        private CustomMeasurementDefinitionViewModel definitionViewModel;
+        public CustomMeasurementDefinitionViewModel DefinitionViewModel { get; set; }
 
-        public UserViewModel()
+        public int someVal { get; set; }
+
+        public UserViewModel(CustomMeasurementDefinitionViewModel customMeasurementDefinitionViewModel)
         {
             SetupCommands();
-            definitionViewModel = new CustomMeasurementDefinitionViewModel();
-            definitionViewModel.MeasurementDefinitions = new ObservableCollection<CustomMeasurementDefinition>();
+            DefinitionViewModel = customMeasurementDefinitionViewModel;
             Mode = ViewMode.View;
+
+            someVal = 15;
         }
 
         private void SetupCommands()
@@ -32,10 +36,22 @@ namespace DietRecorder.Client.ViewModel
             newUserCommand = new DelegateCommand(NewUser);
             cancelNewUserCommand = new DelegateCommand(CancelNewUser);
         }
-
         public ObservableCollection<User> Users { get; set; }
 
-        public User SelectedUser { private get; set; }
+        private User selectedUser;
+        public User SelectedUser
+        {
+            get
+            {
+                return selectedUser;
+            }
+
+            set
+            {
+                selectedUser = value;
+                DefinitionViewModel.MeasurementDefinitions = selectedUser.Definitions;
+            }
+        }
 
         public ICommand AddUserCommand
         {
@@ -61,6 +77,14 @@ namespace DietRecorder.Client.ViewModel
         {
             User newUser = new User();
             newUser.UserName = name;
+
+            CustomMeasurementDefinitionList definitionList = new CustomMeasurementDefinitionList();
+            foreach( CustomMeasurementDefinition definition in DefinitionViewModel.MeasurementDefinitions)
+            {
+                definitionList.Add(definition);
+            }
+            
+            newUser.Definitions = definitionList;
             Users.Add(newUser);
             Name = string.Empty;
 

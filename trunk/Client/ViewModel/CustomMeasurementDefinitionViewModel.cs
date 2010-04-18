@@ -26,7 +26,20 @@ namespace DietRecorder.Client.ViewModel
             SetupCommands();
         }
 
-        public ObservableCollection<CustomMeasurementDefinition> MeasurementDefinitions { get; set; }
+        private ObservableCollection<CustomMeasurementDefinition> measurementDefinitions;
+        public ObservableCollection<CustomMeasurementDefinition> MeasurementDefinitions 
+        {
+            get
+            {
+                return measurementDefinitions;
+            }
+
+            set
+            {
+                measurementDefinitions = value;
+                NotifyPropertyChanged("MeasurementDefinitions");
+            }
+        }
 
         public string DefinitionName
         {
