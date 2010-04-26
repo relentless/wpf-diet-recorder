@@ -12,21 +12,53 @@ namespace DietRecorder.Client.ViewModel
 {
     public class CustomMeasurementDefinitionViewModel : INotifyPropertyChanged
     {
+        private ObservableCollection<CustomMeasurementDefinition> measurementDefinitions;
         private string definitionName = string.Empty;
         private MeasurementType measurementType = MeasurementType.Text;
         private string errorMessage = string.Empty;
         private bool isError = false;
+        private bool isEnabled = false;
         public CustomMeasurementDefinition SelectedDefinition { get; set; }
+
+        #region Commands
         private DelegateCommand acceptErrorCommand;
         private DelegateCommand addDefinitionCommand;
         private DelegateCommand removeDefinitionCommand;
+
+        public ICommand AcceptErrorCommand
+        {
+            get { return acceptErrorCommand; }
+        }
+
+        public ICommand AddDefinitionCommand
+        {
+            get { return addDefinitionCommand; }
+        }
+
+        public ICommand RemoveDefinitionCommand
+        {
+            get { return removeDefinitionCommand; }
+        }
 
         public CustomMeasurementDefinitionViewModel()
         {
             SetupCommands();
         }
+        #endregion Commands
 
-        private ObservableCollection<CustomMeasurementDefinition> measurementDefinitions;
+        #region Notify Property Stuff
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(string PropertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(PropertyName));
+            }
+        }
+        #endregion Notify Property Stuff
+
+        #region Properties with NotifyProperty
         public ObservableCollection<CustomMeasurementDefinition> MeasurementDefinitions 
         {
             get
@@ -105,15 +137,23 @@ namespace DietRecorder.Client.ViewModel
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(string PropertyName)
+        public bool IsEnabled
         {
-            if (PropertyChanged != null)
+            get
             {
-                PropertyChanged(this, new PropertyChangedEventArgs(PropertyName));
+                return isEnabled;
+            }
+            set
+            {
+                if (value != isEnabled)
+                {
+                    isEnabled = value;
+                    NotifyPropertyChanged("IsEnabled");
+                }
             }
         }
+        #endregion Properties with NotifyProperty
+
 
         private void AddMeasurementDefinition()
         {
@@ -175,19 +215,10 @@ namespace DietRecorder.Client.ViewModel
             removeDefinitionCommand = new DelegateCommand(RemoveMeasurementDefinition);
         }
 
-        public ICommand AcceptErrorCommand
+        public void ResetContents()
         {
-            get { return acceptErrorCommand; }
-        }
-
-        public ICommand AddDefinitionCommand
-        {
-            get { return addDefinitionCommand; }
-        }
-
-        public ICommand RemoveDefinitionCommand
-        {
-            get { return removeDefinitionCommand; }
+            SetDefaultValues();
+            measurementDefinitions.Clear();
         }
     }
 }
