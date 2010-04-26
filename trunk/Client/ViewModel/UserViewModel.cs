@@ -11,47 +11,18 @@ namespace DietRecorder.Client.ViewModel
 {
     class UserViewModel: INotifyPropertyChanged
     {
+        private CustomMeasurementDefinitionViewModel definitionViewModel;
+        private User selectedUser;
+        private string name;
+        private ViewMode viewMode;
+        public ObservableCollection<User> Users { get; set; }
+        public int someVal { get; set; }
+
+        #region Commands
         private DelegateCommand addUserCommand;
         private DelegateCommand deleteUserCommand;
         private DelegateCommand newUserCommand;
         private DelegateCommand cancelNewUserCommand;
-
-        public CustomMeasurementDefinitionViewModel DefinitionViewModel { get; set; }
-
-        public int someVal { get; set; }
-
-        public UserViewModel(CustomMeasurementDefinitionViewModel customMeasurementDefinitionViewModel)
-        {
-            SetupCommands();
-            DefinitionViewModel = customMeasurementDefinitionViewModel;
-            Mode = ViewMode.View;
-
-            someVal = 15;
-        }
-
-        private void SetupCommands()
-        {
-            addUserCommand = new DelegateCommand(AddUser);
-            deleteUserCommand = new DelegateCommand(DeleteUser);
-            newUserCommand = new DelegateCommand(NewUser);
-            cancelNewUserCommand = new DelegateCommand(CancelNewUser);
-        }
-        public ObservableCollection<User> Users { get; set; }
-
-        private User selectedUser;
-        public User SelectedUser
-        {
-            get
-            {
-                return selectedUser;
-            }
-
-            set
-            {
-                selectedUser = value;
-                DefinitionViewModel.MeasurementDefinitions = selectedUser.Definitions;
-            }
-        }
 
         public ICommand AddUserCommand
         {
@@ -72,44 +43,58 @@ namespace DietRecorder.Client.ViewModel
         {
             get { return cancelNewUserCommand; }
         }
+        #endregion Commands
 
-        private void AddUser()
+        #region Notify Property Stuff
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(string PropertyName)
         {
-            User newUser = new User();
-            newUser.UserName = name;
-
-            CustomMeasurementDefinitionList definitionList = new CustomMeasurementDefinitionList();
-            foreach( CustomMeasurementDefinition definition in DefinitionViewModel.MeasurementDefinitions)
+            if (PropertyChanged != null)
             {
-                definitionList.Add(definition);
-            }
-            
-            newUser.Definitions = definitionList;
-            Users.Add(newUser);
-            Name = string.Empty;
-
-            Mode = ViewMode.View;
-        }
-
-        private void DeleteUser()
-        {
-            if (SelectedUser != null)
-            {
-                Users.Remove(SelectedUser);
+                PropertyChanged(this, new PropertyChangedEventArgs(PropertyName));
             }
         }
+        #endregion Notify Property Stuff
 
-        private void NewUser()
+        #region Properties with NotifyProperty
+        public CustomMeasurementDefinitionViewModel DefinitionViewModel 
         {
-            Mode = ViewMode.Edit;
+            get
+            {
+                return definitionViewModel;
+            }
+            set
+            {
+                definitionViewModel = value;
+                NotifyPropertyChanged("DefinitionViewModel");
+            }
         }
 
-        private void CancelNewUser()
+        public User SelectedUser
         {
-            Mode = ViewMode.View;
-        }
+            get
+            {
+                return selectedUser;
+            }
 
-        private string name;
+            set
+            {
+                selectedUser = value;
+                if (selectedUser != null)
+                {
+                    DefinitionViewModel.MeasurementDefinitions = selectedUser.Definitions;
+                    definitionViewModel.IsEnabled = true;
+                }
+                else
+                {
+                    definitionViewModel.ResetContents();
+                    definitionViewModel.IsEnabled = false;
+                }
+                NotifyPropertyChanged("SelectedUser");
+            }
+        }
+        
         public string Name
         {
             get
@@ -120,13 +105,12 @@ namespace DietRecorder.Client.ViewModel
             {
                 if (value != name)
                 {
-                    name= value;
+                    name = value;
                     NotifyPropertyChanged("Name");
                 }
             }
         }
-
-        private ViewMode viewMode;
+        
         public ViewMode Mode
         {
             set
@@ -141,7 +125,7 @@ namespace DietRecorder.Client.ViewModel
             }
         }
 
-        public bool NewUserButtonsVisible 
+        public bool NewUserButtonsVisible
         {
             get
             {
@@ -164,14 +148,72 @@ namespace DietRecorder.Client.ViewModel
                 return viewMode == ViewMode.Edit;
             }
         }
+        #endregion Properties with NotifyProperty
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(string PropertyName)
+        public UserViewModel(CustomMeasurementDefinitionViewModel customMeasurementDefinitionViewModel)
         {
-            if (PropertyChanged != null)
+            SetupCommands();
+            //DefinitionViewModel = customMeasurementDefinitionViewModel;
+            Mode = ViewMode.View;
+
+            someVal = 15;
+        }
+
+        private void SetupCommands()
+        {
+            addUserCommand = new DelegateCommand(AddUser);
+            deleteUserCommand = new DelegateCommand(DeleteUser);
+            newUserCommand = new DelegateCommand(NewUser);
+            cancelNewUserCommand = new DelegateCommand(CancelNewUser);
+        }
+
+        private void AddUser()
+        {
+            User newUser = new User();
+            newUser.UserName = name;
+
+            CustomMeasurementDefinitionList definitionList = new CustomMeasurementDefinitionList();
+            foreach( CustomMeasurementDefinition definition in DefinitionViewModel.MeasurementDefinitions)
             {
-                PropertyChanged(this, new PropertyChangedEventArgs(PropertyName));
+                definitionList.Add(definition);
+            }
+            
+            newUser.Definitions = definitionList;
+            Users.Add(newUser);
+            Name = string.Empty;
+
+            Mode = ViewMode.View;
+            definitionViewModel.ResetContents();
+            SelectedUser = newUser;
+        }
+
+        private void DeleteUser()
+        {
+            if (SelectedUser != null)
+            {
+                Users.Remove(SelectedUser);
+                SelectFirstUser();
+            }
+        }
+
+        private void NewUser()
+        {
+            Mode = ViewMode.Edit;
+            definitionViewModel.ResetContents();
+            definitionViewModel.IsEnabled = true;
+        }
+
+        private void CancelNewUser()
+        {
+            Mode = ViewMode.View;
+            SelectFirstUser();
+        }
+
+        private void SelectFirstUser()
+        {
+            if (Users.Count > 0)
+            {
+                SelectedUser = Users.First();
             }
         }
     }

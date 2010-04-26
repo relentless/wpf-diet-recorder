@@ -31,6 +31,7 @@ namespace DietRecorder.Client
             //view.DataContext = viewModel;
 
             UserViewModel userViewModel = new UserViewModel(definitionViewModel);
+            userViewModel.DefinitionViewModel = definitionViewModel;
             userViewModel.Users = new ObservableCollection<User>();
 
             UserView view = new UserView();
@@ -38,7 +39,6 @@ namespace DietRecorder.Client
 
             view.Show();
             view.DefinitionView.DataContext = userViewModel.DefinitionViewModel;
-            
         }
     }
 }

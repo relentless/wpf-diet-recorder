@@ -3,7 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:converters="clr-namespace:DietRecorder.Client.Common"
-    xmlns:model="clr-namespace:DietRecorder.Model">
+    xmlns:model="clr-namespace:DietRecorder.Model"
+    IsEnabled="{Binding IsEnabled}">
     <UserControl.Resources>
         <converters:VisibleConverter x:Key="VisibleConverter"/>
         <converters:ReverseVisibleCoverter x:Key="ReverseVisibleConverter"/>
