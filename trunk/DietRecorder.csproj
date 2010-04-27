@@ -71,11 +71,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Client\UserListView.xaml">
+    <Page Include="Client\View\CustomMeasurementDefinitionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Client\View\CustomMeasurementDefinitionView.xaml">
+    <Page Include="Client\View\MeasurementView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -104,14 +104,14 @@
     <Compile Include="Client\Common\ViewMode.cs" />
     <Compile Include="Client\Common\VisibleConverter.cs" />
     <Compile Include="Client\DetailsListPresenter.cs" />
-    <Compile Include="Client\UserListView.xaml.cs">
-      <DependentUpon>UserListView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Client\UserListPresenter.cs" />
     <Compile Include="Client\ViewModel\CustomMeasurementDefinitionViewModel.cs" />
+    <Compile Include="Client\ViewModel\MeasurementViewModel.cs" />
     <Compile Include="Client\ViewModel\UserViewModel.cs" />
     <Compile Include="Client\View\CustomMeasurementDefinitionView.xaml.cs">
       <DependentUpon>CustomMeasurementDefinitionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Client\View\MeasurementView.xaml.cs">
+      <DependentUpon>MeasurementView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Client\View\UserView.xaml.cs">
       <DependentUpon>UserView.xaml</DependentUpon>
@@ -120,12 +120,9 @@
     <Compile Include="DataAccess\Repository.cs" />
     <Compile Include="Model\CustomMeasurement.cs" />
     <Compile Include="Model\CustomMeasurementDefinition.cs" />
-    <Compile Include="Model\CustomMeasurementDefinitionList.cs" />
     <Compile Include="Model\Measurement.cs" />
-    <Compile Include="Model\MeasurementList.cs" />
     <Compile Include="Model\MeasurementType.cs" />
     <Compile Include="Model\User.cs" />
-    <Compile Include="Model\UserList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
