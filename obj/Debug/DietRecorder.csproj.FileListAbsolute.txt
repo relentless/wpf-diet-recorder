@@ -42,8 +42,6 @@ E:\Programming\wpf-diet-recorder\bin\Debug\Db4objects.Db4o.dll
 C:\Programs\wpf-diet-recorder\bin\Debug\Db4objects.Db4o.dll
 C:\Programs\wpf-diet-recorder\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Programs\wpf-diet-recorder\obj\Debug\DietRecorder_MarkupCompile.lref
-C:\Programs\wpf-diet-recorder\obj\Debug\Client\UserListView.baml
-C:\Programs\wpf-diet-recorder\obj\Debug\Client\UserListView.g.cs
 E:\Programming\wpf-diet-recorder\obj\Debug\Client\UserListView.baml
 E:\Programming\wpf-diet-recorder\obj\Debug\Client\UserListView.g.cs
 C:\Programs\wpf-diet-recorder\obj\Debug\Client\View\CustomMeasurementDefinitionView.baml
@@ -54,3 +52,5 @@ E:\Programming\wpf-diet-recorder\obj\Debug\Client\View\CustomMeasurementDefiniti
 E:\Programming\wpf-diet-recorder\obj\Debug\Client\View\UserView.g.cs
 E:\Programming\wpf-diet-recorder\obj\Debug\Client\View\CustomMeasurementDefinitionView.baml
 E:\Programming\wpf-diet-recorder\obj\Debug\Client\View\UserView.baml
+C:\Programs\wpf-diet-recorder\obj\Debug\Client\View\MeasurementView.g.cs
+C:\Programs\wpf-diet-recorder\obj\Debug\Client\View\MeasurementView.baml
