@@ -12,31 +12,31 @@ namespace DietRecorder.Client
     {
         private UserListView view;
         private IDietLogic dietLogic;
-        private UserList userList;
+        //private UserList userList;
         private User selectedUser;
         private CustomMeasurementDefinition customMeasurementDefinition;
         private ViewMode mode;
 
-        public UserListPresenter(UserListView view, IDietLogic dietLogic, UserList userList)
-        {
-            this.view = view;
-            view.Presenter = this;
-            this.dietLogic = dietLogic;
-            this.userList = userList;
+        //public UserListPresenter(UserListView view, IDietLogic dietLogic, UserList userList)
+        //{
+        //    this.view = view;
+        //   // view.Presenter = this;
+        //    this.dietLogic = dietLogic;
+        //    //this.userList = userList;
 
-            mode = ViewMode.View;
+        //    mode = ViewMode.View;
 
-            SetBlankUser();
+        //    SetBlankUser();
 
-            customMeasurementDefinition = new CustomMeasurementDefinition();
-            customMeasurementDefinition.SetDefaultValues();
-        }
+        //    customMeasurementDefinition = new CustomMeasurementDefinition();
+        //    customMeasurementDefinition.SetDefaultValues();
+        //}
 
         public void DisplayView()
         {
-            view.SetUserListBinding(userList);
+            //view.SetUserListBinding(userList);
             BindUser();
-            view.SetCustomMeasurementDefinitionBinding(customMeasurementDefinition);
+            //view.SetCustomMeasurementDefinitionBinding(customMeasurementDefinition);
             view.ShowDialog();
         }
 
@@ -47,12 +47,12 @@ namespace DietRecorder.Client
             if (validationFailures.Count == 0)
             {
                 User userToAdd = selectedUser.Clone();
-                userList.Add(userToAdd);
-                dietLogic.SaveUserList(userList);
+               // userList.Add(userToAdd);
+               // dietLogic.SaveUserList(userList);
                 selectedUser.SetDefaultValues();
 
                 mode = ViewMode.View;
-                view.SetMode(mode);
+                //view.SetMode(mode);
             }
             else
             {
@@ -62,28 +62,28 @@ namespace DietRecorder.Client
 
         public void DeleteUser()
         {
-            if (view.UserList.SelectedItem != null)
-            {
-                dietLogic.Delete(view.UserList.SelectedItem);
-                userList.Remove((User)view.UserList.SelectedItem);
-                SetBlankUser();
-            }
+            //if (view.UserList.SelectedItem != null)
+            //{
+            //    dietLogic.Delete(view.UserList.SelectedItem);
+            //    //userList.Remove((User)view.UserList.SelectedItem);
+            //    SetBlankUser();
+            //}
         }
 
         public void DisplayUser()
         {
             if (mode == ViewMode.View)
             {
-                if (view.UserList.SelectedItem != null)
-                {
-                    //selectedUser.SetValues((User)view.UserList.SelectedItem);
-                    selectedUser = (User)view.UserList.SelectedItem;
-                    BindUser();
-                }
-                else
-                {
-                    selectedUser = null;
-                }
+                //if (view.UserList.SelectedItem != null)
+                //{
+                //    //selectedUser.SetValues((User)view.UserList.SelectedItem);
+                //    selectedUser = (User)view.UserList.SelectedItem;
+                //    BindUser();
+                //}
+                //else
+                //{
+                //    selectedUser = null;
+                //}
             }
         }
 
@@ -97,7 +97,7 @@ namespace DietRecorder.Client
                 {
                     CustomMeasurementDefinition definitionToAdd = customMeasurementDefinition.Clone();
                     selectedUser.Definitions.Add(definitionToAdd);
-                    dietLogic.SaveUserList(userList);
+                    //dietLogic.SaveUserList(userList);
                     customMeasurementDefinition.SetDefaultValues();
                 }
                 else
@@ -107,21 +107,21 @@ namespace DietRecorder.Client
             }
             else
             {
-                view.ShowMessage("Problem", "Please select a user");
+                //view.ShowMessage("Problem", "Please select a user");
             }
         }
 
         public void DeleteMeasurementDefinition()
         {
-            if (view.CustomMeasurementList.SelectedItem != null)
-            {
-                if (selectedUser != null)
-                {
-                    dietLogic.Delete(view.CustomMeasurementList.SelectedItem);
-                    selectedUser.Definitions.Remove((CustomMeasurementDefinition)view.CustomMeasurementList.SelectedItem);
-                    dietLogic.SaveUserList(userList);
-                }
-            }
+            //if (view.CustomMeasurementList.SelectedItem != null)
+            //{
+            //    if (selectedUser != null)
+            //    {
+            //        dietLogic.Delete(view.CustomMeasurementList.SelectedItem);
+            //        selectedUser.Definitions.Remove((CustomMeasurementDefinition)view.CustomMeasurementList.SelectedItem);
+            //        //dietLogic.SaveUserList(userList);
+            //    }
+            //}
         }
 
         private void ShowValidationFailures(List<string> validationFailures)
@@ -136,13 +136,13 @@ namespace DietRecorder.Client
                 failuresMessage.Append(failure);
             }
 
-            view.ShowMessage("Validation Problem", failuresMessage.ToString());
+           // view.ShowMessage("Validation Problem", failuresMessage.ToString());
         }
 
         public void NewUser()
         {
             mode = ViewMode.Edit;
-            view.SetMode(mode);
+            //view.SetMode(mode);
             SetBlankUser();
         }
 
@@ -155,14 +155,14 @@ namespace DietRecorder.Client
 
         private void BindUser()
         {
-            view.SetUserBinding(selectedUser);
-            view.SetCustomMeasurementListBinding(selectedUser.Definitions);
+            //view.SetUserBinding(selectedUser);
+            //view.SetCustomMeasurementListBinding(selectedUser.Definitions);
         }
 
         public void CancelAddingUser()
         {
             mode = ViewMode.View;
-            view.SetMode(mode);
+            //view.SetMode(mode);
             SetBlankUser();
         }
     }

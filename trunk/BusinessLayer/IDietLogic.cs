@@ -6,8 +6,8 @@ namespace DietRecorder.BusinessLayer
 {
     public interface IDietLogic
     {
-        void SaveUserList(UserList userList);
-        UserList LoadUserList();
+        void SaveUserList(IEnumerable<User> Users);
+        IList<User> LoadUserList();
         void Delete(object obj);
     }
 }

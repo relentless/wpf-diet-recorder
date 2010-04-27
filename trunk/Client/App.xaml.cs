@@ -10,6 +10,7 @@ using DietRecorder.DataAccess;
 using DietRecorder.Client.View;
 using DietRecorder.Client.ViewModel;
 using System.Collections.ObjectModel;
+using DietRecorder.Client.Common;
 
 namespace DietRecorder.Client
 {
@@ -18,6 +19,8 @@ namespace DietRecorder.Client
     /// </summary>
     public partial class App : Application
     {
+        private IDietLogic businessLogic = new DietLogic(new Repository());
+
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             //Repository dietRepository = new Repository();
@@ -32,7 +35,23 @@ namespace DietRecorder.Client
 
             UserViewModel userViewModel = new UserViewModel(definitionViewModel);
             userViewModel.DefinitionViewModel = definitionViewModel;
-            userViewModel.Users = new ObservableCollection<User>();
+
+            userViewModel.Users = businessLogic.LoadUserList().ToObservableCollection<User>();
+
+            userViewModel.UsersUpdated += () =>
+            {
+                IList<User> userList = new List<User>();
+                foreach (User user in userViewModel.Users)
+                {
+                    userList.Add(user);
+                }
+                businessLogic.SaveUserList(userList);
+            };
+
+            userViewModel.UserDeleted += (user) =>
+            {
+                businessLogic.Delete(user);
+            };
 
             UserView view = new UserView();
             view.DataContext = userViewModel;

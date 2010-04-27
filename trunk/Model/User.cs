@@ -7,13 +7,13 @@ namespace DietRecorder.Model
     public class User: INotifyPropertyChanged
     {
         private string userName;
-        private MeasurementList measurements = new MeasurementList();
-        private CustomMeasurementDefinitionList definitions = new CustomMeasurementDefinitionList();
+        private IList<Measurement> measurements = new List<Measurement>();
+        private IList<CustomMeasurementDefinition> definitions = new List<CustomMeasurementDefinition>();
 
         private const int MIN_NAME_CHARS = 1;
         private const int MAX_NAME_CHARS = 40;
 
-        public User(string name, MeasurementList measurementList, CustomMeasurementDefinitionList definitionList)
+        public User(string name, IList<Measurement> measurementList, IList<CustomMeasurementDefinition> definitionList)
         {
             UserName = name;
             Measurements = measurementList;
@@ -32,8 +32,8 @@ namespace DietRecorder.Model
 
         public User Clone()
         {
-            MeasurementList clonedMeasurements = new MeasurementList();
-            CustomMeasurementDefinitionList clondDefinitions = new CustomMeasurementDefinitionList();
+            IList<Measurement> clonedMeasurements = new List<Measurement>();
+            IList<CustomMeasurementDefinition> clondDefinitions = new List<CustomMeasurementDefinition>();
 
             foreach (Measurement measurement in measurements)
             {
@@ -81,7 +81,7 @@ namespace DietRecorder.Model
             }
         }
 
-        public MeasurementList Measurements
+        public IList<Measurement> Measurements
         {
             get
             {
@@ -94,7 +94,7 @@ namespace DietRecorder.Model
         }
 
 
-        public CustomMeasurementDefinitionList Definitions
+        public IList<CustomMeasurementDefinition> Definitions
         {
             get
             {
