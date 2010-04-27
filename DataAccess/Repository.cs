@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DietRecorder.Model;
 using Db4objects.Db4o;
 using Db4objects.Db4o.Config;
+using User = DietRecorder.Model.User;
 
 namespace DietRecorder.DataAccess
 {
@@ -18,30 +19,14 @@ namespace DietRecorder.DataAccess
             database = Db4oEmbedded.OpenFile(config, "DietDB.db4o");
         }
 
-        public UserList Load()
+        public IEnumerable<User> Load()
         {
-            IList<DietRecorder.Model.User> users = database.Query<DietRecorder.Model.User>();
-
-            if (users.Count == 0)
-            {
-                return null;
-            }
-            else
-            {
-                UserList userList = new UserList();
-
-                foreach (DietRecorder.Model.User user in users)
-                {
-                    userList.Add(user);
-                }
-
-                return userList;
-            }
+            return database.Query<User>();
         }
 
-        public void Save(UserList userList)
+        public void Save(IEnumerable<User> Users)
         {
-            foreach (DietRecorder.Model.User user in userList)
+            foreach (User user in Users)
             {
                 database.Store(user);
             }

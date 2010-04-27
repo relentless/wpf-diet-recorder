@@ -95,6 +95,7 @@
   <ItemGroup>
     <Compile Include="BusinessLayer\DietLogic.cs" />
     <Compile Include="BusinessLayer\IDietLogic.cs" />
+    <Compile Include="Client\Common\CollectionExtensions.cs" />
     <Compile Include="Client\Common\DateConverter.cs" />
     <Compile Include="Client\Common\DelegateCommand.cs">
     </Compile>

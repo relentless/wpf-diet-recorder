@@ -14,19 +14,19 @@ namespace DietRecorder.BusinessLayer
             this.repository = repository;
         }
 
-        public UserList LoadUserList()
+        public IList<User> LoadUserList()
         {
-            UserList userList = repository.Load();
+            IList<User> users = (IList<User>)repository.Load();
 
-            if (userList != null)
-                return userList;
+            if (users != null)
+                return users;
             else
-                return new UserList();
+                return new List<User>();
         }
 
-        public void SaveUserList(UserList userList)
+        public void SaveUserList(IEnumerable<User> Users)
         {
-            repository.Save(userList);
+            repository.Save(Users);
         }
 
         public void Delete(object obj)

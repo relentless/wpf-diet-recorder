@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using DietRecorder.Model;
 using DietRecorder.Client.Common;
+using DietRecorder.DataAccess;
 using System.Windows.Input;
 using System.Linq;
 
@@ -11,12 +12,16 @@ namespace DietRecorder.Client.ViewModel
 {
     class UserViewModel: INotifyPropertyChanged
     {
+        private readonly IRepository repository;
         private CustomMeasurementDefinitionViewModel definitionViewModel;
         private User selectedUser;
         private string name;
         private ViewMode viewMode;
         public ObservableCollection<User> Users { get; set; }
         public int someVal { get; set; }
+
+        public event Action UsersUpdated;
+        public event Action<User> UserDeleted;
 
         #region Commands
         private DelegateCommand addUserCommand;
@@ -83,7 +88,7 @@ namespace DietRecorder.Client.ViewModel
                 selectedUser = value;
                 if (selectedUser != null)
                 {
-                    DefinitionViewModel.MeasurementDefinitions = selectedUser.Definitions;
+                    DefinitionViewModel.MeasurementDefinitions = selectedUser.Definitions.ToObservableCollection<CustomMeasurementDefinition>();
                     definitionViewModel.IsEnabled = true;
                 }
                 else
@@ -172,7 +177,7 @@ namespace DietRecorder.Client.ViewModel
             User newUser = new User();
             newUser.UserName = name;
 
-            CustomMeasurementDefinitionList definitionList = new CustomMeasurementDefinitionList();
+            IList<CustomMeasurementDefinition> definitionList = new List<CustomMeasurementDefinition>();
             foreach( CustomMeasurementDefinition definition in DefinitionViewModel.MeasurementDefinitions)
             {
                 definitionList.Add(definition);
@@ -185,13 +190,15 @@ namespace DietRecorder.Client.ViewModel
             Mode = ViewMode.View;
             definitionViewModel.ResetContents();
             SelectedUser = newUser;
+            NotifyUsersUpdated();
         }
 
         private void DeleteUser()
         {
             if (SelectedUser != null)
             {
-                Users.Remove(SelectedUser);
+                NotifyUserDeleted(selectedUser);
+                Users.Remove(selectedUser);
                 SelectFirstUser();
             }
         }
@@ -199,6 +206,7 @@ namespace DietRecorder.Client.ViewModel
         private void NewUser()
         {
             Mode = ViewMode.Edit;
+            SelectedUser = null;
             definitionViewModel.ResetContents();
             definitionViewModel.IsEnabled = true;
         }
@@ -214,6 +222,22 @@ namespace DietRecorder.Client.ViewModel
             if (Users.Count > 0)
             {
                 SelectedUser = Users.First();
+            }
+        }
+
+        private void NotifyUsersUpdated()
+        {
+            if (UsersUpdated != null)
+            {
+                UsersUpdated.Invoke();
+            }
+        }
+
+        private void NotifyUserDeleted(User DeletedUser)
+        {
+            if (UserDeleted != null)
+            {
+                UserDeleted.Invoke(DeletedUser);
             }
         }
     }

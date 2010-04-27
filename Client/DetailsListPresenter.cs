@@ -11,13 +11,13 @@ namespace DietRecorder.Client
         private DetailsList view;
         private IDietLogic dietLogic;
         private Measurement measurement;
-        private UserList userList;
+        //private UserList userList;
         private User selectedUser;
 
         public DetailsListPresenter(DetailsList view, IDietLogic logic)
         {
             this.view = view;
-            view.Presenter = this;
+            //view.Presenter = this;
             this.dietLogic = logic;
 
             measurement = new Measurement();
@@ -28,29 +28,29 @@ namespace DietRecorder.Client
 
         private void LoadUserList()
         {
-            userList = dietLogic.LoadUserList();
+            //userList = dietLogic.LoadUserList();
         }
 
         public void DisplayView()
         {
-            view.SetUserBinding(userList);
-            view.SetBindingForFields(measurement);
+            //view.SetUserBinding(userList);
+           // view.SetBindingForFields(measurement);
             view.Show();
         }
 
         public void LoadSelectedUser()
         {
-            if (view.UserCombo.SelectedItem != null)
-            {
-                selectedUser = (User)view.UserCombo.SelectedItem;
-                view.SetGridBinding(selectedUser.Measurements);
-                ShowCustomMeasurementControls();
-            }
-            else
-            {
-                selectedUser = null;
-                view.SetGridBinding(null);
-            }
+            //if (view.UserCombo.SelectedItem != null)
+            //{
+            //    selectedUser = (User)view.UserCombo.SelectedItem;
+            //   // view.SetGridBinding(selectedUser.Measurements);
+            //    ShowCustomMeasurementControls();
+            //}
+            //else
+            //{
+            //    selectedUser = null;
+            //   // view.SetGridBinding(null);
+            //}
         }
 
         private void ShowCustomMeasurementControls()
@@ -59,7 +59,7 @@ namespace DietRecorder.Client
             {
                 foreach (CustomMeasurementDefinition definition in selectedUser.Definitions)
                 {
-                    view.AddCustomMeasurementControl(definition);
+                   // view.AddCustomMeasurementControl(definition);
                 }
             }
         }
@@ -73,17 +73,17 @@ namespace DietRecorder.Client
                 if (selectedUser != null)
                 {
                     Measurement measurementToAdd = measurement.Clone();
-                    measurementToAdd.CustomMeasurements = view.GetCustomMeasurements();
+                   // measurementToAdd.CustomMeasurements = view.GetCustomMeasurements();
                     selectedUser.Measurements.Add(measurementToAdd);
 
-                    dietLogic.SaveUserList(userList);
+                    //dietLogic.SaveUserList(userList);
 
                     measurement.SetDefaultValues();
-                    view.ClearCustomMeasurements();
+                    //view.ClearCustomMeasurements();
                 }
                 else
                 {
-                    view.ShowMessage("Problem", "Please select a user");
+                   // view.ShowMessage("Problem", "Please select a user");
                 }
             }
             else
@@ -94,22 +94,22 @@ namespace DietRecorder.Client
 
         public void ShowMeasurement()
         {
-            if (view.MeasurementGrid.SelectedItem != null)
-            {
-                Measurement selectedMeasurement = (Measurement)view.MeasurementGrid.SelectedItem;
-                measurement.SetValues(selectedMeasurement);
+            //if (view.MeasurementGrid.SelectedItem != null)
+            //{
+            //    Measurement selectedMeasurement = (Measurement)view.MeasurementGrid.SelectedItem;
+            //    measurement.SetValues(selectedMeasurement);
 
-                view.ShowCustomMeasurements(selectedMeasurement.CustomMeasurements);
-            }
+            //   // view.ShowCustomMeasurements(selectedMeasurement.CustomMeasurements);
+            //}
         }
 
         public void DeleteMeasurement()
         {
-            if (view.MeasurementGrid.SelectedItem != null)
-            {
-                dietLogic.Delete(view.MeasurementGrid.SelectedItem);
-                selectedUser.Measurements.Remove((Measurement)view.MeasurementGrid.SelectedItem);
-            }
+            //if (view.MeasurementGrid.SelectedItem != null)
+            //{
+            //    dietLogic.Delete(view.MeasurementGrid.SelectedItem);
+            //    selectedUser.Measurements.Remove((Measurement)view.MeasurementGrid.SelectedItem);
+            //}
         }
 
         private void ShowValidationFailures(List<string> validationFailures)
@@ -124,13 +124,13 @@ namespace DietRecorder.Client
                 failuresMessage.Append(failure);
             }
 
-            view.ShowMessage("Validation Problem", failuresMessage.ToString());
+           // view.ShowMessage("Validation Problem", failuresMessage.ToString());
         }
 
         public void ShowUserView()
         {
-            UserListPresenter userPresenter = new UserListPresenter(new UserListView(), dietLogic, userList);
-            userPresenter.DisplayView();
+            //UserListPresenter userPresenter = new UserListPresenter(new UserListView(), dietLogic, userList);
+            //userPresenter.DisplayView();
         }
     }
 }
