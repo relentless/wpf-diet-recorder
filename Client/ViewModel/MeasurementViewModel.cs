@@ -14,7 +14,50 @@ namespace DietRecorder.Client.ViewModel
         private double weightKg;
         private string notes;
         private User selectedUser;
-        public ObservableCollection<Measurement> Measurements { get; set; }
+        //public ObservableCollection<Measurement> measurements;
+        public ObservableCollection<User> Users { get; set; }
+        public Measurement SelectedMeasurement { get; set; }
+
+        public event Action MeasurementAdded;
+        public event Action<Measurement> MeasurementRemoved;
+
+        private void NotifyMeasurementAdded()
+        {
+            if (MeasurementAdded != null)
+                MeasurementAdded.Invoke();
+        }
+
+        private void NotifyMeasurementRemoved(Measurement RemovedMeasurement)
+        {
+            if (MeasurementRemoved != null)
+                MeasurementRemoved.Invoke(RemovedMeasurement);
+        }
+
+        public MeasurementViewModel()
+        {
+            SetupCommands();
+        }
+
+        private void SetupCommands()
+        {
+            addMeasurementCommand = new DelegateCommand(AddMeasurement);
+            removeMeasurementCommand = new DelegateCommand(RemoveMeasurement);
+        }
+
+        private void AddMeasurement()
+        {
+            Measurement newMeasurement = new Measurement(measurementDate, weightKg, notes);
+            selectedUser.Measurements.Add(newMeasurement);
+            NotifyPropertyChanged("Measurements");
+            NotifyMeasurementAdded();
+        }
+
+        private void RemoveMeasurement()
+        {
+            NotifyMeasurementRemoved(SelectedMeasurement);
+            selectedUser.Measurements.Remove(SelectedMeasurement);
+            NotifyPropertyChanged("Measurements");
+        }
 
         #region Commands
         private DelegateCommand showUsersCommand;
@@ -38,6 +81,14 @@ namespace DietRecorder.Client.ViewModel
         #endregion Commands
 
         #region Properties with NotifyProperty
+        public ObservableCollection<Measurement> Measurements
+        {
+            get
+            {
+                return selectedUser.Measurements.ToObservableCollection<Measurement>();
+            }
+        }
+
         public DateTime MeasurementDate
         {
             get
@@ -98,6 +149,7 @@ namespace DietRecorder.Client.ViewModel
                 {
                     selectedUser = value;
                     NotifyPropertyChanged("SelectedUser");
+                    NotifyPropertyChanged("Measurements");
                 }
             }
         }

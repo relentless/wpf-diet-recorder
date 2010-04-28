@@ -23,41 +23,51 @@ namespace DietRecorder.Client
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            //Repository dietRepository = new Repository();
-            //DietLogic dietLogic = new DietLogic(dietRepository);
-            //DetailsListPresenter detailsListPresenter = new DetailsListPresenter(new DetailsList(), dietLogic);
-            //detailsListPresenter.DisplayView();
+        //    CustomMeasurementDefinitionViewModel definitionViewModel = new CustomMeasurementDefinitionViewModel();
+        //    definitionViewModel.MeasurementDefinitions = new ObservableCollection<CustomMeasurementDefinition>();
 
-            CustomMeasurementDefinitionViewModel definitionViewModel = new CustomMeasurementDefinitionViewModel();
-            definitionViewModel.MeasurementDefinitions = new ObservableCollection<CustomMeasurementDefinition>();
-            
-            //view.DataContext = viewModel;
+        //    UserViewModel userViewModel = new UserViewModel(definitionViewModel);
+        //    userViewModel.DefinitionViewModel = definitionViewModel;
 
-            UserViewModel userViewModel = new UserViewModel(definitionViewModel);
-            userViewModel.DefinitionViewModel = definitionViewModel;
+        //    userViewModel.Users = businessLogic.LoadUserList().ToObservableCollection<User>();
 
-            userViewModel.Users = businessLogic.LoadUserList().ToObservableCollection<User>();
+        //    userViewModel.UsersUpdated += () =>
+        //    {
+        //        IList<User> userList = new List<User>();
+        //        foreach (User user in userViewModel.Users)
+        //        {
+        //            userList.Add(user);
+        //        }
+        //        businessLogic.SaveUserList(userList);
+        //    };
 
-            userViewModel.UsersUpdated += () =>
-            {
-                IList<User> userList = new List<User>();
-                foreach (User user in userViewModel.Users)
+        //    userViewModel.UserDeleted += (user) =>
+        //    {
+        //        businessLogic.Delete(user);
+        //    };
+
+        //    UserView view = new UserView();
+        //    view.DataContext = userViewModel;
+
+        //    view.Show();
+        //    view.DefinitionView.DataContext = userViewModel.DefinitionViewModel;
+
+            MeasurementViewModel measurementVM = new MeasurementViewModel();
+            measurementVM.Users = businessLogic.LoadUserList().ToObservableCollection<User>();
+
+            measurementVM.MeasurementAdded += () =>
                 {
-                    userList.Add(user);
-                }
-                businessLogic.SaveUserList(userList);
-            };
+                    businessLogic.SaveUserList(measurementVM.Users);
+                };
 
-            userViewModel.UserDeleted += (user) =>
-            {
-                businessLogic.Delete(user);
-            };
+            measurementVM.MeasurementRemoved += (removedMeasurement) =>
+                {
+                    businessLogic.Delete(removedMeasurement);
+                };
 
-            UserView view = new UserView();
-            view.DataContext = userViewModel;
-
+            MeasurementView view = new MeasurementView();
+            view.DataContext = measurementVM;
             view.Show();
-            view.DefinitionView.DataContext = userViewModel.DefinitionViewModel;
         }
     }
 }
