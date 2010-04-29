@@ -5,43 +5,55 @@ using System.ComponentModel;
 using DietRecorder.Model;
 using DietRecorder.Client.Common;
 using System.Windows.Input;
+using DietRecorder.BusinessLayer;
 
 namespace DietRecorder.Client.ViewModel
 {
     class MeasurementViewModel: INotifyPropertyChanged
     {
+        private IDietLogic dietLogic;
         private DateTime measurementDate;
         private double weightKg;
         private string notes;
         private User selectedUser;
-        //public ObservableCollection<Measurement> measurements;
-        public ObservableCollection<User> Users { get; set; }
-        public Measurement SelectedMeasurement { get; set; }
+        private IList<User> users;
 
-        public event Action MeasurementAdded;
-        public event Action<Measurement> MeasurementRemoved;
+        public event Action ShowUserScreen;
 
-        private void NotifyMeasurementAdded()
+        public MeasurementViewModel(IDietLogic dietLogic)
         {
-            if (MeasurementAdded != null)
-                MeasurementAdded.Invoke();
-        }
-
-        private void NotifyMeasurementRemoved(Measurement RemovedMeasurement)
-        {
-            if (MeasurementRemoved != null)
-                MeasurementRemoved.Invoke(RemovedMeasurement);
-        }
-
-        public MeasurementViewModel()
-        {
+            this.dietLogic = dietLogic;
             SetupCommands();
+            LoadUsers();
+        }
+
+        private void LoadUsers()
+        {
+            users = dietLogic.LoadUserList();
+            NotifyPropertyChanged("Users");
         }
 
         private void SetupCommands()
         {
             addMeasurementCommand = new DelegateCommand(AddMeasurement);
             removeMeasurementCommand = new DelegateCommand(RemoveMeasurement);
+            showUsersCommand = new DelegateCommand(ShowUsers);
+        }
+
+        private void ShowUsers()
+        {
+            if (ShowUserScreen != null)
+                ShowUserScreen.Invoke();
+        }
+
+        private void SaveMeasurements()
+        {
+            dietLogic.SaveUserList(users);
+        }
+
+        private void RemoveMeasurement(Measurement RemovedMeasurement)
+        {
+            dietLogic.Delete(RemovedMeasurement);
         }
 
         private void AddMeasurement()
@@ -49,12 +61,12 @@ namespace DietRecorder.Client.ViewModel
             Measurement newMeasurement = new Measurement(measurementDate, weightKg, notes);
             selectedUser.Measurements.Add(newMeasurement);
             NotifyPropertyChanged("Measurements");
-            NotifyMeasurementAdded();
+            SaveMeasurements();
         }
 
         private void RemoveMeasurement()
         {
-            NotifyMeasurementRemoved(SelectedMeasurement);
+            RemoveMeasurement(SelectedMeasurement);
             selectedUser.Measurements.Remove(SelectedMeasurement);
             NotifyPropertyChanged("Measurements");
         }
@@ -80,7 +92,18 @@ namespace DietRecorder.Client.ViewModel
         }
         #endregion Commands
 
-        #region Properties with NotifyProperty
+        #region Properties
+
+        public Measurement SelectedMeasurement { get; set; }
+
+        public ObservableCollection<User> Users
+        {
+            get
+            {
+                return users.ToObservableCollection<User>();
+            }
+        }
+
         public ObservableCollection<Measurement> Measurements
         {
             get
@@ -153,7 +176,7 @@ namespace DietRecorder.Client.ViewModel
                 }
             }
         }
-        #endregion Properties with NotifyProperty
+        #endregion Properties
 
         #region Notify Property Stuff
         public event PropertyChangedEventHandler PropertyChanged;

@@ -4,7 +4,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using DietRecorder.Model;
 using DietRecorder.Client.Common;
-using DietRecorder.DataAccess;
+//using DietRecorder.DataAccess;
+using DietRecorder.BusinessLayer;
 using System.Windows.Input;
 using System.Linq;
 
@@ -12,16 +13,28 @@ namespace DietRecorder.Client.ViewModel
 {
     class UserViewModel: INotifyPropertyChanged
     {
-        private readonly IRepository repository;
+        //private readonly IRepository repository;
+        private IDietLogic dietLogic;
         private CustomMeasurementDefinitionViewModel definitionViewModel;
         private User selectedUser;
         private string name;
         private ViewMode viewMode;
         public ObservableCollection<User> Users { get; set; }
-        public int someVal { get; set; }
 
-        public event Action UsersUpdated;
-        public event Action<User> UserDeleted;
+        public UserViewModel(IDietLogic DietLogic, CustomMeasurementDefinitionViewModel customMeasurementDefinitionViewModel)
+        {
+            this.dietLogic = DietLogic;
+            LoadUsers();
+            SetupCommands();
+            DefinitionViewModel = customMeasurementDefinitionViewModel;
+            
+            Mode = ViewMode.View;
+        }
+
+        private void LoadUsers()
+        {
+            Users = dietLogic.LoadUserList().ToObservableCollection<User>();
+        }
 
         #region Commands
         private DelegateCommand addUserCommand;
@@ -155,15 +168,6 @@ namespace DietRecorder.Client.ViewModel
         }
         #endregion Properties with NotifyProperty
 
-        public UserViewModel(CustomMeasurementDefinitionViewModel customMeasurementDefinitionViewModel)
-        {
-            SetupCommands();
-            //DefinitionViewModel = customMeasurementDefinitionViewModel;
-            Mode = ViewMode.View;
-
-            someVal = 15;
-        }
-
         private void SetupCommands()
         {
             addUserCommand = new DelegateCommand(AddUser);
@@ -190,14 +194,14 @@ namespace DietRecorder.Client.ViewModel
             Mode = ViewMode.View;
             definitionViewModel.ResetContents();
             SelectedUser = newUser;
-            NotifyUsersUpdated();
+            SaveUsers();
         }
 
         private void DeleteUser()
         {
             if (SelectedUser != null)
             {
-                NotifyUserDeleted(selectedUser);
+                DeleteUser(selectedUser);
                 Users.Remove(selectedUser);
                 SelectFirstUser();
             }
@@ -225,20 +229,14 @@ namespace DietRecorder.Client.ViewModel
             }
         }
 
-        private void NotifyUsersUpdated()
+        private void SaveUsers()
         {
-            if (UsersUpdated != null)
-            {
-                UsersUpdated.Invoke();
-            }
+            dietLogic.SaveUserList(Users);
         }
 
-        private void NotifyUserDeleted(User DeletedUser)
+        private void DeleteUser(User DeletedUser)
         {
-            if (UserDeleted != null)
-            {
-                UserDeleted.Invoke(DeletedUser);
-            }
+            dietLogic.Delete(DeletedUser);
         }
     }
 }
