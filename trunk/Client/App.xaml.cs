@@ -23,46 +23,15 @@ namespace DietRecorder.Client
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-        //    CustomMeasurementDefinitionViewModel definitionViewModel = new CustomMeasurementDefinitionViewModel();
-        //    definitionViewModel.MeasurementDefinitions = new ObservableCollection<CustomMeasurementDefinition>();
+            MeasurementViewModel measurementVM = new MeasurementViewModel(businessLogic);
 
-        //    UserViewModel userViewModel = new UserViewModel(definitionViewModel);
-        //    userViewModel.DefinitionViewModel = definitionViewModel;
-
-        //    userViewModel.Users = businessLogic.LoadUserList().ToObservableCollection<User>();
-
-        //    userViewModel.UsersUpdated += () =>
-        //    {
-        //        IList<User> userList = new List<User>();
-        //        foreach (User user in userViewModel.Users)
-        //        {
-        //            userList.Add(user);
-        //        }
-        //        businessLogic.SaveUserList(userList);
-        //    };
-
-        //    userViewModel.UserDeleted += (user) =>
-        //    {
-        //        businessLogic.Delete(user);
-        //    };
-
-        //    UserView view = new UserView();
-        //    view.DataContext = userViewModel;
-
-        //    view.Show();
-        //    view.DefinitionView.DataContext = userViewModel.DefinitionViewModel;
-
-            MeasurementViewModel measurementVM = new MeasurementViewModel();
-            measurementVM.Users = businessLogic.LoadUserList().ToObservableCollection<User>();
-
-            measurementVM.MeasurementAdded += () =>
+            measurementVM.ShowUserScreen += () =>
                 {
-                    businessLogic.SaveUserList(measurementVM.Users);
-                };
-
-            measurementVM.MeasurementRemoved += (removedMeasurement) =>
-                {
-                    businessLogic.Delete(removedMeasurement);
+                    UserViewModel userVM = new UserViewModel(businessLogic, new CustomMeasurementDefinitionViewModel());
+                    UserView userView = new UserView();
+                    userView.DataContext = userVM;
+                    userView.Show();
+                    userView.DefinitionView.DataContext = userVM.DefinitionViewModel;
                 };
 
             MeasurementView view = new MeasurementView();
