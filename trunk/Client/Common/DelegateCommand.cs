@@ -17,7 +17,9 @@ namespace DietRecorder.Client.Common
             return true;
         }
 
+#pragma warning disable 0067 // disable warning about event not being used
         public event EventHandler CanExecuteChanged;
+#pragma warning restore 0067
 
         public void Execute(object parameter)
         {

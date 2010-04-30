@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using DietRecorder.BusinessLayer;
 using DietRecorder.Model;
 using System.Windows.Input;
 using System.Text;

@@ -5,13 +5,13 @@ using System.ComponentModel;
 using DietRecorder.Model;
 using DietRecorder.Client.Common;
 using System.Windows.Input;
-using DietRecorder.BusinessLayer;
+using DietRecorder.DataAccess;
 
 namespace DietRecorder.Client.ViewModel
 {
     class MeasurementViewModel: INotifyPropertyChanged
     {
-        private IDietLogic dietLogic;
+        private IRepository repository;
         private DateTime measurementDate;
         private double weightKg;
         private string notes;
@@ -20,16 +20,16 @@ namespace DietRecorder.Client.ViewModel
 
         public event Action ShowUserScreen;
 
-        public MeasurementViewModel(IDietLogic dietLogic)
+        public MeasurementViewModel(IRepository Repository)
         {
-            this.dietLogic = dietLogic;
+            this.repository = Repository;
             SetupCommands();
             LoadUsers();
         }
 
         private void LoadUsers()
         {
-            users = dietLogic.LoadUserList();
+            users = repository.LoadUserList();
             NotifyPropertyChanged("Users");
         }
 
@@ -43,17 +43,19 @@ namespace DietRecorder.Client.ViewModel
         private void ShowUsers()
         {
             if (ShowUserScreen != null)
+            {
                 ShowUserScreen.Invoke();
+            }
         }
 
         private void SaveMeasurements()
         {
-            dietLogic.SaveUserList(users);
+            repository.SaveUserList(users);
         }
 
         private void RemoveMeasurement(Measurement RemovedMeasurement)
         {
-            dietLogic.Delete(RemovedMeasurement);
+            repository.Delete(RemovedMeasurement);
         }
 
         private void AddMeasurement()
