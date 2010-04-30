@@ -1,136 +1,142 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using DietRecorder.Model;
-using DietRecorder.BusinessLayer;
+﻿/*
+ * GC 30/04/2010
+ * Commented out as not used anymore, but I still need to
+ * copy some of the code from here to the new MVVM structure
+ * 
+ */
 
-namespace DietRecorder.Client
-{
-    public class DetailsListPresenter
-    {
-        private DetailsList view;
-        private IDietLogic dietLogic;
-        private Measurement measurement;
-        //private UserList userList;
-        private User selectedUser;
+//using System;
+//using System.Text;
+//using System.Collections.Generic;
+//using DietRecorder.Model;
 
-        public DetailsListPresenter(DetailsList view, IDietLogic logic)
-        {
-            this.view = view;
-            //view.Presenter = this;
-            this.dietLogic = logic;
+//namespace DietRecorder.Client
+//{
+//    public class DetailsListPresenter
+//    {
+//        //private DetailsList view;
+//        //private IDietLogic dietLogic;
+//        //private Measurement measurement;
+//        ////private UserList userList;
+//        //private User selectedUser;
 
-            measurement = new Measurement();
-            measurement.SetDefaultValues();
+//        //public DetailsListPresenter(DetailsList view, IDietLogic logic)
+//        //{
+//        //    this.view = view;
+//        //    //view.Presenter = this;
+//        //    this.dietLogic = logic;
 
-            LoadUserList();
-        }
+//        //    measurement = new Measurement();
+//        //    measurement.SetDefaultValues();
 
-        private void LoadUserList()
-        {
-            //userList = dietLogic.LoadUserList();
-        }
+//        //    LoadUserList();
+//        //}
 
-        public void DisplayView()
-        {
-            //view.SetUserBinding(userList);
-           // view.SetBindingForFields(measurement);
-            view.Show();
-        }
+//        //private void LoadUserList()
+//        //{
+//        //    //userList = dietLogic.LoadUserList();
+//        //}
 
-        public void LoadSelectedUser()
-        {
-            //if (view.UserCombo.SelectedItem != null)
-            //{
-            //    selectedUser = (User)view.UserCombo.SelectedItem;
-            //   // view.SetGridBinding(selectedUser.Measurements);
-            //    ShowCustomMeasurementControls();
-            //}
-            //else
-            //{
-            //    selectedUser = null;
-            //   // view.SetGridBinding(null);
-            //}
-        }
+//        //public void DisplayView()
+//        //{
+//        //    //view.SetUserBinding(userList);
+//        //   // view.SetBindingForFields(measurement);
+//        //    view.Show();
+//        //}
 
-        private void ShowCustomMeasurementControls()
-        {
-            if (selectedUser != null)
-            {
-                foreach (CustomMeasurementDefinition definition in selectedUser.Definitions)
-                {
-                   // view.AddCustomMeasurementControl(definition);
-                }
-            }
-        }
+//        //public void LoadSelectedUser()
+//        //{
+//        //    //if (view.UserCombo.SelectedItem != null)
+//        //    //{
+//        //    //    selectedUser = (User)view.UserCombo.SelectedItem;
+//        //    //   // view.SetGridBinding(selectedUser.Measurements);
+//        //    //    ShowCustomMeasurementControls();
+//        //    //}
+//        //    //else
+//        //    //{
+//        //    //    selectedUser = null;
+//        //    //   // view.SetGridBinding(null);
+//        //    //}
+//        //}
 
-        public void AddMeasurement()
-        {
-            List<string> validationFailures = measurement.GetValidationFailures();
+//        //private void ShowCustomMeasurementControls()
+//        //{
+//        //    if (selectedUser != null)
+//        //    {
+//        //        foreach (CustomMeasurementDefinition definition in selectedUser.Definitions)
+//        //        {
+//        //           // view.AddCustomMeasurementControl(definition);
+//        //        }
+//        //    }
+//        //}
 
-            if (validationFailures.Count == 0)
-            {
-                if (selectedUser != null)
-                {
-                    Measurement measurementToAdd = measurement.Clone();
-                   // measurementToAdd.CustomMeasurements = view.GetCustomMeasurements();
-                    selectedUser.Measurements.Add(measurementToAdd);
+//        //public void AddMeasurement()
+//        //{
+//        //    List<string> validationFailures = measurement.GetValidationFailures();
 
-                    //dietLogic.SaveUserList(userList);
+//        //    if (validationFailures.Count == 0)
+//        //    {
+//        //        if (selectedUser != null)
+//        //        {
+//        //            Measurement measurementToAdd = measurement.Clone();
+//        //           // measurementToAdd.CustomMeasurements = view.GetCustomMeasurements();
+//        //            selectedUser.Measurements.Add(measurementToAdd);
 
-                    measurement.SetDefaultValues();
-                    //view.ClearCustomMeasurements();
-                }
-                else
-                {
-                   // view.ShowMessage("Problem", "Please select a user");
-                }
-            }
-            else
-            {
-                ShowValidationFailures(validationFailures);
-            }
-        }
+//        //            //dietLogic.SaveUserList(userList);
 
-        public void ShowMeasurement()
-        {
-            //if (view.MeasurementGrid.SelectedItem != null)
-            //{
-            //    Measurement selectedMeasurement = (Measurement)view.MeasurementGrid.SelectedItem;
-            //    measurement.SetValues(selectedMeasurement);
+//        //            measurement.SetDefaultValues();
+//        //            //view.ClearCustomMeasurements();
+//        //        }
+//        //        else
+//        //        {
+//        //           // view.ShowMessage("Problem", "Please select a user");
+//        //        }
+//        //    }
+//        //    else
+//        //    {
+//        //        ShowValidationFailures(validationFailures);
+//        //    }
+//        //}
 
-            //   // view.ShowCustomMeasurements(selectedMeasurement.CustomMeasurements);
-            //}
-        }
+//        //public void ShowMeasurement()
+//        //{
+//        //    //if (view.MeasurementGrid.SelectedItem != null)
+//        //    //{
+//        //    //    Measurement selectedMeasurement = (Measurement)view.MeasurementGrid.SelectedItem;
+//        //    //    measurement.SetValues(selectedMeasurement);
 
-        public void DeleteMeasurement()
-        {
-            //if (view.MeasurementGrid.SelectedItem != null)
-            //{
-            //    dietLogic.Delete(view.MeasurementGrid.SelectedItem);
-            //    selectedUser.Measurements.Remove((Measurement)view.MeasurementGrid.SelectedItem);
-            //}
-        }
+//        //    //   // view.ShowCustomMeasurements(selectedMeasurement.CustomMeasurements);
+//        //    //}
+//        //}
 
-        private void ShowValidationFailures(List<string> validationFailures)
-        {
-            StringBuilder failuresMessage = new StringBuilder();
-            failuresMessage.Append("Please sort out these issues:");
-            failuresMessage.Append(Environment.NewLine);
+//        //public void DeleteMeasurement()
+//        //{
+//        //    //if (view.MeasurementGrid.SelectedItem != null)
+//        //    //{
+//        //    //    dietLogic.Delete(view.MeasurementGrid.SelectedItem);
+//        //    //    selectedUser.Measurements.Remove((Measurement)view.MeasurementGrid.SelectedItem);
+//        //    //}
+//        //}
 
-            foreach (string failure in validationFailures)
-            {
-                failuresMessage.Append(Environment.NewLine);
-                failuresMessage.Append(failure);
-            }
+//        //private void ShowValidationFailures(List<string> validationFailures)
+//        //{
+//        //    StringBuilder failuresMessage = new StringBuilder();
+//        //    failuresMessage.Append("Please sort out these issues:");
+//        //    failuresMessage.Append(Environment.NewLine);
 
-           // view.ShowMessage("Validation Problem", failuresMessage.ToString());
-        }
+//        //    foreach (string failure in validationFailures)
+//        //    {
+//        //        failuresMessage.Append(Environment.NewLine);
+//        //        failuresMessage.Append(failure);
+//        //    }
 
-        public void ShowUserView()
-        {
-            //UserListPresenter userPresenter = new UserListPresenter(new UserListView(), dietLogic, userList);
-            //userPresenter.DisplayView();
-        }
-    }
-}
+//        //   // view.ShowMessage("Validation Problem", failuresMessage.ToString());
+//        //}
+
+//        //public void ShowUserView()
+//        //{
+//        //    //UserListPresenter userPresenter = new UserListPresenter(new UserListView(), dietLogic, userList);
+//        //    //userPresenter.DisplayView();
+//        //}
+//    }
+//}

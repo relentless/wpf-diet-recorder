@@ -67,10 +67,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Client\DetailsList.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Client\View\CustomMeasurementDefinitionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -87,14 +83,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Client\DetailsList.xaml.cs">
-      <DependentUpon>DetailsList.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessLayer\DietLogic.cs" />
-    <Compile Include="BusinessLayer\IDietLogic.cs" />
     <Compile Include="Client\Common\CollectionExtensions.cs" />
     <Compile Include="Client\Common\DateConverter.cs" />
     <Compile Include="Client\Common\DelegateCommand.cs">
