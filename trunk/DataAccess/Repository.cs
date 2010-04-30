@@ -19,11 +19,16 @@ namespace DietRecorder.DataAccess
             database = Db4oEmbedded.OpenFile(config, "DietDB.db4o");
         }
 
+        public Repository(IObjectContainer Database)
+        {
+            this.database = Database;
+        }
+
         public IList<User> LoadUserList()
         {
             IList<User> users = database.Query<User>();
-            
-            if(users == null)
+
+            if (users == null)
                 return new List<User>();
             else
                 return users;
