@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace DietRecorder.Client.ViewModel
 {
-    class UserViewModel: INotifyPropertyChanged
+    public class UserViewModel: INotifyPropertyChanged
     {
         private readonly IRepository repository;
         private CustomMeasurementDefinitionViewModel definitionViewModel;
@@ -58,6 +58,14 @@ namespace DietRecorder.Client.ViewModel
         public ICommand CancelNewUserCommand
         {
             get { return cancelNewUserCommand; }
+        }
+
+        private void SetupCommands()
+        {
+            addUserCommand = new DelegateCommand(AddUser);
+            deleteUserCommand = new DelegateCommand(DeleteUser);
+            newUserCommand = new DelegateCommand(NewUser);
+            cancelNewUserCommand = new DelegateCommand(CancelNewUser);
         }
         #endregion Commands
 
@@ -165,14 +173,6 @@ namespace DietRecorder.Client.ViewModel
             }
         }
         #endregion Properties with NotifyProperty
-
-        private void SetupCommands()
-        {
-            addUserCommand = new DelegateCommand(AddUser);
-            deleteUserCommand = new DelegateCommand(DeleteUser);
-            newUserCommand = new DelegateCommand(NewUser);
-            cancelNewUserCommand = new DelegateCommand(CancelNewUser);
-        }
 
         private void AddUser()
         {

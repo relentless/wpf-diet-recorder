@@ -2,5 +2,5 @@
   <Target>C:\Program Files\NUnit 2.5.4\bin\net-2.0\nunit-console.exe</Target>
   <TargetWorkDir>C:\Program Files\NUnit 2.5.4\bin\net-2.0</TargetWorkDir>
   <TargetArgs>C:\Programs\wpf-diet-recorder\DietRecorder_Tests\DietRecorder_UnitTests.nunit</TargetArgs>
-  <Rule>+[*]*</Rule>
+  <Rule>+[DietRecorder]*</Rule>
 </PartCoverSettings>
