@@ -39,6 +39,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Library\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="Rhino.Mocks, Version=3.5.0.1337, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Library\Rhino.Mocks.dll</HintPath>
@@ -55,8 +58,13 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client\Common\CollectionExtensions_Tests.cs" />
+    <Compile Include="Client\ViewModel\UserViewModel_Tests.cs" />
     <Compile Include="DataAccess\Repository_Tests.cs" />
     <Compile Include="Model\User_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
