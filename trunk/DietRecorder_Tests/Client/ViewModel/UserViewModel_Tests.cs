@@ -29,20 +29,20 @@ namespace DietRecorder_Tests.Client.ViewModel
             Assert.AreEqual("Name", handler.PropertyName);
         }
 
-        [Test]
-        public void CancelNewUserCommand_Called_MakesNewUserButtonVisible()
-        {
-            // arrange
-            UserViewModel userVM = CreateUserViewModel();
-            userVM.Mode = ViewMode.Edit; // ensures button isn't visible
-            ICommand command = userVM.CancelNewUserCommand;
+        //[Test]
+        //public void CancelNewUserCommand_Called_MakesNewUserButtonVisible()
+        //{
+        //    // arrange
+        //    UserViewModel userVM = CreateUserViewModel();
+        //    userVM.Mode = ViewMode.Edit; // ensures button isn't visible
+        //    ICommand command = userVM.CancelNewUserCommand;
 
-            // act
-            command.Execute(null);
+        //    // act
+        //    command.Execute(null);
 
-            // assert
-            Assert.IsTrue(userVM.NewUserButtonsVisible);
-        }
+        //    // assert
+        //    Assert.IsTrue(userVM.NewUserButtonsVisible);
+        //}
 
         private static UserViewModel CreateUserViewModel()
         {
