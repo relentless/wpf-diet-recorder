@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client\Common\CollectionExtensions_Tests.cs" />
+    <Compile Include="Client\ViewModel\MeasurementViewModel_Tests.cs" />
     <Compile Include="Client\ViewModel\UserViewModel_Tests.cs" />
     <Compile Include="DataAccess\Repository_Tests.cs" />
     <Compile Include="Model\User_Tests.cs" />

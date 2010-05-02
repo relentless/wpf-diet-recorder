@@ -1,68 +1,68 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--This file represents the results of running a test suite-->
-<test-results name="C:\Programs\wpf-diet-recorder\DietRecorder_Tests\DietRecorder_UnitTests.nunit" total="13" errors="1" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2010-05-01" time="15:35:46">
+<test-results name="C:\Programs\wpf-diet-recorder\DietRecorder_Tests\DietRecorder_UnitTests.nunit" total="18" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2010-05-02" time="23:27:01">
   <environment nunit-version="2.5.4.10098" clr-version="2.0.50727.4927" os-version="Microsoft Windows NT 6.1.7600.0" platform="Win32NT" cwd="C:\Program Files\NUnit 2.5.4\bin\net-2.0" machine-name="ITT04506" user="gcrofto" user-domain="NETWORKS" />
   <culture-info current-culture="en-GB" current-uiculture="en-US" />
-  <test-suite type="Project" name="C:\Programs\wpf-diet-recorder\DietRecorder_Tests\DietRecorder_UnitTests.nunit" executed="True" result="Failure" success="False" time="0.845" asserts="0">
+  <test-suite type="Project" name="C:\Programs\wpf-diet-recorder\DietRecorder_Tests\DietRecorder_UnitTests.nunit" executed="True" result="Success" success="True" time="0.769" asserts="0">
     <results>
-      <test-suite type="Assembly" name="C:\Programs\wpf-diet-recorder\DietRecorder_Tests\bin\Debug\DietRecorder_Tests.dll" executed="True" result="Failure" success="False" time="0.837" asserts="0">
+      <test-suite type="Assembly" name="C:\Programs\wpf-diet-recorder\DietRecorder_Tests\bin\Debug\DietRecorder_Tests.dll" executed="True" result="Success" success="True" time="0.765" asserts="0">
         <results>
-          <test-suite type="Namespace" name="DietRecorder_Tests" executed="True" result="Failure" success="False" time="0.836" asserts="0">
+          <test-suite type="Namespace" name="DietRecorder_Tests" executed="True" result="Success" success="True" time="0.764" asserts="0">
             <results>
-              <test-suite type="Namespace" name="Client" executed="True" result="Failure" success="False" time="0.558" asserts="0">
+              <test-suite type="Namespace" name="Client" executed="True" result="Success" success="True" time="0.505" asserts="0">
                 <results>
-                  <test-suite type="Namespace" name="Common" executed="True" result="Success" success="True" time="0.082" asserts="0">
+                  <test-suite type="Namespace" name="Common" executed="True" result="Success" success="True" time="0.137" asserts="0">
                     <results>
-                      <test-suite type="TestFixture" name="CollectionExtensions_Tests" executed="True" result="Success" success="True" time="0.081" asserts="0">
+                      <test-suite type="TestFixture" name="CollectionExtensions_Tests" executed="True" result="Success" success="True" time="0.136" asserts="0">
                         <results>
-                          <test-case name="DietRecorder_Tests.Client.Common.CollectionExtensions_Tests.ToObservableCollection_CalledOnListWithMultipleObjects_CreatesCollectionWithSameObjects" executed="True" result="Success" success="True" time="0.048" asserts="4" />
+                          <test-case name="DietRecorder_Tests.Client.Common.CollectionExtensions_Tests.ToObservableCollection_CalledOnListWithMultipleObjects_CreatesCollectionWithSameObjects" executed="True" result="Success" success="True" time="0.101" asserts="4" />
                           <test-case name="DietRecorder_Tests.Client.Common.CollectionExtensions_Tests.ToObservableCollection_CalledOnListWithNoItems_CreatesEmptyCollection" executed="True" result="Success" success="True" time="0.008" asserts="2" />
-                          <test-case name="DietRecorder_Tests.Client.Common.CollectionExtensions_Tests.ToObservableCollection_CalledOnListWithOneIntger_CreatesCollectionWithSameInteger" executed="True" result="Success" success="True" time="0.003" asserts="2" />
+                          <test-case name="DietRecorder_Tests.Client.Common.CollectionExtensions_Tests.ToObservableCollection_CalledOnListWithOneIntger_CreatesCollectionWithSameInteger" executed="True" result="Success" success="True" time="0.002" asserts="2" />
                           <test-case name="DietRecorder_Tests.Client.Common.CollectionExtensions_Tests.ToObservableCollection_CalledOnListWithOneObject_CreatesCollectionWithSameObject" executed="True" result="Success" success="True" time="0.001" asserts="2" />
-                          <test-case name="DietRecorder_Tests.Client.Common.CollectionExtensions_Tests.ToObservableCollection_CalledOnNullCollection_ReturnsNull" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                          <test-case name="DietRecorder_Tests.Client.Common.CollectionExtensions_Tests.ToObservableCollection_CalledOnNullCollection_ReturnsNull" executed="True" result="Success" success="True" time="0.000" asserts="1" />
                         </results>
                       </test-suite>
                     </results>
                   </test-suite>
-                  <test-suite type="Namespace" name="ViewModel" executed="True" result="Failure" success="False" time="0.469" asserts="0">
+                  <test-suite type="Namespace" name="ViewModel" executed="True" result="Success" success="True" time="0.361" asserts="0">
                     <results>
-                      <test-suite type="TestFixture" name="UserViewModel_Tests" executed="True" result="Failure" success="False" time="0.467" asserts="0">
+                      <test-suite type="TestFixture" name="MeasurementViewModel_Tests" executed="True" result="Success" success="True" time="0.344" asserts="0">
                         <results>
-                          <test-case name="DietRecorder_Tests.Client.ViewModel.UserViewModel_Tests.CancelNewUserCommand_Called_MakesNewUserButtonVisible" executed="True" result="Error" success="False" time="0.383" asserts="0">
-                            <failure>
-                              <message><![CDATA[System.NullReferenceException : Object reference not set to an instance of an object.]]></message>
-                              <stack-trace><![CDATA[at DietRecorder.Client.ViewModel.UserViewModel.SelectFirstUser() in C:\Programs\wpf-diet-recorder\Client\ViewModel\UserViewModel.cs:line 224
-at DietRecorder.Client.ViewModel.UserViewModel.CancelNewUser() in C:\Programs\wpf-diet-recorder\Client\ViewModel\UserViewModel.cs:line 219
-at DietRecorder.Client.Common.DelegateCommand.Execute(Object parameter) in C:\Programs\wpf-diet-recorder\Client\Common\DelegateCommand.cs:line 26
-at DietRecorder_Tests.Client.ViewModel.UserViewModel_Tests.CancelNewUserCommand_Called_MakesNewUserButtonVisible() in C:\Programs\wpf-diet-recorder\DietRecorder_Tests\Client\ViewModel\UserViewModel_Tests.cs:line 41
-]]></stack-trace>
-                            </failure>
-                          </test-case>
-                          <test-case name="DietRecorder_Tests.Client.ViewModel.UserViewModel_Tests.Name_Set_NotifiesChanged" executed="True" result="Success" success="True" time="0.002" asserts="1" />
+                          <test-case name="DietRecorder_Tests.Client.ViewModel.MeasurementViewModel_Tests.AddMeasurementCommand_Called_AddsSelectedMeasurementToMeasurementList" executed="True" result="Success" success="True" time="0.323" asserts="2" />
+                          <test-case name="DietRecorder_Tests.Client.ViewModel.MeasurementViewModel_Tests.Constructor_Called_SetsSelectedUserToFirstUserInList" executed="True" result="Success" success="True" time="0.002" asserts="2" />
+                          <test-case name="DietRecorder_Tests.Client.ViewModel.MeasurementViewModel_Tests.Constructor_Called_SetsUserList" executed="True" result="Success" success="True" time="0.001" asserts="2" />
+                          <test-case name="DietRecorder_Tests.Client.ViewModel.MeasurementViewModel_Tests.NewMeasurementCommand_Called_SetsSelectedMeasurementToNewMeasurement" executed="True" result="Success" success="True" time="0.004" asserts="1" />
+                          <test-case name="DietRecorder_Tests.Client.ViewModel.MeasurementViewModel_Tests.RemoveMeasurementCommand_Called_RemovesSelectedMeasurementFromMeasurementList" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                          <test-case name="DietRecorder_Tests.Client.ViewModel.MeasurementViewModel_Tests.SelectedUser_Set_SetsMeasurementList" executed="True" result="Success" success="True" time="0.002" asserts="2" />
+                        </results>
+                      </test-suite>
+                      <test-suite type="TestFixture" name="UserViewModel_Tests" executed="True" result="Success" success="True" time="0.003" asserts="0">
+                        <results>
+                          <test-case name="DietRecorder_Tests.Client.ViewModel.UserViewModel_Tests.Name_Set_NotifiesChanged" executed="True" result="Success" success="True" time="0.003" asserts="1" />
                         </results>
                       </test-suite>
                     </results>
                   </test-suite>
                 </results>
               </test-suite>
-              <test-suite type="Namespace" name="DataAccess" executed="True" result="Success" success="True" time="0.256" asserts="0">
+              <test-suite type="Namespace" name="DataAccess" executed="True" result="Success" success="True" time="0.249" asserts="0">
                 <results>
-                  <test-suite type="TestFixture" name="Repository_Tests" executed="True" result="Success" success="True" time="0.254" asserts="0">
+                  <test-suite type="TestFixture" name="Repository_Tests" executed="True" result="Success" success="True" time="0.248" asserts="0">
                     <results>
-                      <test-case name="DietRecorder_Tests.DataAccess.Repository_Tests.LoadUserList_NoUsersInDatabase_ReturnsEmptyList" executed="True" result="Success" success="True" time="0.233" asserts="1" />
-                      <test-case name="DietRecorder_Tests.DataAccess.Repository_Tests.LoadUserList_UsersInDatabase_ReturnsUsers" executed="True" result="Success" success="True" time="0.019" asserts="1" />
+                      <test-case name="DietRecorder_Tests.DataAccess.Repository_Tests.LoadUserList_NoUsersInDatabase_ReturnsEmptyList" executed="True" result="Success" success="True" time="0.245" asserts="1" />
+                      <test-case name="DietRecorder_Tests.DataAccess.Repository_Tests.LoadUserList_UsersInDatabase_ReturnsUsers" executed="True" result="Success" success="True" time="0.003" asserts="1" />
                     </results>
                   </test-suite>
                 </results>
               </test-suite>
-              <test-suite type="Namespace" name="Model" executed="True" result="Success" success="True" time="0.014" asserts="0">
+              <test-suite type="Namespace" name="Model" executed="True" result="Success" success="True" time="0.004" asserts="0">
                 <results>
-                  <test-suite type="TestFixture" name="User_Tests" executed="True" result="Success" success="True" time="0.012" asserts="0">
+                  <test-suite type="TestFixture" name="User_Tests" executed="True" result="Success" success="True" time="0.004" asserts="0">
                     <results>
                       <test-case name="DietRecorder_Tests.Model.User_Tests.GetValidationFailures_NameHas40Characters_NoMessageReturned" executed="True" result="Success" success="True" time="0.002" asserts="1" />
-                      <test-case name="DietRecorder_Tests.Model.User_Tests.GetValidationFailures_NameHas41Characters_ReturnsCorrectMessage" executed="True" result="Success" success="True" time="0.002" asserts="2" />
-                      <test-case name="DietRecorder_Tests.Model.User_Tests.GetValidationFailures_NameHasOneCharacter_NoMessageReturned" executed="True" result="Success" success="True" time="0.000" asserts="1" />
-                      <test-case name="DietRecorder_Tests.Model.User_Tests.GetValidationFailures_NameHasZeroCharacters_ReturnsCorrectMessage" executed="True" result="Success" success="True" time="0.001" asserts="2" />
+                      <test-case name="DietRecorder_Tests.Model.User_Tests.GetValidationFailures_NameHas41Characters_ReturnsCorrectMessage" executed="True" result="Success" success="True" time="0.001" asserts="2" />
+                      <test-case name="DietRecorder_Tests.Model.User_Tests.GetValidationFailures_NameHasOneCharacter_NoMessageReturned" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                      <test-case name="DietRecorder_Tests.Model.User_Tests.GetValidationFailures_NameHasZeroCharacters_ReturnsCorrectMessage" executed="True" result="Success" success="True" time="0.000" asserts="2" />
                     </results>
                   </test-suite>
                 </results>

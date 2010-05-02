@@ -38,6 +38,8 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -47,19 +49,22 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Column="0">
                     <TextBlock Text="Date"/>
-                    <TextBox Name="DateText" Text="{Binding Path=MeasurementDate, Converter={StaticResource DateConverter}}"/>
+                    <TextBox Name="DateText" Text="{Binding Path=SelectedMeasurement.Date, Converter={StaticResource DateConverter}}"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1">
                     <TextBlock Text="Weight Kg"/>
-                    <TextBox Name="WeightText" Text="{Binding Path=WeightKg}"/>
+                    <TextBox Name="WeightText" Text="{Binding Path=SelectedMeasurement.WeightKg}"/>
                 </StackPanel>
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Notes"/>
                 <TextBox Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" Name="NotesText" 
-                         Text="{Binding Path=Notes}"
+                         Text="{Binding Path=SelectedMeasurement.Notes}"
                          Height="50"
                          AcceptsReturn="True"/>
-                <Button Grid.Column="2" Grid.RowSpan="3" Content="+" Width="40" Name="AddButton" Command="{Binding AddMeasurementCommand}"/>
-                <Button Grid.Column="3" Grid.RowSpan="3" Content="-" Width="40" Name="DeleteButton" Command="{Binding RemoveMeasurementCommand}"/>
+                <Button Grid.Column="2" Grid.RowSpan="3" Content="new" Width="40" Name="NewButton" Command="{Binding NewMeasurementCommand}"/>
+                <Button Grid.Column="3" Grid.RowSpan="3" Content="delete" Width="40" Name="DeleteButton" Command="{Binding RemoveMeasurementCommand}"/>
+                <Button Grid.Column="4" Grid.RowSpan="3" Content="ok" Width="40" Name="AddButton" Command="{Binding AddMeasurementCommand}"/>
+                <Button Grid.Column="5" Grid.RowSpan="3" Content="cancel" Width="40" Name="CancelButton" Command="{Binding CancelNewMeasurementCommand}"/>
+
                 <StackPanel Grid.Row="4" Name="CustomMeasurementsPanel" Grid.ColumnSpan="4" Width="Auto">
                 </StackPanel>
             </Grid>
