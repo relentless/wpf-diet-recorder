@@ -20,7 +20,7 @@ namespace DietRecorder_Tests.Client.ViewModel
             UserViewModel userVM = CreateUserViewModel();
 
             PropertyChangedTestHandler handler = new PropertyChangedTestHandler();
-            userVM.PropertyChanged += handler.HandlepropertyChanged;
+            userVM.PropertyChanged += handler.HandlePropertyChanged;
 
             // act
             userVM.Name = "test";
@@ -51,13 +51,13 @@ namespace DietRecorder_Tests.Client.ViewModel
         }
     }
 
-    internal class PropertyChangedTestHandler
-    {
-        internal string PropertyName = string.Empty;
+    //internal class PropertyChangedTestHandler
+    //{
+    //    internal string PropertyName = string.Empty;
 
-        internal void HandlepropertyChanged(object sender, PropertyChangedEventArgs eventArgs)
-        {
-            PropertyName = eventArgs.PropertyName;
-        }
-    }
+    //    internal void HandlepropertyChanged(object sender, PropertyChangedEventArgs eventArgs)
+    //    {
+    //        PropertyName = eventArgs.PropertyName;
+    //    }
+    //}
 }

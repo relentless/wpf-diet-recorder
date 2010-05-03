@@ -15,6 +15,7 @@ namespace DietRecorder.Client.ViewModel
         //private DateTime measurementDate;
         //private double weightKg;
         //private string notes;
+        private Boolean viewMode;
         private Measurement selectedMeasurement;
         private User selectedUser;
         private IList<User> users;
@@ -24,6 +25,7 @@ namespace DietRecorder.Client.ViewModel
         public MeasurementViewModel(IRepository Repository)
         {
             this.repository = Repository;
+            ViewMode = true;
             SetupCommands();
             LoadUsers();
         }
@@ -40,6 +42,13 @@ namespace DietRecorder.Client.ViewModel
             if (users != null)
                 if(users.Count > 0)
                     SelectedUser = users[0];
+        }
+
+        private void SelectFirstMeasurement()
+        {
+            if (Measurements != null)
+                if (Measurements.Count > 0)
+                    SelectedMeasurement = Measurements[0];
         }
 
         private void SetupCommands()
@@ -59,26 +68,21 @@ namespace DietRecorder.Client.ViewModel
             }
         }
 
-        private void SaveMeasurements()
-        {
-            repository.SaveUserList(users);
-        }
-
-        private void RemoveMeasurement(Measurement RemovedMeasurement)
-        {
-            repository.Delete(RemovedMeasurement);
-        }
-
         private void NewMeasurement()
         {
             SelectedMeasurement = null;// to de-select the selected list item
-            SelectedMeasurement = new Measurement();
+            Measurement newMeasurement = new Measurement();
+            newMeasurement.SetDefaultValues();
+            SelectedMeasurement = newMeasurement;
+            ViewMode = false;
         }
 
         private void RemoveMeasurement()
         {
-            //RemoveMeasurement(SelectedMeasurement);
+            repository.Delete(SelectedMeasurement);
             selectedUser.Measurements.Remove(SelectedMeasurement);
+            repository.SaveUserList(users);
+            SelectFirstMeasurement();
             NotifyPropertyChanged("Measurements");
         }
 
@@ -86,12 +90,14 @@ namespace DietRecorder.Client.ViewModel
         {
             selectedUser.Measurements.Add(SelectedMeasurement);
             NotifyPropertyChanged("Measurements");
-            //SaveMeasurements();
+            repository.SaveUserList(users);
+            ViewMode = true;
         }
 
         private void CancelNewMeasurement()
         {
-
+            SelectFirstMeasurement();
+            ViewMode = true;
         }
 
         #region Commands
@@ -140,6 +146,22 @@ namespace DietRecorder.Client.ViewModel
             {
                 selectedMeasurement = value;
                 NotifyPropertyChanged("SelectedMeasurement");
+            }
+        }
+
+        public bool ViewMode
+        {
+            get
+            {
+                return viewMode;
+            }
+            set
+            {
+                if (value != viewMode)
+                {
+                    viewMode = value;
+                    NotifyPropertyChanged("ViewMode");
+                }
             }
         }
 
@@ -230,6 +252,7 @@ namespace DietRecorder.Client.ViewModel
                 if (value != selectedUser)
                 {
                     selectedUser = value;
+                    SelectFirstMeasurement();
                     NotifyPropertyChanged("SelectedUser");
                     NotifyPropertyChanged("Measurements");
                 }

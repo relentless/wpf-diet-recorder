@@ -5,6 +5,8 @@
     Title="Diet Recorder" Height="400" Width="450">
     <Window.Resources>
         <converters:DateConverter x:Key="DateConverter"/>
+        <converters:VisibleConverter x:Key="VisibleConverter"/>
+        <converters:ReverseVisibleCoverter x:Key="ReverseVisibleConverter"/>
     </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
@@ -38,8 +40,6 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -60,10 +60,10 @@
                          Text="{Binding Path=SelectedMeasurement.Notes}"
                          Height="50"
                          AcceptsReturn="True"/>
-                <Button Grid.Column="2" Grid.RowSpan="3" Content="new" Width="40" Name="NewButton" Command="{Binding NewMeasurementCommand}"/>
-                <Button Grid.Column="3" Grid.RowSpan="3" Content="delete" Width="40" Name="DeleteButton" Command="{Binding RemoveMeasurementCommand}"/>
-                <Button Grid.Column="4" Grid.RowSpan="3" Content="ok" Width="40" Name="AddButton" Command="{Binding AddMeasurementCommand}"/>
-                <Button Grid.Column="5" Grid.RowSpan="3" Content="cancel" Width="40" Name="CancelButton" Command="{Binding CancelNewMeasurementCommand}"/>
+                <Button Grid.Column="2" Grid.RowSpan="3" Content="new" Width="40" Name="NewButton" Command="{Binding NewMeasurementCommand}" Visibility="{Binding ViewMode, Converter={StaticResource VisibleConverter}}"/>
+                <Button Grid.Column="3" Grid.RowSpan="3" Content="delete" Width="40" Name="DeleteButton" Command="{Binding RemoveMeasurementCommand}" Visibility="{Binding ViewMode, Converter={StaticResource VisibleConverter}}"/>
+                <Button Grid.Column="2" Grid.RowSpan="3" Content="ok" Width="40" Name="AddButton" Command="{Binding AddMeasurementCommand}" Visibility="{Binding ViewMode, Converter={StaticResource ReverseVisibleConverter}}"/>
+                <Button Grid.Column="3" Grid.RowSpan="3" Content="cancel" Width="40" Name="CancelButton" Command="{Binding CancelNewMeasurementCommand}" Visibility="{Binding ViewMode, Converter={StaticResource ReverseVisibleConverter}}"/>
 
                 <StackPanel Grid.Row="4" Name="CustomMeasurementsPanel" Grid.ColumnSpan="4" Width="Auto">
                 </StackPanel>
