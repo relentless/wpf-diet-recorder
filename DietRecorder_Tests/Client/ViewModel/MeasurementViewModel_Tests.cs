@@ -46,16 +46,24 @@ namespace DietRecorder_Tests.Client.ViewModel
         }
 
         [Test]
+        public void Constructor_Called_SetsViewModeTrue()
+        {
+            // arrange
+
+            // act
+            MeasurementViewModel measurementVM = CreateMeasurementViewModelWithUser();
+
+            // assert
+            Assert.IsTrue(measurementVM.ViewMode);
+        }
+
+        [Test]
         public void SelectedUser_Set_SetsMeasurementList()
         {
             // arrange
             Measurement measurement1 = new Measurement();
             Measurement measurement2 = new Measurement();
-
-            User user = new User()
-            {
-                Measurements = new List<Measurement>() { measurement1, measurement2 }
-            };
+            User user = CreateUserWithMeasurements(measurement1, measurement2);
 
             MeasurementViewModel measurementVM = new MeasurementViewModel(MockRepository.GenerateStub<IRepository>());
 
@@ -65,6 +73,21 @@ namespace DietRecorder_Tests.Client.ViewModel
             // assert
             Assert.Contains(measurement1, measurementVM.Measurements);
             Assert.Contains(measurement2, measurementVM.Measurements);
+        }
+
+        [Test]
+        public void SelectedUser_Set_SelectsFirstMeasurementInList()
+        {
+            // arrange
+            Measurement measurement1 = new Measurement();
+            User user = CreateUserWithMeasurements(measurement1, new Measurement());
+            MeasurementViewModel measurementVM = new MeasurementViewModel(MockRepository.GenerateStub<IRepository>());
+
+            // act
+            measurementVM.SelectedUser = user;
+
+            // assert
+            Assert.AreEqual(measurement1, measurementVM.SelectedMeasurement);
         }
 
         //[Test]
@@ -124,6 +147,20 @@ namespace DietRecorder_Tests.Client.ViewModel
         }
 
         [Test]
+        public void NewMeasurementCommand_Called_SetsViewModeFalse()
+        {
+            // arrange
+            MeasurementViewModel measurementVM = CreateMeasurementViewModelWithUser();
+            measurementVM.ViewMode = true;
+
+            // act
+            measurementVM.NewMeasurementCommand.Execute(null);
+
+            // assert
+            Assert.IsFalse(measurementVM.ViewMode);
+        }
+
+        [Test]
         public void AddMeasurementCommand_Called_AddsSelectedMeasurementToMeasurementList()
         {
             // arrange
@@ -140,15 +177,96 @@ namespace DietRecorder_Tests.Client.ViewModel
         }
 
         [Test]
+        public void AddMeasurementCommand_Called_SavesSelectedMeasurementToRepository()
+        {
+            // arrange
+            IRepository repository = CreateRepositoryWithUsers(new User());
+            MeasurementViewModel measurementVM = new MeasurementViewModel(repository);
+            Measurement measurement = new Measurement();
+            measurementVM.SelectedMeasurement = measurement;
+
+            // act
+            measurementVM.AddMeasurementCommand.Execute(null);
+
+            // assert
+            List<object[]> parameterList = (List<object[]>)repository.GetArgumentsForCallsMadeOn(x => x.SaveUserList(null));
+            List<User> savedUserList = (List<User>)parameterList[0][0];
+            Assert.AreEqual(measurement, savedUserList[0].Measurements[0]);
+        }
+
+        [Test]
+        public void AddMeasurementCommand_Called_SetsViewModeTrue()
+        {
+            // arrange
+            MeasurementViewModel measurementVM = CreateMeasurementViewModelWithUser();
+            measurementVM.ViewMode = false;
+
+            // act
+            measurementVM.AddMeasurementCommand.Execute(null);
+
+            // assert
+            Assert.IsTrue(measurementVM.ViewMode);
+        }
+
+        [Test]
+        public void AddMeasurementCommand_Called_NotifiesMeasurementsChanged()
+        {
+            // arrange
+            MeasurementViewModel measurementVM = CreateMeasurementViewModelWithUser();
+
+            PropertyChangedTestHandler handler = new PropertyChangedTestHandler();
+            measurementVM.PropertyChanged += handler.HandlePropertyChanged;
+
+            // act
+            measurementVM.AddMeasurementCommand.Execute(null);
+
+            // assert
+            Assert.AreEqual("Measurements", handler.PropertyName);
+        }
+
+        [Test]
         public void RemoveMeasurementCommand_Called_RemovesSelectedMeasurementFromMeasurementList()
         {
             // arrange
-            Measurement measurement1 = new Measurement();
+            Measurement measurement = new Measurement();
+            User user = CreateUserWithMeasurements(measurement);
 
-            User user = new User()
-            {
-                Measurements = new List<Measurement>() { measurement1 }
-            };
+            MeasurementViewModel measurementVM = new MeasurementViewModel(CreateRepositoryWithUsers(user));
+            measurementVM.SelectedMeasurement = measurement;
+
+            // act
+            measurementVM.RemoveMeasurementCommand.Execute(null);
+
+            // assert
+            Assert.AreEqual(0, measurementVM.Measurements.Count);
+        }
+
+        [Test]
+        public void RemoveMeasurementCommand_Called_DeletesSelectedMeasurementInRepository()
+        {
+            // arrange
+            Measurement measurement = new Measurement();
+
+            IRepository repository = CreateRepositoryWithUsers(new User());
+            MeasurementViewModel measurementVM = new MeasurementViewModel(repository);
+            measurementVM.SelectedMeasurement = measurement;
+
+            // act
+            measurementVM.RemoveMeasurementCommand.Execute(null);
+
+            // assert
+            List<object[]> parameterList = (List<object[]>)repository.GetArgumentsForCallsMadeOn(x => x.Delete(null));
+            object deletedObject = parameterList[0][0];
+            Assert.AreEqual(measurement, deletedObject);
+        }
+
+        [Test]
+        public void RemoveMeasurementCommand_Called_SelectsFirstMeasurementInList()
+        {
+            // arrange
+            Measurement measurement1 = new Measurement();
+            Measurement measurement2 = new Measurement();
+            User user = CreateUserWithMeasurements(measurement1, measurement2);
 
             MeasurementViewModel measurementVM = new MeasurementViewModel(CreateRepositoryWithUsers(user));
             measurementVM.SelectedMeasurement = measurement1;
@@ -157,7 +275,38 @@ namespace DietRecorder_Tests.Client.ViewModel
             measurementVM.RemoveMeasurementCommand.Execute(null);
 
             // assert
-            Assert.AreEqual(0, measurementVM.Measurements.Count);
+            Assert.AreEqual(measurement2, measurementVM.SelectedMeasurement);
+        }
+
+        [Test]
+        public void CancelNewMeasurementCommand_Called_SelectsFirstMeasurementInList()
+        {
+            // arrange
+            Measurement measurement1 = new Measurement();
+            User user = CreateUserWithMeasurements(measurement1);
+
+            MeasurementViewModel measurementVM = new MeasurementViewModel(CreateRepositoryWithUsers(user));
+            measurementVM.SelectedMeasurement = null;
+
+            // act
+            measurementVM.CancelNewMeasurementCommand.Execute(null);
+
+            // assert
+            Assert.AreEqual(measurement1, measurementVM.SelectedMeasurement);
+        }
+
+        [Test]
+        public void CancelNewMeasurementCommand_Called_SetsViewModeTrue()
+        {
+            // arrange
+            MeasurementViewModel measurementVM = CreateMeasurementViewModelWithUser();
+            measurementVM.ViewMode = false;
+
+            // act
+            measurementVM.CancelNewMeasurementCommand.Execute(null);
+
+            // assert
+            Assert.IsTrue(measurementVM.ViewMode);
         }
 
         private static MeasurementViewModel CreateMeasurementViewModelWithUser()
@@ -171,6 +320,13 @@ namespace DietRecorder_Tests.Client.ViewModel
             IRepository repository = MockRepository.GenerateStub<IRepository>();
             repository.Expect(x => x.LoadUserList()).Return(usersInDatabase.ToList<User>());
             return repository;
+        }
+
+        private static User CreateUserWithMeasurements(params Measurement[] measurements)
+        {
+            User user = new User();
+            user.Measurements = measurements.ToList<Measurement>();
+            return user;
         }
     }
 }

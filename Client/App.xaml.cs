@@ -26,7 +26,9 @@ namespace DietRecorder.Client
 
             measurementVM.ShowUserScreen += () =>
                 {
-                    UserViewModel userVM = new UserViewModel(repository, new CustomMeasurementDefinitionViewModel());
+                    CustomMeasurementDefinitionViewModel definitionsVM = new CustomMeasurementDefinitionViewModel();
+                    definitionsVM.MeasurementDefinitions = new ObservableCollection<CustomMeasurementDefinition>();
+                    UserViewModel userVM = new UserViewModel(repository, definitionsVM);
                     UserView userView = new UserView();
                     userView.DataContext = userVM;
                     userView.Show();
