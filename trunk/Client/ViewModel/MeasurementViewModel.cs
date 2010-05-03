@@ -12,9 +12,6 @@ namespace DietRecorder.Client.ViewModel
     public class MeasurementViewModel: INotifyPropertyChanged
     {
         private IRepository repository;
-        //private DateTime measurementDate;
-        //private double weightKg;
-        //private string notes;
         private Boolean viewMode;
         private Measurement selectedMeasurement;
         private User selectedUser;
@@ -30,7 +27,7 @@ namespace DietRecorder.Client.ViewModel
             LoadUsers();
         }
 
-        private void LoadUsers()
+        public void LoadUsers()
         {
             users = repository.LoadUserList();
             SelectFirstUser();
@@ -96,6 +93,7 @@ namespace DietRecorder.Client.ViewModel
 
         private void CancelNewMeasurement()
         {
+            SelectedMeasurement = null;
             SelectFirstMeasurement();
             ViewMode = true;
         }
@@ -181,66 +179,6 @@ namespace DietRecorder.Client.ViewModel
             }
         }
 
-        //public DateTime MeasurementDate
-        //{
-        //    get
-        //    {
-        //        if (SelectedMeasurement != null)
-        //            return SelectedMeasurement.Date;
-        //        else
-        //            return new DateTime();
-        //    }
-        //    set
-        //    {
-        //    //    if (value != measurementDate)
-        //    //    {
-        //    //        measurementDate = value;
-        //    //        NotifyPropertyChanged("MeasurementDate");
-        //    //    }
-        //    }
-        //}
-
-        //public double WeightKg
-        //{
-        //    get
-        //    {
-        //        if (SelectedMeasurement != null)
-        //            return SelectedMeasurement.WeightKg;
-        //        else
-        //            return 0.0;
-        //        //return weightKg;
-        //    }
-        //    set
-        //    {
-        //    //    if (value != weightKg)
-        //    //    {
-        //    //        weightKg = value;
-        //    //        NotifyPropertyChanged("WeightKg");
-        //    //    }
-        //    }
-        //}
-
-        //public String Notes
-        //{
-        //    get
-        //    {
-        //        if (SelectedMeasurement != null)
-        //            return SelectedMeasurement.Notes;
-        //        else
-        //            return string.Empty;
-
-        //        //return notes;
-        //    }
-        //    set
-        //    {
-        //    //    if (value != notes)
-        //    //    {
-        //    //        notes = value;
-        //    //        NotifyPropertyChanged("Notes");
-        //    //    }
-        //    }
-        //}
-
         public User SelectedUser
         {
             get
@@ -252,7 +190,10 @@ namespace DietRecorder.Client.ViewModel
                 if (value != selectedUser)
                 {
                     selectedUser = value;
-                    SelectFirstMeasurement();
+
+                    if(selectedUser != null)
+                        SelectFirstMeasurement();
+
                     NotifyPropertyChanged("SelectedUser");
                     NotifyPropertyChanged("Measurements");
                 }
