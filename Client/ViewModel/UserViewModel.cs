@@ -19,6 +19,8 @@ namespace DietRecorder.Client.ViewModel
         private ViewMode viewMode;
         public ObservableCollection<User> Users { get; set; }
 
+        public event Action UsersChanged;
+
         public UserViewModel(IRepository Repository, CustomMeasurementDefinitionViewModel customMeasurementDefinitionViewModel)
         {
             this.repository = Repository;
@@ -193,6 +195,9 @@ namespace DietRecorder.Client.ViewModel
             definitionViewModel.ResetContents();
             SelectedUser = newUser;
             SaveUsers();
+
+            if (UsersChanged != null)
+                UsersChanged.Invoke();
         }
 
         private void DeleteUser()
@@ -202,6 +207,9 @@ namespace DietRecorder.Client.ViewModel
                 DeleteUser(selectedUser);
                 Users.Remove(selectedUser);
                 SelectFirstUser();
+
+                if (UsersChanged != null)
+                    UsersChanged.Invoke();
             }
         }
 

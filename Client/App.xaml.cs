@@ -31,6 +31,7 @@ namespace DietRecorder.Client
                     UserViewModel userVM = new UserViewModel(repository, definitionsVM);
                     UserView userView = new UserView();
                     userView.DataContext = userVM;
+                    userVM.UsersChanged += measurementVM.LoadUsers;
                     userView.Show();
                     // I don't know why this has to be set after the view is shown,
                     // but it's the only way I can make it work

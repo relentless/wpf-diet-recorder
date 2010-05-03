@@ -296,6 +296,20 @@ namespace DietRecorder_Tests.Client.ViewModel
         }
 
         [Test]
+        public void CancelNewMeasurementCommand_Called_SetsSelecedMeasurementToNull()
+        {
+            // arrange
+            MeasurementViewModel measurementVM = new MeasurementViewModel(CreateRepositoryWithUsers(new User()));
+            measurementVM.SelectedMeasurement = new Measurement();
+
+            // act
+            measurementVM.CancelNewMeasurementCommand.Execute(null);
+
+            // assert
+            Assert.IsNull(measurementVM.SelectedMeasurement);
+        }
+
+        [Test]
         public void CancelNewMeasurementCommand_Called_SetsViewModeTrue()
         {
             // arrange

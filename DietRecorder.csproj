@@ -89,6 +89,7 @@
     <Compile Include="Client\Common\DateConverter.cs" />
     <Compile Include="Client\Common\DelegateCommand.cs">
     </Compile>
+    <Compile Include="Client\Common\NullBooleanConverter.cs" />
     <Compile Include="Client\Common\ReverseBooleanConverter.cs" />
     <Compile Include="Client\Common\ReverseVisibleConverter.cs" />
     <Compile Include="Client\Common\ViewMode.cs" />
