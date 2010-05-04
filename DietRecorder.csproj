@@ -89,6 +89,8 @@
     <Compile Include="Client\Common\DateConverter.cs" />
     <Compile Include="Client\Common\DelegateCommand.cs">
     </Compile>
+    <Compile Include="Client\Common\IMessageBox.cs" />
+    <Compile Include="Client\Common\MessageBoxDisplay.cs" />
     <Compile Include="Client\Common\NullBooleanConverter.cs" />
     <Compile Include="Client\Common\ReverseBooleanConverter.cs" />
     <Compile Include="Client\Common\ReverseVisibleConverter.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="Client\ViewModel\CustomMeasurementDefinitionViewModel.cs" />
     <Compile Include="Client\ViewModel\MeasurementViewModel.cs" />
     <Compile Include="Client\ViewModel\UserViewModel.cs" />
+    <Compile Include="Client\ViewModel\ViewModelBase.cs" />
     <Compile Include="Client\View\CustomMeasurementDefinitionView.xaml.cs">
       <DependentUpon>CustomMeasurementDefinitionView.xaml</DependentUpon>
     </Compile>

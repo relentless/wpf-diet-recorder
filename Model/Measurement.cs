@@ -112,7 +112,7 @@ namespace DietRecorder.Model
             }
         }
 
-        public List<string> GetValidationFailures()
+        public virtual List<string> GetValidationFailures()
         {
             List<string> validationFailures = new List<string>();
 

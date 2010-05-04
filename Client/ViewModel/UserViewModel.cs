@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using DietRecorder.Model;
 using DietRecorder.Client.Common;
 using DietRecorder.DataAccess;
@@ -10,7 +9,7 @@ using System.Linq;
 
 namespace DietRecorder.Client.ViewModel
 {
-    public class UserViewModel: INotifyPropertyChanged
+    public class UserViewModel : ViewModelBase
     {
         private readonly IRepository repository;
         private CustomMeasurementDefinitionViewModel definitionViewModel;
@@ -70,18 +69,6 @@ namespace DietRecorder.Client.ViewModel
             cancelNewUserCommand = new DelegateCommand(CancelNewUser);
         }
         #endregion Commands
-
-        #region Notify Property Stuff
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(string PropertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(PropertyName));
-            }
-        }
-        #endregion Notify Property Stuff
 
         #region Properties with NotifyProperty
         public CustomMeasurementDefinitionViewModel DefinitionViewModel 
