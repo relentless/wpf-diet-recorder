@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using DietRecorder.Model;
 using DietRecorder.Client.Common;
 using System.Windows.Input;
@@ -9,23 +8,29 @@ using DietRecorder.DataAccess;
 
 namespace DietRecorder.Client.ViewModel
 {
-    public class MeasurementViewModel: INotifyPropertyChanged
+    public class MeasurementViewModel: ViewModelBase
     {
         private IRepository repository;
         private Boolean viewMode;
         private Measurement selectedMeasurement;
         private User selectedUser;
         private IList<User> users;
+        private IMessageBoxDisplay messageBoxDisplayer;
 
         public event Action ShowUserScreen;
 
-        public MeasurementViewModel(IRepository Repository)
+        public MeasurementViewModel(IRepository Repository, IMessageBoxDisplay MessageBox)
         {
             this.repository = Repository;
+            messageBoxDisplayer = MessageBox;
             ViewMode = true;
             SetupCommands();
             LoadUsers();
         }
+
+        public MeasurementViewModel(IRepository Repository)
+            : this(Repository, new MessageBoxDisplay())
+        {}
 
         public void LoadUsers()
         {
@@ -85,10 +90,17 @@ namespace DietRecorder.Client.ViewModel
 
         private void AddMeasurement()
         {
-            selectedUser.Measurements.Add(SelectedMeasurement);
-            NotifyPropertyChanged("Measurements");
-            repository.SaveUserList(users);
-            ViewMode = true;
+            if (selectedMeasurement.GetValidationFailures().Count == 0)
+            {
+                selectedUser.Measurements.Add(SelectedMeasurement);
+                NotifyPropertyChanged("Measurements");
+                repository.SaveUserList(users);
+                ViewMode = true;
+            }
+            else
+            {
+                messageBoxDisplayer.ShowMessage("hello", "Problem");
+            }
         }
 
         private void CancelNewMeasurement()
@@ -200,17 +212,5 @@ namespace DietRecorder.Client.ViewModel
             }
         }
         #endregion Properties
-
-        #region Notify Property Stuff
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(string PropertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(PropertyName));
-            }
-        }
-        #endregion Notify Property Stuff 
     }
 }

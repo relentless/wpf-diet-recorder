@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using DietRecorder.Model;
 using System.Windows.Input;
 using System.Text;
@@ -9,7 +8,7 @@ using DietRecorder.Client.Common;
 
 namespace DietRecorder.Client.ViewModel
 {
-    public class CustomMeasurementDefinitionViewModel : INotifyPropertyChanged
+    public class CustomMeasurementDefinitionViewModel : ViewModelBase
     {
         private ObservableCollection<CustomMeasurementDefinition> measurementDefinitions;
         private string definitionName = string.Empty;
@@ -44,18 +43,6 @@ namespace DietRecorder.Client.ViewModel
             SetupCommands();
         }
         #endregion Commands
-
-        #region Notify Property Stuff
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(string PropertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(PropertyName));
-            }
-        }
-        #endregion Notify Property Stuff
 
         #region Properties with NotifyProperty
         public ObservableCollection<CustomMeasurementDefinition> MeasurementDefinitions 
