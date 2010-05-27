@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DietRecorder", "DietRecorder.csproj", "{51F16517-1152-4140-958A-EFB808FE602E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DietRecorder_Tests", "DietRecorder_Tests\DietRecorder_Tests.csproj", "{AADC0632-1DD3-409B-8B85-540B7D309CCF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{51F16517-1152-4140-958A-EFB808FE602E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51F16517-1152-4140-958A-EFB808FE602E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51F16517-1152-4140-958A-EFB808FE602E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51F16517-1152-4140-958A-EFB808FE602E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AADC0632-1DD3-409B-8B85-540B7D309CCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AADC0632-1DD3-409B-8B85-540B7D309CCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AADC0632-1DD3-409B-8B85-540B7D309CCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AADC0632-1DD3-409B-8B85-540B7D309CCF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		CodeStyleEnforcer_Active = 0
+		CodeStyleEnforcer_RulesLocation = 
+	EndGlobalSection
+EndGlobal
