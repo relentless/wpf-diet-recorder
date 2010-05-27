@@ -10,16 +10,19 @@ namespace DietRecorder.Client.ViewModel
 {
     public class MeasurementViewModel: ViewModelBase
     {
+        private DateTime _measurementDate = DateTime.MinValue;
+        private double _weightKg = 0d;
+        private string _notes = string.Empty;
         private IRepository repository;
         private Boolean viewMode;
         private Measurement selectedMeasurement;
         private User selectedUser;
         private IList<User> users;
-        private IMessageBoxDisplay messageBoxDisplayer;
+        private IMessageDisplay messageBoxDisplayer;
 
         public event Action ShowUserScreen;
 
-        public MeasurementViewModel(IRepository Repository, IMessageBoxDisplay MessageBox)
+        public MeasurementViewModel(IRepository Repository, IMessageDisplay MessageBox)
         {
             this.repository = Repository;
             messageBoxDisplayer = MessageBox;
@@ -29,7 +32,7 @@ namespace DietRecorder.Client.ViewModel
         }
 
         public MeasurementViewModel(IRepository Repository)
-            : this(Repository, new MessageBoxDisplay())
+            : this(Repository, new MessageDisplay())
         {}
 
         public void LoadUsers()
@@ -90,7 +93,7 @@ namespace DietRecorder.Client.ViewModel
 
         private void AddMeasurement()
         {
-            if (selectedMeasurement.GetValidationFailures().Count == 0)
+            if (selectedMeasurement.IsValid())
             {
                 selectedUser.Measurements.Add(SelectedMeasurement);
                 NotifyPropertyChanged("Measurements");
@@ -99,7 +102,15 @@ namespace DietRecorder.Client.ViewModel
             }
             else
             {
-                messageBoxDisplayer.ShowMessage("hello", "Problem");
+                string validationMessage = string.Empty;
+                foreach (string failureMessage in selectedMeasurement.GetValidationFailures())
+                {
+                    if (validationMessage != string.Empty)
+                        validationMessage += Environment.NewLine;
+
+                    validationMessage += failureMessage;
+                }
+                messageBoxDisplayer.ShowMessage("Validation Failure", validationMessage);
             }
         }
 
@@ -171,6 +182,54 @@ namespace DietRecorder.Client.ViewModel
                 {
                     viewMode = value;
                     NotifyPropertyChanged("ViewMode");
+                }
+            }
+        }
+
+        public string Notes
+        {
+            get
+            {
+                return _notes;
+            }
+            set
+            {
+                if (value != _notes)
+                {
+                    _notes = value;
+                    NotifyPropertyChanged("UserName");
+                }
+            }
+        }
+
+        public double WeightKg
+        {
+            get
+            {
+                return _weightKg;
+            }
+            set
+            {
+                if (value != _weightKg)
+                {
+                    _weightKg = value;
+                    NotifyPropertyChanged("WeightKg");
+                }
+            }
+        }
+
+        public DateTime MeasurementDate
+        {
+            get
+            {
+                return _measurementDate;
+            }
+            set
+            {
+                if (value != _measurementDate)
+                {
+                    _measurementDate = value;
+                    NotifyPropertyChanged("MeasurementDate");
                 }
             }
         }
