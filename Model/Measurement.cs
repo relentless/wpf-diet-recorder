@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DietRecorder.Model
 {
-    public class Measurement: INotifyPropertyChanged
+    public class Measurement: EntityBase, INotifyPropertyChanged
     {
         private DateTime date;
         private double weightKg;
@@ -112,7 +112,7 @@ namespace DietRecorder.Model
             }
         }
 
-        public virtual List<string> GetValidationFailures()
+        public override List<string> GetValidationFailures()
         {
             List<string> validationFailures = new List<string>();
 

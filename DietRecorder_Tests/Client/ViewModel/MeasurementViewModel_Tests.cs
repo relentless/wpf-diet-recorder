@@ -23,7 +23,7 @@ namespace DietRecorder_Tests.Client.ViewModel
             IRepository repository = CreateRepositoryWithUsers(userInDatabase);
             
             // act
-            MeasurementViewModel measurementVM = new MeasurementViewModel(repository, new MessageBoxDisplay());
+            MeasurementViewModel measurementVM = new MeasurementViewModel(repository, new MessageDisplay());
 
             // assert
             Assert.IsNotNull(measurementVM.Users);
@@ -38,7 +38,7 @@ namespace DietRecorder_Tests.Client.ViewModel
             IRepository repository = CreateRepositoryWithUsers(userInDatabase1, new User());
 
             // act
-            MeasurementViewModel measurementVM = new MeasurementViewModel(repository, new MessageBoxDisplay());
+            MeasurementViewModel measurementVM = new MeasurementViewModel(repository, new MessageDisplay());
 
             // assert
             Assert.IsNotNull(measurementVM.Users);
@@ -243,13 +243,13 @@ namespace DietRecorder_Tests.Client.ViewModel
         }
 
         [Test]
-        public void AddMeasurementCommand_CalledWithInvalidMeasurement_DisplaysValidationMessage()
+        public void AddMeasurementCommand_CalledWithInvalidMeasurement_DisplaysSingleValidationMessageCorrectly()
         {
             // arrange
             Measurement measurement = MockRepository.GenerateMock<Measurement>();
-            measurement.Expect(x => x.GetValidationFailures()).Return(new List<string>() {"test"});
+            measurement.Expect(x => x.GetValidationFailures()).Return(new List<string>() {"failure"}).Repeat.Any();
             IRepository repository = MockRepository.GenerateStub<IRepository>();
-            IMessageBoxDisplay messageBox = MockRepository.GenerateStub<IMessageBoxDisplay>();
+            IMessageDisplay messageBox = MockRepository.GenerateStub<IMessageDisplay>();
             MeasurementViewModel measurementVM = new MeasurementViewModel(repository, messageBox);
             measurementVM.SelectedMeasurement = measurement;
 
@@ -257,7 +257,25 @@ namespace DietRecorder_Tests.Client.ViewModel
             measurementVM.AddMeasurementCommand.Execute(null);
 
             // assert
-            messageBox.AssertWasCalled(x => x.ShowMessage(string.Empty, string.Empty));
+            messageBox.AssertWasCalled(x => x.ShowMessage("Validation Failure", "failure"));
+        }
+
+        [Test]
+        public void AddMeasurementCommand_CalledWithInvalidMeasurement_DisplaysMultipleValidationMessageCorrectly()
+        {
+            // arrange
+            Measurement measurement = MockRepository.GenerateMock<Measurement>();
+            measurement.Expect(x => x.GetValidationFailures()).Return(new List<string>() { "failure1", "failure2" }).Repeat.Any();
+            IRepository repository = MockRepository.GenerateStub<IRepository>();
+            IMessageDisplay messageBox = MockRepository.GenerateStub<IMessageDisplay>();
+            MeasurementViewModel measurementVM = new MeasurementViewModel(repository, messageBox);
+            measurementVM.SelectedMeasurement = measurement;
+
+            // act
+            measurementVM.AddMeasurementCommand.Execute(null);
+
+            // assert
+            messageBox.AssertWasCalled(x => x.ShowMessage("Validation Failure", "failure1" + Environment.NewLine + "failure2"));
         }
 
         [Test]

@@ -89,8 +89,8 @@
     <Compile Include="Client\Common\DateConverter.cs" />
     <Compile Include="Client\Common\DelegateCommand.cs">
     </Compile>
-    <Compile Include="Client\Common\IMessageBox.cs" />
-    <Compile Include="Client\Common\MessageBoxDisplay.cs" />
+    <Compile Include="Client\Common\IMessageDisplay.cs" />
+    <Compile Include="Client\Common\MessageDisplay.cs" />
     <Compile Include="Client\Common\NullBooleanConverter.cs" />
     <Compile Include="Client\Common\ReverseBooleanConverter.cs" />
     <Compile Include="Client\Common\ReverseVisibleConverter.cs" />
@@ -114,6 +114,7 @@
     <Compile Include="DataAccess\Repository.cs" />
     <Compile Include="Model\CustomMeasurement.cs" />
     <Compile Include="Model\CustomMeasurementDefinition.cs" />
+    <Compile Include="Model\EntityBase.cs" />
     <Compile Include="Model\Measurement.cs" />
     <Compile Include="Model\MeasurementType.cs" />
     <Compile Include="Model\User.cs" />
