@@ -13,7 +13,7 @@ namespace DietRecorder.Client.ViewModel
         private DateTime _measurementDate = DateTime.MinValue;
         private double _weightKg = 0d;
         private string _notes = string.Empty;
-        private IRepository repository;
+        private IRepository _repository;
         private Boolean viewMode;
         private Measurement selectedMeasurement;
         private User selectedUser;
@@ -24,7 +24,7 @@ namespace DietRecorder.Client.ViewModel
 
         public MeasurementViewModel(IRepository Repository, IMessageDisplay MessageBox)
         {
-            this.repository = Repository;
+            this._repository = Repository;
             messageBoxDisplayer = MessageBox;
             ViewMode = true;
             SetupCommands();
@@ -37,7 +37,7 @@ namespace DietRecorder.Client.ViewModel
 
         public void LoadUsers()
         {
-            users = repository.LoadUserList();
+            users = _repository.LoadUserList();
             SelectFirstUser();
             NotifyPropertyChanged("Users");
         }
@@ -84,9 +84,9 @@ namespace DietRecorder.Client.ViewModel
 
         private void RemoveMeasurement()
         {
-            repository.Delete(SelectedMeasurement);
+            _repository.Delete(SelectedMeasurement);
             selectedUser.Measurements.Remove(SelectedMeasurement);
-            repository.SaveUserList(users);
+            _repository.SaveUserList(users);
             SelectFirstMeasurement();
             NotifyPropertyChanged("Measurements");
         }
@@ -97,7 +97,7 @@ namespace DietRecorder.Client.ViewModel
             {
                 selectedUser.Measurements.Add(SelectedMeasurement);
                 NotifyPropertyChanged("Measurements");
-                repository.SaveUserList(users);
+                _repository.SaveUserList(users);
                 ViewMode = true;
             }
             else
