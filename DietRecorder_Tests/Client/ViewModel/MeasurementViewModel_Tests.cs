@@ -161,29 +161,33 @@ namespace DietRecorder_Tests.Client.ViewModel
         }
 
         [Test]
-        public void AddMeasurementCommand_Called_AddsSelectedMeasurementToMeasurementList()
+        public void AddMeasurementCommand_Called_AddsNewMeasurementToMeasurementList()
         {
             // arrange
-            Measurement measurement = CreateValidMeasurement();
             MeasurementViewModel measurementVM = CreateMeasurementViewModelWithUser();
-            measurementVM.SelectedMeasurement = measurement;
+            measurementVM.MeasurementDate = "19/03/2011";
+            measurementVM.WeightKg = "123.65";
+            measurementVM.Notes = "test";
 
             // act
             measurementVM.AddMeasurementCommand.Execute(null);
 
             // assert
             Assert.AreEqual(1, measurementVM.Measurements.Count);
-            Assert.AreEqual(measurement, measurementVM.Measurements[0]);
+            Assert.AreEqual("19/03/2011", measurementVM.Measurements[0].Date.ToShortDateString());
+            Assert.AreEqual(123.65, measurementVM.Measurements[0].WeightKg);
+            Assert.AreEqual("test", measurementVM.Measurements[0].Notes);
         }
 
         [Test]
-        public void AddMeasurementCommand_Called_SavesSelectedMeasurementToRepository()
+        public void AddMeasurementCommand_Called_SavesNewMeasurementToRepository()
         {
             // arrange
             IRepository repository = CreateRepositoryWithUsers(new User());
             MeasurementViewModel measurementVM = new MeasurementViewModel(repository);
-            Measurement measurement = CreateValidMeasurement();
-            measurementVM.SelectedMeasurement = measurement;
+            measurementVM.MeasurementDate = "19/03/2011";
+            measurementVM.WeightKg = "123.65";
+            measurementVM.Notes = "test";
 
             // act
             measurementVM.AddMeasurementCommand.Execute(null);
@@ -191,7 +195,9 @@ namespace DietRecorder_Tests.Client.ViewModel
             // assert
             List<object[]> parameterList = (List<object[]>)repository.GetArgumentsForCallsMadeOn(x => x.SaveUserList(null));
             List<User> savedUserList = (List<User>)parameterList[0][0];
-            Assert.AreEqual(measurement, savedUserList[0].Measurements[0]);
+            Assert.AreEqual("19/03/2011", savedUserList[0].Measurements[0].Date.ToShortDateString());
+            Assert.AreEqual(123.65, savedUserList[0].Measurements[0].WeightKg);
+            Assert.AreEqual("test", savedUserList[0].Measurements[0].Notes);
         }
 
         [Test]
@@ -200,7 +206,7 @@ namespace DietRecorder_Tests.Client.ViewModel
             // arrange
             MeasurementViewModel measurementVM = CreateMeasurementViewModelWithUser();
             measurementVM.ViewMode = false;
-            measurementVM.SelectedMeasurement = CreateValidMeasurement();
+            SetValidMeasurementFields(measurementVM);
 
             // act
             measurementVM.AddMeasurementCommand.Execute(null);
@@ -217,7 +223,7 @@ namespace DietRecorder_Tests.Client.ViewModel
 
             PropertyChangedTestHandler handler = new PropertyChangedTestHandler();
             measurementVM.PropertyChanged += handler.HandlePropertyChanged;
-            measurementVM.SelectedMeasurement = CreateValidMeasurement();
+            SetValidMeasurementFields(measurementVM);
 
             // act
             measurementVM.AddMeasurementCommand.Execute(null);
@@ -227,6 +233,7 @@ namespace DietRecorder_Tests.Client.ViewModel
         }
 
         [Test]
+        [Ignore("TODO: Use factory for model so we can test this")]
         public void AddMeasurementCommand_Called_ChecksMeasurementForValidationErrors()
         {
             // arrange
@@ -243,6 +250,7 @@ namespace DietRecorder_Tests.Client.ViewModel
         }
 
         [Test]
+        [Ignore("TODO: Use factory for model so we can test this")]
         public void AddMeasurementCommand_CalledWithInvalidMeasurement_DisplaysSingleValidationMessageCorrectly()
         {
             // arrange
@@ -261,6 +269,7 @@ namespace DietRecorder_Tests.Client.ViewModel
         }
 
         [Test]
+        [Ignore("TODO: Use factory for model so we can test this")]
         public void AddMeasurementCommand_CalledWithInvalidMeasurement_DisplaysMultipleValidationMessageCorrectly()
         {
             // arrange
@@ -276,6 +285,56 @@ namespace DietRecorder_Tests.Client.ViewModel
 
             // assert
             messageBox.AssertWasCalled(x => x.ShowMessage("Validation Failure", "failure1" + Environment.NewLine + "failure2"));
+        }
+
+        [Test]
+        public void MeasurementDate_SetWithInvalidDate_TurnsWarningOn()
+        {
+            // arrange
+            MeasurementViewModel measurementVM = new MeasurementViewModel(MockRepository.GenerateStub<IRepository>(), null);
+            
+            // act
+            measurementVM.MeasurementDate = "invaliddate";
+
+            // assert
+            Assert.IsFalse(measurementVM.MeasurementDateIsCorrectFormat);
+        }
+
+        [Test]
+        public void MeasurementDate_SetWithValidDate_TurnsWarningOff()
+        {
+            // arrange
+            MeasurementViewModel measurementVM = new MeasurementViewModel(MockRepository.GenerateStub<IRepository>(), null);
+
+            // act
+            measurementVM.MeasurementDate = "1/1/2010";
+
+            // assert
+            Assert.IsTrue(measurementVM.MeasurementDateIsCorrectFormat);
+        }
+
+        [Test]
+        public void WeightKg_SetWithInvalidWeight_TurnsWarningOn() {
+            // arrange
+            MeasurementViewModel measurementVM = new MeasurementViewModel(MockRepository.GenerateStub<IRepository>(), null);
+
+            // act
+            measurementVM.WeightKg = "invalidweight";
+
+            // assert
+            Assert.IsFalse(measurementVM.WeightKgIsCorrectFormat);
+        }
+
+        [Test]
+        public void WeightKg_SetWithValidWeight_TurnsWarningOff() {
+            // arrange
+            MeasurementViewModel measurementVM = new MeasurementViewModel(MockRepository.GenerateStub<IRepository>(), null);
+
+            // act
+            measurementVM.WeightKg = "123.456";
+
+            // assert
+            Assert.IsTrue(measurementVM.WeightKgIsCorrectFormat);
         }
 
         [Test]
@@ -377,6 +436,12 @@ namespace DietRecorder_Tests.Client.ViewModel
             Assert.IsTrue(measurementVM.ViewMode);
         }
 
+        private static void SetValidMeasurementFields(MeasurementViewModel measurementVM) {
+            measurementVM.MeasurementDate = "03/09/2001";
+            measurementVM.WeightKg = "333.45";
+            measurementVM.Notes = "hello mum";
+        }
+
         private static MeasurementViewModel CreateMeasurementViewModelWithUser()
         {
             IRepository repository = CreateRepositoryWithUsers(new User());
@@ -395,11 +460,6 @@ namespace DietRecorder_Tests.Client.ViewModel
             User user = new User();
             user.Measurements = measurements.ToList<Measurement>();
             return user;
-        }
-
-        private static Measurement CreateValidMeasurement()
-        {
-            return new Measurement(new DateTime(2000, 1, 1), 1, string.Empty);
         }
     }
 }

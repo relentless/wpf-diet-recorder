@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{51F16517-1152-4140-958A-EFB808FE602E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -96,6 +96,7 @@
     <Compile Include="Client\Common\ReverseVisibleConverter.cs" />
     <Compile Include="Client\Common\ViewMode.cs" />
     <Compile Include="Client\Common\VisibleConverter.cs" />
+    <Compile Include="Client\Common\WarningColourConverter.cs" />
     <Compile Include="Client\DetailsListPresenter.cs" />
     <Compile Include="Client\ViewModel\CustomMeasurementDefinitionViewModel.cs" />
     <Compile Include="Client\ViewModel\MeasurementViewModel.cs" />
