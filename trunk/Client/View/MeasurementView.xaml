@@ -8,6 +8,7 @@
         <converters:VisibleConverter x:Key="VisibleConverter"/>
         <converters:ReverseVisibleCoverter x:Key="ReverseVisibleConverter"/>
         <converters:NullBooleanConverter x:Key="NullBooleanConverter"/>
+        <converters:WarningColourConverter x:Key="WarningColorConverter"/>
     </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
@@ -51,17 +52,20 @@
                 <StackPanel Grid.Column="0">
                     <TextBlock Text="Date"/>
                     <TextBox Name="DateText" 
-                             Text="{Binding Path=SelectedMeasurement.Date, Converter={StaticResource DateConverter}}"
-                             IsEnabled="{Binding SelectedMeasurement, Converter={StaticResource NullBooleanConverter}}"/>
+                             Text="{Binding Path=MeasurementDate}"
+                             IsEnabled="{Binding SelectedMeasurement, Converter={StaticResource NullBooleanConverter}}"
+                             Background="{Binding MeasurementDateIsCorrectFormat, Converter={StaticResource WarningColorConverter}}">
+                    </TextBox>
                 </StackPanel>
                 <StackPanel Grid.Column="1">
                     <TextBlock Text="Weight Kg"/>
-                    <TextBox Name="WeightText" Text="{Binding Path=SelectedMeasurement.WeightKg}"
-                             IsEnabled="{Binding SelectedMeasurement, Converter={StaticResource NullBooleanConverter}}"/>
+                    <TextBox Name="WeightText" Text="{Binding Path=WeightKg}"
+                             IsEnabled="{Binding SelectedMeasurement, Converter={StaticResource NullBooleanConverter}}"
+                             Background="{Binding WeightKgIsCorrectFormat, Converter={StaticResource WarningColorConverter}}"/>
                 </StackPanel>
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Notes"/>
                 <TextBox Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" Name="NotesText" 
-                         Text="{Binding Path=SelectedMeasurement.Notes}"
+                         Text="{Binding Path=Notes}"
                          IsEnabled="{Binding SelectedMeasurement, Converter={StaticResource NullBooleanConverter}}"
                          Height="50"
                          AcceptsReturn="True"/>
