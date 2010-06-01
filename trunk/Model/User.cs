@@ -29,7 +29,7 @@ namespace DietRecorder.Model
             definitions.Clear();
         }
 
-        public string UserName {get; private set;}
+        public string UserName {get; set;}
 
         public IList<Measurement> Measurements
         {
@@ -42,6 +42,7 @@ namespace DietRecorder.Model
         public IList<CustomMeasurementDefinition> Definitions
         {
             get { return definitions; }
+            set { definitions = value; }
         }
 
         public void AddMeasurement(Measurement measurement)

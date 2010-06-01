@@ -143,6 +143,7 @@ namespace DietRecorder.Client.ViewModel
         public void ResetContents()
         {
             SetDefaultValues();
+            _measurementDefinitions.Clear();
         }
 
         private void SetupCommands()
