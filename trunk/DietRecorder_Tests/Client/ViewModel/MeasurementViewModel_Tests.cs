@@ -7,8 +7,10 @@ using DietRecorder.Client.ViewModel;
 using DietRecorder.Client.Common;
 using DietRecorder.Model;
 using DietRecorder.DataAccess;
+using DietRecorder.Common;
 using NUnit.Framework;
 using Rhino.Mocks;
+using DietRecorder_Tests.Common;
 
 namespace DietRecorder_Tests.Client.ViewModel
 {
@@ -23,7 +25,7 @@ namespace DietRecorder_Tests.Client.ViewModel
             IRepository repository = CreateRepositoryWithUsers(userInDatabase);
             
             // act
-            MeasurementViewModel measurementVM = new MeasurementViewModel(repository, new MessageDisplay());
+            MeasurementViewModel measurementVM = CreateMeasurementViewModel(repository);
 
             // assert
             Assert.IsNotNull(measurementVM.Users);
@@ -38,7 +40,7 @@ namespace DietRecorder_Tests.Client.ViewModel
             IRepository repository = CreateRepositoryWithUsers(userInDatabase1, new User());
 
             // act
-            MeasurementViewModel measurementVM = new MeasurementViewModel(repository, new MessageDisplay());
+            MeasurementViewModel measurementVM = CreateMeasurementViewModel(repository);
 
             // assert
             Assert.IsNotNull(measurementVM.Users);
@@ -65,7 +67,7 @@ namespace DietRecorder_Tests.Client.ViewModel
             Measurement measurement2 = new Measurement();
             User user = CreateUserWithMeasurements(measurement1, measurement2);
 
-            MeasurementViewModel measurementVM = new MeasurementViewModel(MockRepository.GenerateStub<IRepository>());
+            MeasurementViewModel measurementVM = CreateMeasurementViewModel(MockRepository.GenerateStub<IRepository>());
 
             // act
             measurementVM.SelectedUser = user;
@@ -81,7 +83,7 @@ namespace DietRecorder_Tests.Client.ViewModel
             // arrange
             Measurement measurement1 = new Measurement();
             User user = CreateUserWithMeasurements(measurement1, new Measurement());
-            MeasurementViewModel measurementVM = new MeasurementViewModel(MockRepository.GenerateStub<IRepository>());
+            MeasurementViewModel measurementVM = CreateMeasurementViewModel(MockRepository.GenerateStub<IRepository>());
 
             // act
             measurementVM.SelectedUser = user;
@@ -90,60 +92,89 @@ namespace DietRecorder_Tests.Client.ViewModel
             Assert.AreEqual(measurement1, measurementVM.SelectedMeasurement);
         }
 
-        //[Test]
-        //public void SelectedMeasurement_Set_SetsMeasurementDate()
-        //{
-        //    // arrange
-        //    DateTime measurementDate = new DateTime(2000, 1, 1);
-        //    MeasurementViewModel measurementVM = new MeasurementViewModel(MockRepository.GenerateStub<IRepository>());
-
-        //    // act
-        //    measurementVM.SelectedMeasurement = new Measurement(measurementDate, 0, string.Empty);
-
-        //    // assert
-        //    Assert.AreEqual(measurementDate, measurementVM.MeasurementDate);
-        //}
-
-        //[Test]
-        //public void SelectedMeasurement_Set_SetsMeasurementWeight()
-        //{
-        //    // arrange
-        //    double measurementWeight = 9.9;
-        //    MeasurementViewModel measurementVM = new MeasurementViewModel(MockRepository.GenerateStub<IRepository>());
-
-        //    // act
-        //    measurementVM.SelectedMeasurement = new Measurement(new DateTime(), measurementWeight, string.Empty);
-
-        //    // assert
-        //    Assert.AreEqual(measurementWeight, measurementVM.WeightKg);
-        //}
-
-        //[Test]
-        //public void SelectedMeasurement_Set_SetsMeasurementNotes()
-        //{
-        //    // arrange
-        //    string measurementNotes = "test";
-        //    MeasurementViewModel measurementVM = new MeasurementViewModel(MockRepository.GenerateStub<IRepository>());
-
-        //    // act
-        //    measurementVM.SelectedMeasurement = new Measurement(new DateTime(), 0, measurementNotes);
-
-        //    // assert
-        //    Assert.AreEqual(measurementNotes, measurementVM.Notes);
-        //}
-
         [Test]
-        public void NewMeasurementCommand_Called_SetsSelectedMeasurementToNewMeasurement()
+        public void SelectedMeasurement_Set_SetsMeasurementDateToSelectedMeasurementDate()
         {
             // arrange
-            MeasurementViewModel measurementVM = CreateMeasurementViewModelWithUser();
-            measurementVM.SelectedMeasurement = new Measurement(new DateTime(), 999, string.Empty);
+            DateTime measurementDate = new DateTime(1999, 12, 31);
+            MeasurementViewModel measurementVM = CreateMeasurementViewModel(MockRepository.GenerateStub<IRepository>());
+
+            // act
+            measurementVM.SelectedMeasurement = new Measurement(measurementDate, 0, string.Empty);
+
+            // assert
+            Assert.AreEqual(measurementDate.ToShortDateString(), measurementVM.MeasurementDate);
+        }
+
+        [Test]
+        public void SelectedMeasurement_Set_SetsWeightKgToSelectedMeasurementWeight()
+        {
+            // arrange
+            double weight = 99.99;
+            MeasurementViewModel measurementVM = CreateMeasurementViewModel(MockRepository.GenerateStub<IRepository>());
+
+            // act
+            measurementVM.SelectedMeasurement = new Measurement(new DateTime(), weight, string.Empty);
+
+            // assert
+            Assert.AreEqual(weight.ToString(), measurementVM.WeightKg);
+        }
+
+        [Test]
+        public void SelectedMeasurement_Set_SetsNotesToSelectedMeasurementNotes()
+        {
+            // arrange
+            string notes = "testnotes";
+            MeasurementViewModel measurementVM = CreateMeasurementViewModel(MockRepository.GenerateStub<IRepository>());
+
+            // act
+            measurementVM.SelectedMeasurement = new Measurement(new DateTime(), 0, notes);
+
+            // assert
+            Assert.AreEqual(notes, measurementVM.Notes);
+        }
+
+        [Test]
+        public void NewMeasurementCommand_Called_SetsMeasurementDateToCurrentDate()
+        {
+            // arrange
+            DateTime currentTime = new DateTime(2000, 1, 1);
+            MeasurementViewModel measurementVM = new FakeMeasurementViewModel(currentTime);
+            measurementVM.MeasurementDate = "31/12/2099";
 
             // act
             measurementVM.NewMeasurementCommand.Execute(null);
 
             // assert
-            Assert.AreEqual(0, measurementVM.SelectedMeasurement.WeightKg);
+            Assert.AreEqual(currentTime.ToShortDateString(), measurementVM.MeasurementDate);
+        }
+
+        [Test]
+        public void NewMeasurementCommand_Called_SetsWeightToZero()
+        {
+            // arrange
+            MeasurementViewModel measurementVM = CreateMeasurementViewModelWithUser();
+            measurementVM.WeightKg = "999";
+
+            // act
+            measurementVM.NewMeasurementCommand.Execute(null);
+
+            // assert
+            Assert.AreEqual("0", measurementVM.WeightKg);
+        }
+
+        [Test]
+        public void NewMeasurementCommand_Called_SetsNotesToEmptyString()
+        {
+            // arrange
+            MeasurementViewModel measurementVM = CreateMeasurementViewModelWithUser();
+            measurementVM.Notes = "test";
+
+            // act
+            measurementVM.NewMeasurementCommand.Execute(null);
+
+            // assert
+            Assert.AreEqual(string.Empty, measurementVM.Notes);
         }
 
         [Test]
@@ -184,7 +215,7 @@ namespace DietRecorder_Tests.Client.ViewModel
         {
             // arrange
             IRepository repository = CreateRepositoryWithUsers(new User());
-            MeasurementViewModel measurementVM = new MeasurementViewModel(repository);
+            MeasurementViewModel measurementVM = CreateMeasurementViewModel(repository);
             measurementVM.MeasurementDate = "19/03/2011";
             measurementVM.WeightKg = "123.65";
             measurementVM.Notes = "test";
@@ -233,14 +264,13 @@ namespace DietRecorder_Tests.Client.ViewModel
         }
 
         [Test]
-        [Ignore("TODO: Use factory for model so we can test this")]
         public void AddMeasurementCommand_Called_ChecksMeasurementForValidationErrors()
         {
             // arrange
             Measurement measurement = MockRepository.GenerateMock<Measurement>();
             measurement.Expect(x => x.GetValidationFailures()).Return(new List<string>());
-            MeasurementViewModel measurementVM = CreateMeasurementViewModelWithUser();
-            measurementVM.SelectedMeasurement = measurement;
+            MeasurementViewModel measurementVM = CreateMeasurementViewModel(CreateRepositoryWithUsers(new User()), null, new FakeMeasurementFactory(measurement));
+            SetValidMeasurementFields(measurementVM);
 
             // act
             measurementVM.AddMeasurementCommand.Execute(null);
@@ -250,7 +280,6 @@ namespace DietRecorder_Tests.Client.ViewModel
         }
 
         [Test]
-        [Ignore("TODO: Use factory for model so we can test this")]
         public void AddMeasurementCommand_CalledWithInvalidMeasurement_DisplaysSingleValidationMessageCorrectly()
         {
             // arrange
@@ -258,8 +287,8 @@ namespace DietRecorder_Tests.Client.ViewModel
             measurement.Expect(x => x.GetValidationFailures()).Return(new List<string>() {"failure"}).Repeat.Any();
             IRepository repository = MockRepository.GenerateStub<IRepository>();
             IMessageDisplay messageBox = MockRepository.GenerateStub<IMessageDisplay>();
-            MeasurementViewModel measurementVM = new MeasurementViewModel(repository, messageBox);
-            measurementVM.SelectedMeasurement = measurement;
+            MeasurementViewModel measurementVM = CreateMeasurementViewModel(repository, messageBox, new FakeMeasurementFactory(measurement));
+            SetValidMeasurementFields(measurementVM);
 
             // act
             measurementVM.AddMeasurementCommand.Execute(null);
@@ -269,7 +298,6 @@ namespace DietRecorder_Tests.Client.ViewModel
         }
 
         [Test]
-        [Ignore("TODO: Use factory for model so we can test this")]
         public void AddMeasurementCommand_CalledWithInvalidMeasurement_DisplaysMultipleValidationMessageCorrectly()
         {
             // arrange
@@ -277,8 +305,8 @@ namespace DietRecorder_Tests.Client.ViewModel
             measurement.Expect(x => x.GetValidationFailures()).Return(new List<string>() { "failure1", "failure2" }).Repeat.Any();
             IRepository repository = MockRepository.GenerateStub<IRepository>();
             IMessageDisplay messageBox = MockRepository.GenerateStub<IMessageDisplay>();
-            MeasurementViewModel measurementVM = new MeasurementViewModel(repository, messageBox);
-            measurementVM.SelectedMeasurement = measurement;
+            MeasurementViewModel measurementVM = CreateMeasurementViewModel(repository, messageBox, new FakeMeasurementFactory(measurement));
+            SetValidMeasurementFields(measurementVM);
 
             // act
             measurementVM.AddMeasurementCommand.Execute(null);
@@ -291,7 +319,7 @@ namespace DietRecorder_Tests.Client.ViewModel
         public void MeasurementDate_SetWithInvalidDate_TurnsWarningOn()
         {
             // arrange
-            MeasurementViewModel measurementVM = new MeasurementViewModel(MockRepository.GenerateStub<IRepository>(), null);
+            MeasurementViewModel measurementVM = CreateMeasurementViewModel(MockRepository.GenerateStub<IRepository>(), null);
             
             // act
             measurementVM.MeasurementDate = "invaliddate";
@@ -304,7 +332,7 @@ namespace DietRecorder_Tests.Client.ViewModel
         public void MeasurementDate_SetWithValidDate_TurnsWarningOff()
         {
             // arrange
-            MeasurementViewModel measurementVM = new MeasurementViewModel(MockRepository.GenerateStub<IRepository>(), null);
+            MeasurementViewModel measurementVM = CreateMeasurementViewModel(MockRepository.GenerateStub<IRepository>(), null);
 
             // act
             measurementVM.MeasurementDate = "1/1/2010";
@@ -316,7 +344,7 @@ namespace DietRecorder_Tests.Client.ViewModel
         [Test]
         public void WeightKg_SetWithInvalidWeight_TurnsWarningOn() {
             // arrange
-            MeasurementViewModel measurementVM = new MeasurementViewModel(MockRepository.GenerateStub<IRepository>(), null);
+            MeasurementViewModel measurementVM = CreateMeasurementViewModel(MockRepository.GenerateStub<IRepository>(), null);
 
             // act
             measurementVM.WeightKg = "invalidweight";
@@ -328,7 +356,7 @@ namespace DietRecorder_Tests.Client.ViewModel
         [Test]
         public void WeightKg_SetWithValidWeight_TurnsWarningOff() {
             // arrange
-            MeasurementViewModel measurementVM = new MeasurementViewModel(MockRepository.GenerateStub<IRepository>(), null);
+            MeasurementViewModel measurementVM = CreateMeasurementViewModel(MockRepository.GenerateStub<IRepository>(), null);
 
             // act
             measurementVM.WeightKg = "123.456";
@@ -344,7 +372,7 @@ namespace DietRecorder_Tests.Client.ViewModel
             Measurement measurement = new Measurement();
             User user = CreateUserWithMeasurements(measurement);
 
-            MeasurementViewModel measurementVM = new MeasurementViewModel(CreateRepositoryWithUsers(user));
+            MeasurementViewModel measurementVM = CreateMeasurementViewModel(CreateRepositoryWithUsers(user));
             measurementVM.SelectedMeasurement = measurement;
 
             // act
@@ -361,7 +389,7 @@ namespace DietRecorder_Tests.Client.ViewModel
             Measurement measurement = new Measurement();
 
             IRepository repository = CreateRepositoryWithUsers(new User());
-            MeasurementViewModel measurementVM = new MeasurementViewModel(repository);
+            MeasurementViewModel measurementVM = CreateMeasurementViewModel(repository);
             measurementVM.SelectedMeasurement = measurement;
 
             // act
@@ -381,7 +409,7 @@ namespace DietRecorder_Tests.Client.ViewModel
             Measurement measurement2 = new Measurement();
             User user = CreateUserWithMeasurements(measurement1, measurement2);
 
-            MeasurementViewModel measurementVM = new MeasurementViewModel(CreateRepositoryWithUsers(user));
+            MeasurementViewModel measurementVM = CreateMeasurementViewModel(CreateRepositoryWithUsers(user));
             measurementVM.SelectedMeasurement = measurement1;
 
             // act
@@ -398,7 +426,7 @@ namespace DietRecorder_Tests.Client.ViewModel
             Measurement measurement1 = new Measurement();
             User user = CreateUserWithMeasurements(measurement1);
 
-            MeasurementViewModel measurementVM = new MeasurementViewModel(CreateRepositoryWithUsers(user));
+            MeasurementViewModel measurementVM = CreateMeasurementViewModel(CreateRepositoryWithUsers(user));
             measurementVM.SelectedMeasurement = null;
 
             // act
@@ -412,7 +440,7 @@ namespace DietRecorder_Tests.Client.ViewModel
         public void CancelNewMeasurementCommand_Called_SetsSelecedMeasurementToNull()
         {
             // arrange
-            MeasurementViewModel measurementVM = new MeasurementViewModel(CreateRepositoryWithUsers(new User()));
+            MeasurementViewModel measurementVM = CreateMeasurementViewModel(CreateRepositoryWithUsers(new User()));
             measurementVM.SelectedMeasurement = new Measurement();
 
             // act
@@ -442,10 +470,25 @@ namespace DietRecorder_Tests.Client.ViewModel
             measurementVM.Notes = "hello mum";
         }
 
+        private static MeasurementViewModel CreateMeasurementViewModel(IRepository repository)
+        {
+            return new MeasurementViewModel(repository, new MessageDisplay(), new MeasurementFactory());
+        }
+
+        private static MeasurementViewModel CreateMeasurementViewModel(IRepository repository, IMessageDisplay MessageDisplay)
+        {
+            return new MeasurementViewModel(repository, MessageDisplay, new MeasurementFactory());
+        }
+
+        private static MeasurementViewModel CreateMeasurementViewModel(IRepository repository, IMessageDisplay MessageDisplay, IMeasurementFactory MeasurementFactory)
+        {
+            return new MeasurementViewModel(repository, MessageDisplay, MeasurementFactory);
+
+        }
         private static MeasurementViewModel CreateMeasurementViewModelWithUser()
         {
             IRepository repository = CreateRepositoryWithUsers(new User());
-            return new MeasurementViewModel(repository);
+            return CreateMeasurementViewModel(repository);
         }
 
         private static IRepository CreateRepositoryWithUsers(params User[] usersInDatabase)
@@ -457,9 +500,7 @@ namespace DietRecorder_Tests.Client.ViewModel
 
         private static User CreateUserWithMeasurements(params Measurement[] measurements)
         {
-            User user = new User();
-            user.Measurements = measurements.ToList<Measurement>();
-            return user;
+            return new User(string.Empty, measurements.ToList(), null);
         }
     }
 }

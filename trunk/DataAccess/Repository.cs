@@ -9,24 +9,24 @@ namespace DietRecorder.DataAccess
 {
     public class Repository: IRepository, IDisposable
     {
-        private IObjectContainer database;
+        private IObjectContainer _database;
 
         public Repository()
         {
             IEmbeddedConfiguration config = Db4oEmbedded.NewConfiguration();
             config.Common.ObjectClass(typeof(DietRecorder.Model.User)).CascadeOnUpdate(true);
             config.Common.ObjectClass(typeof(DietRecorder.Model.User)).CascadeOnDelete(true);
-            database = Db4oEmbedded.OpenFile(config, "DietDB.db4o");
+            _database = Db4oEmbedded.OpenFile(config, "DietDB.db4o");
         }
 
         public Repository(IObjectContainer Database)
         {
-            this.database = Database;
+            this._database = Database;
         }
 
         public IList<User> LoadUserList()
         {
-            IList<User> users = database.Query<User>();
+            IList<User> users = _database.Query<User>();
 
             if (users == null)
                 return new List<User>();
@@ -38,18 +38,18 @@ namespace DietRecorder.DataAccess
         {
             foreach (User user in Users)
             {
-                database.Store(user);
+                _database.Store(user);
             }
         }
 
         public void Delete(object obj)
         {
-            database.Delete(obj);
+            _database.Delete(obj);
         }
 
         public void Dispose()
         {
-            database.Close();
+            _database.Close();
         }
     }
 }
