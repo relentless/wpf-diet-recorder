@@ -10,6 +10,7 @@ using DietRecorder.Client.View;
 using DietRecorder.Client.ViewModel;
 using System.Collections.ObjectModel;
 using DietRecorder.Client.Common;
+using DietRecorder.Common;
 
 namespace DietRecorder.Client
 {
@@ -22,16 +23,16 @@ namespace DietRecorder.Client
         {
             IRepository repository = new Repository();
 
-            MeasurementViewModel measurementVM = new MeasurementViewModel(repository);
+            MeasurementViewModel measurementVM = new MeasurementViewModel(repository, new MessageDisplay(), new MeasurementFactory() );
 
-            measurementVM.ShowUserScreen += () =>
+            measurementVM.ShowUserScreenAction += () =>
                 {
                     CustomMeasurementDefinitionViewModel definitionsVM = new CustomMeasurementDefinitionViewModel();
                     definitionsVM.MeasurementDefinitions = new ObservableCollection<CustomMeasurementDefinition>();
                     UserViewModel userVM = new UserViewModel(repository, definitionsVM);
                     UserView userView = new UserView();
                     userView.DataContext = userVM;
-                    userVM.UsersChanged += measurementVM.LoadUsers;
+                    userVM.UsersChanged += measurementVM.LoadUsersFromRepository;
                     userView.Show();
                     // I don't know why this has to be set after the view is shown,
                     // but it's the only way I can make it work

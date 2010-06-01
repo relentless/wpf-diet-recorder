@@ -7,6 +7,7 @@
         <converters:DateConverter x:Key="DateConverter"/>
         <converters:VisibleConverter x:Key="VisibleConverter"/>
         <converters:ReverseVisibleCoverter x:Key="ReverseVisibleConverter"/>
+        <converters:ReverseBooleanConverter x:Key="ReverseBooleanConverter"/>
         <converters:NullBooleanConverter x:Key="NullBooleanConverter"/>
         <converters:WarningColourConverter x:Key="WarningColorConverter"/>
     </Window.Resources>
@@ -27,7 +28,11 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <ListView Grid.Row="1" Name="MeasurementGrid" ItemsSource="{Binding Measurements}" SelectedItem="{Binding SelectedMeasurement}" >
+            <ListView Grid.Row="1" Name="MeasurementGrid" 
+                      ItemsSource="{Binding Measurements}" 
+                      SelectedItem="{Binding SelectedMeasurement}" 
+                      IsEnabled="{Binding ViewMode}"
+                      >
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="75" Header="Date" DisplayMemberBinding="{Binding Path=Date, Converter={StaticResource DateConverter}}"/>
@@ -53,20 +58,20 @@
                     <TextBlock Text="Date"/>
                     <TextBox Name="DateText" 
                              Text="{Binding Path=MeasurementDate}"
-                             IsEnabled="{Binding SelectedMeasurement, Converter={StaticResource NullBooleanConverter}}"
+                             IsEnabled="{Binding ViewMode, Converter={StaticResource ReverseBooleanConverter}}"
                              Background="{Binding MeasurementDateIsCorrectFormat, Converter={StaticResource WarningColorConverter}}">
                     </TextBox>
                 </StackPanel>
                 <StackPanel Grid.Column="1">
                     <TextBlock Text="Weight Kg"/>
                     <TextBox Name="WeightText" Text="{Binding Path=WeightKg}"
-                             IsEnabled="{Binding SelectedMeasurement, Converter={StaticResource NullBooleanConverter}}"
+                             IsEnabled="{Binding ViewMode, Converter={StaticResource ReverseBooleanConverter}}"
                              Background="{Binding WeightKgIsCorrectFormat, Converter={StaticResource WarningColorConverter}}"/>
                 </StackPanel>
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Notes"/>
                 <TextBox Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" Name="NotesText" 
                          Text="{Binding Path=Notes}"
-                         IsEnabled="{Binding SelectedMeasurement, Converter={StaticResource NullBooleanConverter}}"
+                         IsEnabled="{Binding ViewMode, Converter={StaticResource ReverseBooleanConverter}}"
                          Height="50"
                          AcceptsReturn="True"/>
                 <Button Grid.Column="2" Grid.RowSpan="3" Content="new" Width="40" Name="NewButton" 

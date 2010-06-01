@@ -1,120 +1,36 @@
 ﻿using System;
+using System.Text;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using DietRecorder.Model;
 using DietRecorder.Client.Common;
 using System.Windows.Input;
 using DietRecorder.DataAccess;
+using DietRecorder.Common;
 
 namespace DietRecorder.Client.ViewModel {
     public class MeasurementViewModel : ViewModelBase {
+        
+        private IMeasurementFactory _measurementFactory;
+        private IMessageDisplay _messageBoxDisplayer;
+        private IRepository _repository;
+        private Boolean _viewMode;
+        private Measurement _selectedMeasurement;
+        private User _selectedUser;
+        private IList<User> _users;
         private string _measurementDate = string.Empty;
         private string _weightKg = string.Empty;
         private string _notes = string.Empty;
-        private IRepository _repository;
-        private Boolean viewMode;
-        private Measurement selectedMeasurement;
-        private User selectedUser;
-        private IList<User> users;
-        private IMessageDisplay messageBoxDisplayer;
 
-        public event Action ShowUserScreen;
+        public event Action ShowUserScreenAction;
 
-        public MeasurementViewModel(IRepository Repository, IMessageDisplay MessageBox) {
-            this._repository = Repository;
-            messageBoxDisplayer = MessageBox;
+        public MeasurementViewModel(IRepository Repository, IMessageDisplay MessageBox, IMeasurementFactory MeasurementFactory) {
+            _repository = Repository;
+            _messageBoxDisplayer = MessageBox;
+            _measurementFactory = MeasurementFactory;
             ViewMode = true;
             SetupCommands();
-            LoadUsers();
-        }
-
-        public MeasurementViewModel(IRepository Repository)
-            : this(Repository, new MessageDisplay()) { }
-
-        public void LoadUsers() {
-            users = _repository.LoadUserList();
-            SelectFirstUser();
-            NotifyPropertyChanged("Users");
-        }
-
-        private void SelectFirstUser() {
-            if (users != null)
-                if (users.Count > 0)
-                    SelectedUser = users[0];
-        }
-
-        private void SelectFirstMeasurement() {
-            if (Measurements != null)
-                if (Measurements.Count > 0)
-                    SelectedMeasurement = Measurements[0];
-        }
-
-        private void SetupCommands() {
-            newMeasurementCommand = new DelegateCommand(NewMeasurement);
-            removeMeasurementCommand = new DelegateCommand(RemoveMeasurement);
-            addMeasurementCommand = new DelegateCommand(AddMeasurement);
-            cancelNewMeasurementCommand = new DelegateCommand(CancelNewMeasurement);
-            showUsersCommand = new DelegateCommand(ShowUsers);
-        }
-
-        private void ShowUsers() {
-            if (ShowUserScreen != null) {
-                ShowUserScreen.Invoke();
-            }
-        }
-
-        private void NewMeasurement() {
-            SelectedMeasurement = null;// to de-select the selected list item
-            Measurement newMeasurement = new Measurement();
-            newMeasurement.SetDefaultValues();
-            SelectedMeasurement = newMeasurement;
-            ViewMode = false;
-        }
-
-        private void RemoveMeasurement() {
-            _repository.Delete(SelectedMeasurement);
-            selectedUser.Measurements.Remove(SelectedMeasurement);
-            _repository.SaveUserList(users);
-            SelectFirstMeasurement();
-            NotifyPropertyChanged("Measurements");
-        }
-
-        private void AddMeasurement() {
-            if (!MeasurementValuesAreCorrectFormat())
-                return;
-
-            Measurement addedMeasurement = new Measurement(Convert.ToDateTime(_measurementDate), Convert.ToDouble(_weightKg), _notes);
-
-            if (addedMeasurement.IsValid()) {
-                selectedUser.Measurements.Add(addedMeasurement);
-                NotifyPropertyChanged("Measurements");
-                _repository.SaveUserList(users);
-                ViewMode = true;
-            }
-            else {
-                string validationMessage = string.Empty;
-                foreach (string failureMessage in addedMeasurement.GetValidationFailures()) {
-                    if (validationMessage != string.Empty)
-                        validationMessage += Environment.NewLine;
-
-                    validationMessage += failureMessage;
-                }
-                messageBoxDisplayer.ShowMessage("Validation Failure", validationMessage);
-            }
-        }
-
-        private void CancelNewMeasurement() {
-            SelectedMeasurement = null;
-            SelectFirstMeasurement();
-            ViewMode = true;
-        }
-
-        private bool MeasurementValuesAreCorrectFormat() {
-            if (MeasurementDateIsCorrectFormat &&
-                WeightKgIsCorrectFormat)
-                return true;
-            else
-                return false;
+            LoadUsersFromRepository();
         }
 
         #region Commands
@@ -124,70 +40,107 @@ namespace DietRecorder.Client.ViewModel {
         private DelegateCommand cancelNewMeasurementCommand;
         private DelegateCommand addMeasurementCommand;
 
-        public ICommand ShowUsersCommand {
+        public ICommand ShowUsersCommand
+        {
             get { return showUsersCommand; }
         }
 
-        public ICommand NewMeasurementCommand {
+        public ICommand NewMeasurementCommand
+        {
             get { return newMeasurementCommand; }
         }
 
-        public ICommand RemoveMeasurementCommand {
+        public ICommand RemoveMeasurementCommand
+        {
             get { return removeMeasurementCommand; }
         }
 
-        public ICommand AddMeasurementCommand {
+        public ICommand AddMeasurementCommand
+        {
             get { return addMeasurementCommand; }
         }
 
-        public ICommand CancelNewMeasurementCommand {
+        public ICommand CancelNewMeasurementCommand
+        {
             get { return cancelNewMeasurementCommand; }
         }
         #endregion Commands
 
         #region Properties
 
-        public Measurement SelectedMeasurement {
-            get {
-                return selectedMeasurement;
+        public Measurement SelectedMeasurement
+        {
+            get
+            {
+                return _selectedMeasurement;
             }
 
-            set {
-                selectedMeasurement = value;
+            set
+            {
+                _selectedMeasurement = value;
+                SetMeasurementFieldsFromSelectedMeasurement();
                 NotifyPropertyChanged("SelectedMeasurement");
             }
         }
 
-        public bool ViewMode {
-            get {
-                return viewMode;
+        private void SetMeasurementFieldsFromSelectedMeasurement()
+        {
+            if (_selectedMeasurement != null)
+            {
+                MeasurementDate = _selectedMeasurement.Date.ToShortDateString();
+                WeightKg = _selectedMeasurement.WeightKg.ToString();
+                Notes = _selectedMeasurement.Notes;
             }
-            set {
-                if (value != viewMode) {
-                    viewMode = value;
+            else
+            {
+                MeasurementDate = string.Empty;
+                WeightKg = string.Empty;
+                Notes = string.Empty;
+            }
+        }
+
+        public bool ViewMode
+        {
+            get
+            {
+                return _viewMode;
+            }
+            set
+            {
+                if (value != _viewMode)
+                {
+                    _viewMode = value;
                     NotifyPropertyChanged("ViewMode");
                 }
             }
         }
 
-        public string Notes {
-            get {
+        public string Notes
+        {
+            get
+            {
                 return _notes;
             }
-            set {
-                if (value != _notes) {
+            set
+            {
+                if (value != _notes)
+                {
                     _notes = value;
-                    NotifyPropertyChanged("UserName");
+                    NotifyPropertyChanged("Notes");
                 }
             }
         }
 
-        public string WeightKg {
-            get {
+        public string WeightKg
+        {
+            get
+            {
                 return _weightKg;
             }
-            set {
-                if (value != _weightKg) {
+            set
+            {
+                if (value != _weightKg)
+                {
                     _weightKg = value;
                     NotifyPropertyChanged("WeightKg");
                     NotifyPropertyChanged("WeightKgIsCorrectFormat");
@@ -195,12 +148,16 @@ namespace DietRecorder.Client.ViewModel {
             }
         }
 
-        public bool WeightKgIsCorrectFormat {
-            get {
-                try {
+        public bool WeightKgIsCorrectFormat
+        {
+            get
+            {
+                try
+                {
                     Convert.ToDouble(_weightKg);
                 }
-                catch (FormatException) {
+                catch (FormatException)
+                {
                     return false;
                 }
 
@@ -208,12 +165,16 @@ namespace DietRecorder.Client.ViewModel {
             }
         }
 
-        public string MeasurementDate {
-            get {
+        public string MeasurementDate
+        {
+            get
+            {
                 return _measurementDate;
             }
-            set {
-                if (value != _measurementDate) {
+            set
+            {
+                if (value != _measurementDate)
+                {
                     _measurementDate = value;
                     NotifyPropertyChanged("MeasurementDate");
                     NotifyPropertyChanged("MeasurementDateIsCorrectFormat");
@@ -221,12 +182,16 @@ namespace DietRecorder.Client.ViewModel {
             }
         }
 
-        public bool MeasurementDateIsCorrectFormat {
-            get {
-                try {
+        public bool MeasurementDateIsCorrectFormat
+        {
+            get
+            {
+                try
+                {
                     Convert.ToDateTime(_measurementDate);
                 }
-                catch (FormatException) {
+                catch (FormatException)
+                {
                     return false;
                 }
 
@@ -234,27 +199,35 @@ namespace DietRecorder.Client.ViewModel {
             }
         }
 
-        public ObservableCollection<User> Users {
-            get {
-                return users.ToObservableCollection<User>();
+        public ObservableCollection<User> Users
+        {
+            get
+            {
+                return _users.ToObservableCollection<User>();
             }
         }
 
-        public ObservableCollection<Measurement> Measurements {
-            get {
-                return selectedUser.Measurements.ToObservableCollection<Measurement>();
+        public ObservableCollection<Measurement> Measurements
+        {
+            get
+            {
+                return _selectedUser.Measurements.ToObservableCollection<Measurement>();
             }
         }
 
-        public User SelectedUser {
-            get {
-                return selectedUser;
+        public User SelectedUser
+        {
+            get
+            {
+                return _selectedUser;
             }
-            set {
-                if (value != selectedUser) {
-                    selectedUser = value;
+            set
+            {
+                if (value != _selectedUser)
+                {
+                    _selectedUser = value;
 
-                    if (selectedUser != null)
+                    if (_selectedUser != null)
                         SelectFirstMeasurement();
 
                     NotifyPropertyChanged("SelectedUser");
@@ -263,5 +236,108 @@ namespace DietRecorder.Client.ViewModel {
             }
         }
         #endregion Properties
+
+        public void LoadUsersFromRepository()
+        {
+            _users = _repository.LoadUserList();
+            SelectFirstUser();
+            NotifyPropertyChanged("Users");
+        }
+
+        private void SetupCommands()
+        {
+            newMeasurementCommand = new DelegateCommand(PrepareForNewMeasurement);
+            removeMeasurementCommand = new DelegateCommand(RemoveMeasurement);
+            addMeasurementCommand = new DelegateCommand(AddMeasurement);
+            cancelNewMeasurementCommand = new DelegateCommand(CancelNewMeasurement);
+            showUsersCommand = new DelegateCommand(ShowUserScreen);
+        }
+
+        private void SelectFirstUser() {
+            if (_users != null)
+                if (_users.Count > 0)
+                    SelectedUser = _users[0];
+        }
+
+        private void SelectFirstMeasurement() {
+            if (Measurements != null)
+            {
+                if (Measurements.Count > 0)
+                {
+                    SelectedMeasurement = Measurements[0];
+                    return;
+                }
+            }
+
+            SelectedMeasurement = null;
+        }
+
+        private void ShowUserScreen() {
+            if (ShowUserScreenAction != null) {
+                ShowUserScreenAction.Invoke();
+            }
+        }
+
+        private void PrepareForNewMeasurement() {
+            MeasurementDate = GetCurrentDate().ToShortDateString();
+            WeightKg = "0";
+            Notes = string.Empty;
+            ViewMode = false;
+        }
+
+        private void RemoveMeasurement() {
+            _repository.Delete(SelectedMeasurement);
+            _selectedUser.RemoveMeasurement(SelectedMeasurement);
+            _repository.SaveUserList(_users);
+            SelectFirstMeasurement();
+            NotifyPropertyChanged("Measurements");
+        }
+
+        private void AddMeasurement() {
+            if (!MeasurementValuesAreCorrectFormat())
+                return;
+
+            Measurement addedMeasurement = _measurementFactory.Create(Convert.ToDateTime(_measurementDate), Convert.ToDouble(_weightKg), _notes);
+
+            if (addedMeasurement.IsValid()) {
+                _selectedUser.AddMeasurement(addedMeasurement);
+                _repository.SaveUserList(_users);
+                SelectedMeasurement = addedMeasurement;
+                ViewMode = true;
+                NotifyPropertyChanged("Measurements");
+            }
+            else {
+                ShowValidationMessages(addedMeasurement);
+            }
+        }
+
+        private void ShowValidationMessages(Measurement addedMeasurement)
+        {
+            StringBuilder validationMessage = new StringBuilder();
+            foreach (string failureMessage in addedMeasurement.GetValidationFailures())
+            {
+                if (validationMessage.ToString() != string.Empty)
+                    validationMessage.Append(Environment.NewLine);
+
+                validationMessage.Append(failureMessage);
+            }
+            _messageBoxDisplayer.ShowMessage("Validation Failure", validationMessage.ToString());
+        }
+
+        private void CancelNewMeasurement() {
+            SelectedMeasurement = null;
+            SelectFirstMeasurement();
+            ViewMode = true;
+        }
+
+        private bool MeasurementValuesAreCorrectFormat() {
+            return MeasurementDateIsCorrectFormat &&
+                    WeightKgIsCorrectFormat;
+        }
+
+        protected virtual DateTime GetCurrentDate()
+        {
+            return DateTime.Now;
+        }
     }
 }

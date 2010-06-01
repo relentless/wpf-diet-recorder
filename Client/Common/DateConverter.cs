@@ -3,7 +3,7 @@ using System.Windows.Data;
 
 namespace DietRecorder.Client.Common
 {
-    public class DateConverter: IValueConverter
+    public class DateConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -25,7 +25,7 @@ namespace DietRecorder.Client.Common
             {
                 return DateTime.MinValue;
             }
-            
+
         }
     }
 }

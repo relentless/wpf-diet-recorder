@@ -10,12 +10,12 @@ namespace DietRecorder.Client.ViewModel
 {
     public class CustomMeasurementDefinitionViewModel : ViewModelBase
     {
-        private ObservableCollection<CustomMeasurementDefinition> measurementDefinitions;
-        private string definitionName = string.Empty;
-        private MeasurementType measurementType = MeasurementType.Text;
-        private string errorMessage = string.Empty;
-        private bool isError = false;
-        private bool isEnabled = false;
+        private ObservableCollection<CustomMeasurementDefinition> _measurementDefinitions;
+        private string _definitionName = string.Empty;
+        private MeasurementType _measurementType = MeasurementType.Text;
+        private string _errorMessage = string.Empty;
+        private bool _isError = false;
+        private bool _isEnabled = false;
         public CustomMeasurementDefinition SelectedDefinition { get; set; }
 
         #region Commands
@@ -44,17 +44,17 @@ namespace DietRecorder.Client.ViewModel
         }
         #endregion Commands
 
-        #region Properties with NotifyProperty
+        #region Properties
         public ObservableCollection<CustomMeasurementDefinition> MeasurementDefinitions 
         {
             get
             {
-                return measurementDefinitions;
+                return _measurementDefinitions;
             }
 
             set
             {
-                measurementDefinitions = value;
+                _measurementDefinitions = value;
                 NotifyPropertyChanged("MeasurementDefinitions");
             }
         }
@@ -63,13 +63,13 @@ namespace DietRecorder.Client.ViewModel
         {
             get
             {
-                return definitionName;
+                return _definitionName;
             }
             set
             {
-                if (value != definitionName)
+                if (value != _definitionName)
                 {
-                    definitionName = value;
+                    _definitionName = value;
                     NotifyPropertyChanged("DefinitionName");
                 }
             }
@@ -79,13 +79,13 @@ namespace DietRecorder.Client.ViewModel
         {
             get
             {
-                return measurementType;
+                return _measurementType;
             }
             set
             {
-                if (value != measurementType)
+                if (value != _measurementType)
                 {
-                    measurementType = value;
+                    _measurementType = value;
                     NotifyPropertyChanged("MeasurementType");
                 }
             }
@@ -95,13 +95,13 @@ namespace DietRecorder.Client.ViewModel
         {
             get
             {
-                return errorMessage;
+                return _errorMessage;
             }
             set
             {
-                if (value != errorMessage)
+                if (value != _errorMessage)
                 {
-                    errorMessage = value;
+                    _errorMessage = value;
                     NotifyPropertyChanged("ErrorMessage");
                 }
             }
@@ -111,13 +111,13 @@ namespace DietRecorder.Client.ViewModel
         {
             get
             {
-                return isError;
+                return _isError;
             }
             set
             {
-                if (value != isError)
+                if (value != _isError)
                 {
-                    isError = value;
+                    _isError = value;
                     NotifyPropertyChanged("IsError");
                 }
             }
@@ -127,23 +127,34 @@ namespace DietRecorder.Client.ViewModel
         {
             get
             {
-                return isEnabled;
+                return _isEnabled;
             }
             set
             {
-                if (value != isEnabled)
+                if (value != _isEnabled)
                 {
-                    isEnabled = value;
+                    _isEnabled = value;
                     NotifyPropertyChanged("IsEnabled");
                 }
             }
         }
-        #endregion Properties with NotifyProperty
+        #endregion Properties
 
+        public void ResetContents()
+        {
+            SetDefaultValues();
+        }
+
+        private void SetupCommands()
+        {
+            acceptErrorCommand = new DelegateCommand(this.AcceptErrorMessage);
+            addDefinitionCommand = new DelegateCommand(AddMeasurementDefinition);
+            removeDefinitionCommand = new DelegateCommand(RemoveMeasurementDefinition);
+        }
 
         private void AddMeasurementDefinition()
         {
-            CustomMeasurementDefinition newDefitition = new CustomMeasurementDefinition(definitionName, measurementType);
+            CustomMeasurementDefinition newDefitition = new CustomMeasurementDefinition(_definitionName, _measurementType);
             List<string> validationFailures = newDefitition.GetValidationFailures();
 
             if (validationFailures.Count == 0)
@@ -158,7 +169,7 @@ namespace DietRecorder.Client.ViewModel
             }
         }
 
-        public void RemoveMeasurementDefinition()
+        private void RemoveMeasurementDefinition()
         {
             if (SelectedDefinition != null)
             {
@@ -188,23 +199,10 @@ namespace DietRecorder.Client.ViewModel
             MeasurementType = MeasurementType.Text;
         }
 
-        public void AcceptErrorMessage()
+        private void AcceptErrorMessage()
         {
             IsError = false;
             ErrorMessage = string.Empty;
-        }
-
-        public void SetupCommands()
-        {
-            acceptErrorCommand = new DelegateCommand(this.AcceptErrorMessage);
-            addDefinitionCommand = new DelegateCommand(AddMeasurementDefinition);
-            removeDefinitionCommand = new DelegateCommand(RemoveMeasurementDefinition);
-        }
-
-        public void ResetContents()
-        {
-            SetDefaultValues();
-            //measurementDefinitions.Clear();
         }
     }
 }
