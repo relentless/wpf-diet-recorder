@@ -20,7 +20,8 @@ namespace DietRecorder.Client.ViewModel
 
         public event Action UsersChanged;
 
-        public UserViewModel(IRepository Repository, CustomMeasurementDefinitionViewModel customMeasurementDefinitionViewModel)
+        public UserViewModel(IRepository Repository, CustomMeasurementDefinitionViewModel customMeasurementDefinitionViewModel, IMessageDisplay MessageDisplay):
+            base(MessageDisplay)
         {
             this._repository = Repository;
             DefinitionViewModel = customMeasurementDefinitionViewModel;
@@ -168,40 +169,50 @@ namespace DietRecorder.Client.ViewModel
 
         private void SaveNewOrModifiedUser()
         {
-            if (AddingNewUser())
+            User addedUser = new User(_name, CopyDefinitionListFromDefinitionViewModel());
+
+            if (addedUser.IsValid())
             {
-                AddNewUser();
+                if (AddingNewUser())
+                {
+                    Users.Add(addedUser);
+                }
+                else // modifying existing user
+                {
+                    UpdateSelectedUserFromViewFields(addedUser);
+                }
+
+                Mode = ViewMode.View;
+                _repository.SaveUserList(Users);
+                NotifyUsersChanged();
             }
             else
             {
-                UpdateSelectedUserFromViewFields();
+                ShowValidationFailures(addedUser);
             }
+            
+        }
 
-            SaveUsers();
-            Mode = ViewMode.View;
+        private void UpdateSelectedUserFromViewFields(User modifiedUser)
+        {
+            _selectedUser.UserName = modifiedUser.UserName;
+            _selectedUser.Definitions = modifiedUser.Definitions;
+        }
 
+        private void NotifyUsersChanged()
+        {
             if (UsersChanged != null)
                 UsersChanged.Invoke();
         }
 
-        private void UpdateSelectedUserFromViewFields()
-        {
-            _selectedUser.UserName = _name;
-            _selectedUser.Definitions = _definitionViewModel.MeasurementDefinitions;
-        }
-
-        private void AddNewUser()
+        private IList<CustomMeasurementDefinition> CopyDefinitionListFromDefinitionViewModel()
         {
             IList<CustomMeasurementDefinition> definitionList = new List<CustomMeasurementDefinition>();
             foreach (CustomMeasurementDefinition definition in DefinitionViewModel.MeasurementDefinitions)
             {
                 definitionList.Add(definition);
             }
-
-            User newUser = new User(_name, definitionList);
-            Users.Add(newUser);
-
-            SelectedUser = newUser;
+            return definitionList;
         }
 
         private void DeleteUser()
@@ -240,11 +251,6 @@ namespace DietRecorder.Client.ViewModel
             if(Users != null)
                 if (Users.Count > 0)
                     SelectedUser = Users.First();
-        }
-
-        private void SaveUsers()
-        {
-            _repository.SaveUserList(Users);
         }
 
         private void DeleteUser(User DeletedUser)

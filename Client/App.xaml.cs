@@ -22,18 +22,26 @@ namespace DietRecorder.Client
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             IRepository repository = new Repository();
+            MessageDisplay messageDisplay = new MessageDisplay();
+            MeasurementViewModel measurementVM = new MeasurementViewModel(repository, messageDisplay, new MeasurementFactory() );
+            CustomMeasurementDefinitionViewModel definitionsVM = new CustomMeasurementDefinitionViewModel(messageDisplay);
+            UserViewModel userVM = new UserViewModel(repository, definitionsVM, messageDisplay);
+            userVM.UsersChanged += measurementVM.LoadUsersFromRepository;
+            UserView userView = new UserView();
 
-            MeasurementViewModel measurementVM = new MeasurementViewModel(repository, new MessageDisplay(), new MeasurementFactory() );
-
+            // open the Users screen
             measurementVM.ShowUserScreenAction += () =>
                 {
-                    CustomMeasurementDefinitionViewModel definitionsVM = new CustomMeasurementDefinitionViewModel();
-                    definitionsVM.MeasurementDefinitions = new ObservableCollection<CustomMeasurementDefinition>();
-                    UserViewModel userVM = new UserViewModel(repository, definitionsVM);
-                    UserView userView = new UserView();
-                    userView.DataContext = userVM;
-                    userVM.UsersChanged += measurementVM.LoadUsersFromRepository;
+                    // ensure only one view is loaded, and the same one remains open for multiple requests
+                    if (!userView.IsLoaded)
+                    {
+                        userView.Close();
+                        userView = new UserView();
+                        userView.DataContext = userVM;
+                    }
+
                     userView.Show();
+
                     // I don't know why this has to be set after the view is shown,
                     // but it's the only way I can make it work
                     userView.DefinitionView.DataContext = userVM.DefinitionViewModel;

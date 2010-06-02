@@ -24,7 +24,7 @@
             <ComboBox Name="UserCombo" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Path=UserName}"/>
+                        <TextBlock Text="{Binding UserName}"/>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
@@ -35,9 +35,9 @@
                       >
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Width="75" Header="Date" DisplayMemberBinding="{Binding Path=Date, Converter={StaticResource DateConverter}}"/>
-                        <GridViewColumn Width="75" Header="Weight (Kg)" DisplayMemberBinding="{Binding Path=WeightKg}"/>
-                        <GridViewColumn Width="270" Header="Notes" DisplayMemberBinding="{Binding Path=Notes}"/>
+                        <GridViewColumn Width="75" Header="Date" DisplayMemberBinding="{Binding Date, Converter={StaticResource DateConverter}}"/>
+                        <GridViewColumn Width="75" Header="Weight (Kg)" DisplayMemberBinding="{Binding WeightKg}"/>
+                        <GridViewColumn Width="270" Header="Notes" DisplayMemberBinding="{Binding Notes}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -57,20 +57,20 @@
                 <StackPanel Grid.Column="0">
                     <TextBlock Text="Date"/>
                     <TextBox Name="DateText" 
-                             Text="{Binding Path=MeasurementDate}"
+                             Text="{Binding MeasurementDate}"
                              IsEnabled="{Binding ViewMode, Converter={StaticResource ReverseBooleanConverter}}"
                              Background="{Binding MeasurementDateIsCorrectFormat, Converter={StaticResource WarningColorConverter}}">
                     </TextBox>
                 </StackPanel>
                 <StackPanel Grid.Column="1">
                     <TextBlock Text="Weight Kg"/>
-                    <TextBox Name="WeightText" Text="{Binding Path=WeightKg}"
+                    <TextBox Name="WeightText" Text="{Binding WeightKg}"
                              IsEnabled="{Binding ViewMode, Converter={StaticResource ReverseBooleanConverter}}"
                              Background="{Binding WeightKgIsCorrectFormat, Converter={StaticResource WarningColorConverter}}"/>
                 </StackPanel>
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Notes"/>
                 <TextBox Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" Name="NotesText" 
-                         Text="{Binding Path=Notes}"
+                         Text="{Binding Notes}"
                          IsEnabled="{Binding ViewMode, Converter={StaticResource ReverseBooleanConverter}}"
                          Height="50"
                          AcceptsReturn="True"/>

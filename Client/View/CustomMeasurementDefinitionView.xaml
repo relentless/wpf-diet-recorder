@@ -25,31 +25,21 @@
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Text="Custom Measurements"  Background="LightBlue"/>
         <ListBox Grid.Row="1" Name="CustomMeasurementList" 
-                 ItemsSource="{Binding Path=MeasurementDefinitions}"
-                 SelectedItem="{Binding Path=SelectedDefinition}"
-                 Visibility="{Binding Path=IsError, Converter={StaticResource ReverseVisibleConverter}}">
+                 ItemsSource="{Binding MeasurementDefinitions}"
+                 SelectedItem="{Binding SelectedDefinition}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Path=Name}"/>
+                        <TextBlock Text="{Binding Name}"/>
                         <TextBlock Text=" ("/>
-                        <TextBlock Text="{Binding Path=Type}"/>
+                        <TextBlock Text="{Binding Type}"/>
                         <TextBlock Text=")"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Grid Grid.Row="1" Visibility="{Binding Path=IsError, Converter={StaticResource VisibleConverter}}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="{Binding Path=ErrorMessage}" Background="Orange"/>
-            <Button Grid.Column="1" 
-                    Content="Ok"
-                    Command="{Binding Path=AcceptErrorCommand}"/>
-        </Grid>
-        <Grid Grid.Row="2" Name="CustomMeasurementDetailsGrid" IsEnabled="{Binding Path=IsError, Converter={StaticResource ReverseBooleanConverter}}">
+
+        <Grid Grid.Row="2" Name="CustomMeasurementDetailsGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -62,7 +52,7 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Text="Name" Background="LightBlue"/>
-                <TextBox Grid.Row="1" Name="CustomMeasurementText" Text="{Binding Path=DefinitionName}"/>
+                <TextBox Grid.Row="1" Name="CustomMeasurementText" Text="{Binding DefinitionName}"/>
             </Grid>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
@@ -72,15 +62,15 @@
                 <TextBlock Grid.Row="0" Text="Type" Background="LightBlue"/>
                 <ComboBox Grid.Row="1" Name="CustomMeasurementType" 
                               ItemsSource="{Binding Source={StaticResource sysEnum}}" 
-                              SelectedItem="{Binding Path=MeasurementType}"/>
+                              SelectedItem="{Binding MeasurementType}"/>
             </Grid>
             
             <Button Grid.Column="2" 
                     Name="AddCustomMeasurementButton" 
-                    Command="{Binding Path=AddDefinitionCommand}" 
+                    Command="{Binding AddDefinitionCommand}" 
                     Content="+"/>
             
-            <Button Grid.Column="3" Name="DeleteCustomMeasurementButton" Content="-" Command="{Binding Path=RemoveDefinitionCommand}"/>
+            <Button Grid.Column="3" Name="DeleteCustomMeasurementButton" Content="-" Command="{Binding RemoveDefinitionCommand}"/>
         </Grid>
     </Grid>
 </UserControl>

@@ -12,7 +12,6 @@ namespace DietRecorder.Client.ViewModel {
     public class MeasurementViewModel : ViewModelBase {
         
         private IMeasurementFactory _measurementFactory;
-        private IMessageDisplay _messageBoxDisplayer;
         private IRepository _repository;
         private Boolean _viewMode;
         private Measurement _selectedMeasurement;
@@ -24,9 +23,10 @@ namespace DietRecorder.Client.ViewModel {
 
         public event Action ShowUserScreenAction;
 
-        public MeasurementViewModel(IRepository Repository, IMessageDisplay MessageBox, IMeasurementFactory MeasurementFactory) {
+        public MeasurementViewModel(IRepository Repository, IMessageDisplay MessageDisplay, IMeasurementFactory MeasurementFactory):
+            base(MessageDisplay)
+        {
             _repository = Repository;
-            _messageBoxDisplayer = MessageBox;
             _measurementFactory = MeasurementFactory;
             ViewMode = true;
             SetupCommands();
@@ -307,21 +307,8 @@ namespace DietRecorder.Client.ViewModel {
                 NotifyPropertyChanged("Measurements");
             }
             else {
-                ShowValidationMessages(addedMeasurement);
+                ShowValidationFailures(addedMeasurement);
             }
-        }
-
-        private void ShowValidationMessages(Measurement addedMeasurement)
-        {
-            StringBuilder validationMessage = new StringBuilder();
-            foreach (string failureMessage in addedMeasurement.GetValidationFailures())
-            {
-                if (validationMessage.ToString() != string.Empty)
-                    validationMessage.Append(Environment.NewLine);
-
-                validationMessage.Append(failureMessage);
-            }
-            _messageBoxDisplayer.ShowMessage("Validation Failure", validationMessage.ToString());
         }
 
         private void CancelNewMeasurement() {

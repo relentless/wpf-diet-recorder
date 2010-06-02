@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DietRecorder.Model
 {
-    public class User
+    public class User: EntityBase
     {
         private IList<Measurement> measurements = new List<Measurement>();
         private IList<CustomMeasurementDefinition> definitions = new List<CustomMeasurementDefinition>();
@@ -58,7 +58,7 @@ namespace DietRecorder.Model
             measurements.Remove(measurement);
         }
 
-        public List<string> GetValidationFailures()
+        public override List<string> GetValidationFailures()
         {
             List<string> validationFailures = new List<string>();
 
