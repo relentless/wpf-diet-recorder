@@ -21,7 +21,7 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="Users" Background="LightBlue"/>
+            <TextBlock Grid.Row="0" Text="Users" />
             <ListBox Grid.Row="1" Name="Users" 
                      ItemsSource="{Binding Users}"
                      SelectedItem="{Binding SelectedUser}"
@@ -44,7 +44,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="Name" Background="LightBlue"/>
+                    <TextBlock Grid.Row="0" Text="Name" />
                     <TextBox Grid.Row="1" 
                              Name="NameText" 
                              Text="{Binding Name}"

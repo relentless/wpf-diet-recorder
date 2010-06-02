@@ -23,7 +23,7 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Custom Measurements"  Background="LightBlue"/>
+        <TextBlock Grid.Row="0" Text="Custom Measurements"  />
         <ListBox Grid.Row="1" Name="CustomMeasurementList" 
                  ItemsSource="{Binding MeasurementDefinitions}"
                  SelectedItem="{Binding SelectedDefinition}">
@@ -51,7 +51,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="Name" Background="LightBlue"/>
+                <TextBlock Grid.Row="0" Text="Name" />
                 <TextBox Grid.Row="1" Name="CustomMeasurementText" Text="{Binding DefinitionName}"/>
             </Grid>
             <Grid Grid.Column="1">
@@ -59,7 +59,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="Type" Background="LightBlue"/>
+                <TextBlock Grid.Row="0" Text="Type" />
                 <ComboBox Grid.Row="1" Name="CustomMeasurementType" 
                               ItemsSource="{Binding Source={StaticResource sysEnum}}" 
                               SelectedItem="{Binding MeasurementType}"/>
