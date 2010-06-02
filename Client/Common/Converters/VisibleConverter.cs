@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Windows.Data;
+using System.Windows;
 
-namespace DietRecorder.Client.Common
+namespace DietRecorder.Client.Common.Converters
 {
-    class ReverseBooleanConverter:IValueConverter
+    class VisibleConverter: IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            // convert the date to a string
-            bool original = (bool)value;
- 
-            return !original;
+            bool visible = (bool)value;
+            return visible ? Visibility.Visible : Visibility.Hidden;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

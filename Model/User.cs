@@ -19,6 +19,9 @@ namespace DietRecorder.Model
             definitions = definitionList;
         }
 
+        public User(string name, IList<CustomMeasurementDefinition> definitionList):this(name, new List<Measurement>(), definitionList)
+        {}
+
         public User()
         {}
 

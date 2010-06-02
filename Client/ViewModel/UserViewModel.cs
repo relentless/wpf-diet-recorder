@@ -140,34 +140,17 @@ namespace DietRecorder.Client.ViewModel
                     _viewMode = value;
                     _definitionViewModel.IsEnabled = (_viewMode == ViewMode.Edit);
 
-                    NotifyPropertyChanged("NewUserButtonsVisible");
-                    NotifyPropertyChanged("SaveUserButtonVisible");
-                    NotifyPropertyChanged("NameBoxEditable");
+                    NotifyPropertyChanged("Mode");
+                    NotifyPropertyChanged("IsViewMode");
                 }
             }
         }
 
-        public bool NewUserButtonsVisible
+        public bool IsViewMode
         {
             get
             {
                 return _viewMode == ViewMode.View;
-            }
-        }
-
-        public bool SaveUserButtonVisible
-        {
-            get
-            {
-                return _viewMode == ViewMode.Edit;
-            }
-        }
-
-        public bool NameBoxEditable
-        {
-            get
-            {
-                return _viewMode == ViewMode.Edit;
             }
         }
         #endregion Properties
@@ -175,16 +158,6 @@ namespace DietRecorder.Client.ViewModel
         private void LoadUsers()
         {
             Users = _repository.LoadUserList().ToObservableCollection<User>();
-            //BindingList<User> userList = new BindingList<User>();
-
-            //foreach (var user in _repository.LoadUserList())
-            //{
-            //    userList.Add(user);
-            //}
-
-            //Users = userList;
-            //Users.RaiseListChangedEvents = true;
-
             SelectFirstUser();
         }
 
@@ -225,7 +198,7 @@ namespace DietRecorder.Client.ViewModel
                 definitionList.Add(definition);
             }
 
-            User newUser = new User(_name, null, definitionList);
+            User newUser = new User(_name, definitionList);
             Users.Add(newUser);
 
             SelectedUser = newUser;

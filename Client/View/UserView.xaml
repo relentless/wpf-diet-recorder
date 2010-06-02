@@ -2,11 +2,13 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:views="clr-namespace:DietRecorder.Client.View"
-    xmlns:converters="clr-namespace:DietRecorder.Client.Common"
+    xmlns:converters="clr-namespace:DietRecorder.Client.Common.Converters"
     Title="UserView" Height="300" Width="300">
     <Window.Resources>
         <converters:VisibleConverter x:Key="VisibleConverter"/>
+        <converters:ReverseVisibleConverter x:Key="ReverseVisibleConverter"/>
         <converters:NullBooleanConverter x:Key="NullBooleanConverter" />
+        <converters:ReverseBooleanConverter x:Key="ReverseBooleanConverter" />
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -45,13 +47,13 @@
                     <TextBox Grid.Row="1" 
                              Name="NameText" 
                              Text="{Binding Path=Name}"
-                             IsEnabled="{Binding Path=NameBoxEditable}"/>
+                             IsEnabled="{Binding Path=IsViewMode, Converter={StaticResource ReverseBooleanConverter}}"/>
                 </Grid>
                 <Button Grid.Column="1" Name="ModifyUserButton" Content="Modify" Command="{Binding Path=ModifyUserCommand}" IsEnabled="{Binding Path=SelectedUser, Converter={StaticResource NullBooleanConverter}}"/>
-                <Button Grid.Column="2" Name="NewUserButton" Content="New" Command="{Binding Path=NewUserCommand}" Visibility="{Binding Path=NewUserButtonsVisible, Converter={StaticResource VisibleConverter}}"/>
-                <Button Grid.Column="2" Name="SaveUserButton" Content="Ok" Command="{Binding Path=SaveUserCommand}" Visibility="{Binding Path=SaveUserButtonVisible, Converter={StaticResource VisibleConverter}}"/>
-                <Button Grid.Column="3" Name="CancelUserButton" Content="Cancel" Command="{Binding Path=CancelNewUserCommand}" Visibility="{Binding Path=AddUserButtonsVisible, Converter={StaticResource VisibleConverter}}"/>
-                <Button Grid.Column="3" Name="DeleteUserButton" Content="Delete" Command="{Binding Path=DeleteUserCommand}" Visibility="{Binding Path=NewUserButtonsVisible, Converter={StaticResource VisibleConverter}}"/>
+                <Button Grid.Column="2" Name="NewUserButton" Content="New" Command="{Binding Path=NewUserCommand}" Visibility="{Binding Path=IsViewMode, Converter={StaticResource VisibleConverter}}"/>
+                <Button Grid.Column="2" Name="SaveUserButton" Content="Ok" Command="{Binding Path=SaveUserCommand}" Visibility="{Binding Path=IsViewMode, Converter={StaticResource ReverseVisibleConverter}}"/>
+                <Button Grid.Column="3" Name="DeleteUserButton" Content="Delete" Command="{Binding Path=DeleteUserCommand}" IsEnabled="{Binding Path=SelectedUser, Converter={StaticResource NullBooleanConverter}}"/>
+                <Button Grid.Column="3" Name="CancelUserButton" Content="Cancel" Command="{Binding Path=CancelNewUserCommand}" Visibility="{Binding Path=IsViewMode, Converter={StaticResource ReverseVisibleConverter}}"/>
             </Grid>
         </Grid>
         <Grid Grid.Row="1">
