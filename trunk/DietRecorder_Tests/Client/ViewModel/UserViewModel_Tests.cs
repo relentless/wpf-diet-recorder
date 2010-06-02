@@ -108,7 +108,7 @@ namespace DietRecorder_Tests.Client.ViewModel
 
         private static UserViewModel CreateUserViewModel(IRepository repository, CustomMeasurementDefinitionViewModel definitionViewModel)
         {
-            return new UserViewModel(repository, definitionViewModel);
+            return new UserViewModel(repository, definitionViewModel, null);
         }
     }
 }

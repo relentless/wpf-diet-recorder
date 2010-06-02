@@ -10,23 +10,23 @@ namespace DietRecorder.Client.ViewModel
 {
     public class CustomMeasurementDefinitionViewModel : ViewModelBase
     {
-        private ObservableCollection<CustomMeasurementDefinition> _measurementDefinitions;
+        private ObservableCollection<CustomMeasurementDefinition> _measurementDefinitions = new ObservableCollection<CustomMeasurementDefinition>();
         private string _definitionName = string.Empty;
         private MeasurementType _measurementType = MeasurementType.Text;
         private string _errorMessage = string.Empty;
-        private bool _isError = false;
-        private bool _isEnabled = false;
+        private IMessageDisplay _messageDisplay;
+        private bool _isEnabled;
         public CustomMeasurementDefinition SelectedDefinition { get; set; }
 
+        public CustomMeasurementDefinitionViewModel(IMessageDisplay MessageDisplay):base(MessageDisplay)
+        {
+            _messageDisplay = MessageDisplay;
+            SetupCommands();
+        }
+
         #region Commands
-        private DelegateCommand acceptErrorCommand;
         private DelegateCommand addDefinitionCommand;
         private DelegateCommand removeDefinitionCommand;
-
-        public ICommand AcceptErrorCommand
-        {
-            get { return acceptErrorCommand; }
-        }
 
         public ICommand AddDefinitionCommand
         {
@@ -36,11 +36,6 @@ namespace DietRecorder.Client.ViewModel
         public ICommand RemoveDefinitionCommand
         {
             get { return removeDefinitionCommand; }
-        }
-
-        public CustomMeasurementDefinitionViewModel()
-        {
-            SetupCommands();
         }
         #endregion Commands
 
@@ -90,38 +85,6 @@ namespace DietRecorder.Client.ViewModel
                 }
             }
         }
-        
-        public string ErrorMessage
-        {
-            get
-            {
-                return _errorMessage;
-            }
-            set
-            {
-                if (value != _errorMessage)
-                {
-                    _errorMessage = value;
-                    NotifyPropertyChanged("ErrorMessage");
-                }
-            }
-        }
-
-        public bool IsError
-        {
-            get
-            {
-                return _isError;
-            }
-            set
-            {
-                if (value != _isError)
-                {
-                    _isError = value;
-                    NotifyPropertyChanged("IsError");
-                }
-            }
-        }
 
         public bool IsEnabled
         {
@@ -148,7 +111,6 @@ namespace DietRecorder.Client.ViewModel
 
         private void SetupCommands()
         {
-            acceptErrorCommand = new DelegateCommand(this.AcceptErrorMessage);
             addDefinitionCommand = new DelegateCommand(AddMeasurementDefinition);
             removeDefinitionCommand = new DelegateCommand(RemoveMeasurementDefinition);
         }
@@ -156,17 +118,15 @@ namespace DietRecorder.Client.ViewModel
         private void AddMeasurementDefinition()
         {
             CustomMeasurementDefinition newDefitition = new CustomMeasurementDefinition(_definitionName, _measurementType);
-            List<string> validationFailures = newDefitition.GetValidationFailures();
 
-            if (validationFailures.Count == 0)
+            if (newDefitition.IsValid())
             {
                 MeasurementDefinitions.Add(newDefitition);
                 SetDefaultValues();
-                
             }
             else
             {
-                ShowValidationFailures(validationFailures);
+                ShowValidationFailures(newDefitition.GetValidationFailures());
             }
         }
 
@@ -190,20 +150,13 @@ namespace DietRecorder.Client.ViewModel
                 failuresMessage.Append(failure);
             }
 
-            ErrorMessage = failuresMessage.ToString();
-            IsError = true;
+            _messageDisplay.ShowMessage("Validation Failure", failuresMessage.ToString());
         }
 
         private void SetDefaultValues()
         {
             DefinitionName = string.Empty;
             MeasurementType = MeasurementType.Text;
-        }
-
-        private void AcceptErrorMessage()
-        {
-            IsError = false;
-            ErrorMessage = string.Empty;
         }
     }
 }
