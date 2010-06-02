@@ -27,12 +27,14 @@ namespace DietRecorder.Client
             CustomMeasurementDefinitionViewModel definitionsVM = new CustomMeasurementDefinitionViewModel(messageDisplay);
             UserViewModel userVM = new UserViewModel(repository, definitionsVM, messageDisplay);
             userVM.UsersChanged += measurementVM.LoadUsersFromRepository;
-            UserView userView = new UserView();
+            UserView userView = null;
 
             // open the Users screen
             measurementVM.ShowUserScreenAction += () =>
                 {
                     // ensure only one view is loaded, and the same one remains open for multiple requests
+                    userView = userView ?? new UserView();
+
                     if (!userView.IsLoaded)
                     {
                         userView.Close();

@@ -8,7 +8,7 @@ namespace DietRecorder.Client.Common.Converters
     class WarningColourConverter: IValueConverter {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) {
             bool formatIsCorrect = (bool)value;
-            return formatIsCorrect ? Colors.White.ToString() : Colors.Red.ToString();
+            return formatIsCorrect ? Colors.White.ToString() : Colors.OrangeRed.ToString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
