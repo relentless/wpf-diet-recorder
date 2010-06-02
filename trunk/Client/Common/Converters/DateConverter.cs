@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 
-namespace DietRecorder.Client.Common
+namespace DietRecorder.Client.Common.Converters
 {
     public class DateConverter : IValueConverter
     {

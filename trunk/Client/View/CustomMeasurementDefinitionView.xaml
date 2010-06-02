@@ -2,12 +2,12 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
-    xmlns:converters="clr-namespace:DietRecorder.Client.Common"
+    xmlns:converters="clr-namespace:DietRecorder.Client.Common.Converters"
     xmlns:model="clr-namespace:DietRecorder.Model"
     IsEnabled="{Binding IsEnabled}">
     <UserControl.Resources>
         <converters:VisibleConverter x:Key="VisibleConverter"/>
-        <converters:ReverseVisibleCoverter x:Key="ReverseVisibleConverter"/>
+        <converters:ReverseVisibleConverter x:Key="ReverseVisibleConverter"/>
         <converters:ReverseBooleanConverter x:Key="ReverseBooleanConverter"/>
         <ObjectDataProvider MethodName="GetValues" 
                             ObjectType="{x:Type sys:Enum}" 

@@ -86,17 +86,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client\Common\CollectionExtensions.cs" />
-    <Compile Include="Client\Common\DateConverter.cs" />
+    <Compile Include="Client\Common\Converters\DateConverter.cs" />
     <Compile Include="Client\Common\DelegateCommand.cs">
     </Compile>
     <Compile Include="Client\Common\IMessageDisplay.cs" />
     <Compile Include="Client\Common\MessageDisplay.cs" />
-    <Compile Include="Client\Common\NullBooleanConverter.cs" />
-    <Compile Include="Client\Common\ReverseBooleanConverter.cs" />
-    <Compile Include="Client\Common\ReverseVisibleConverter.cs" />
+    <Compile Include="Client\Common\Converters\NullBooleanConverter.cs" />
+    <Compile Include="Client\Common\Converters\ReverseBooleanConverter.cs" />
+    <Compile Include="Client\Common\Converters\ReverseVisibleConverter.cs" />
     <Compile Include="Client\Common\ViewMode.cs" />
-    <Compile Include="Client\Common\VisibleConverter.cs" />
-    <Compile Include="Client\Common\WarningColourConverter.cs" />
+    <Compile Include="Client\Common\Converters\VisibleConverter.cs" />
+    <Compile Include="Client\Common\Converters\WarningColourConverter.cs" />
     <Compile Include="Client\ViewModel\CustomMeasurementDefinitionViewModel.cs" />
     <Compile Include="Client\ViewModel\MeasurementViewModel.cs" />
     <Compile Include="Client\ViewModel\UserViewModel.cs" />

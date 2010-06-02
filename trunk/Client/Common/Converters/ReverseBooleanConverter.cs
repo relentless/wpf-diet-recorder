@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Windows.Data;
 
-namespace DietRecorder.Client.Common
+namespace DietRecorder.Client.Common.Converters
 {
-    class NullBooleanConverter : IValueConverter
+    public class ReverseBooleanConverter:IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return value != null;
+            bool original = (bool)value;
+            return !original;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
