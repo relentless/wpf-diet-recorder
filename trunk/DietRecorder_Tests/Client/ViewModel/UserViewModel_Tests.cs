@@ -66,7 +66,7 @@ namespace DietRecorder_Tests.Client.ViewModel
         public void ModifyUserCommand_Called_EnablesDefinitionViewModel()
         {
             // arrange
-            CustomMeasurementDefinitionViewModel definitionVM = MockRepository.GenerateMock<CustomMeasurementDefinitionViewModel>();
+            CustomMeasurementDefinitionViewModel definitionVM = MockRepository.GenerateMock<CustomMeasurementDefinitionViewModel>(MockRepository.GenerateStub<IMessageDisplay>());
             UserViewModel userVM = CreateUserViewModel(definitionVM);
             definitionVM.IsEnabled = false;
 
@@ -103,7 +103,7 @@ namespace DietRecorder_Tests.Client.ViewModel
 
         private static UserViewModel CreateUserViewModel(IRepository repository)
         {
-            return CreateUserViewModel(repository, MockRepository.GenerateStub<CustomMeasurementDefinitionViewModel>());
+            return CreateUserViewModel(repository, MockRepository.GenerateStub<CustomMeasurementDefinitionViewModel>(MockRepository.GenerateStub<IMessageDisplay>()));
         }
 
         private static UserViewModel CreateUserViewModel(IRepository repository, CustomMeasurementDefinitionViewModel definitionViewModel)
