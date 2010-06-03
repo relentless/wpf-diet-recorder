@@ -154,12 +154,21 @@ namespace DietRecorder.Client.ViewModel
                 return _viewMode == ViewMode.View;
             }
         }
+
+        public bool UsersLoaded
+        {
+            get
+            {
+                return Users.Count > 0;
+            }
+        }
         #endregion Properties
 
         private void LoadUsers()
         {
             Users = _repository.LoadUserList().ToObservableCollection<User>();
             SelectFirstUser();
+            NotifyPropertyChanged("UsersLoaded");
         }
 
         private bool AddingNewUser()

@@ -91,6 +91,22 @@ namespace DietRecorder_Tests.Client.ViewModel
             Assert.AreEqual("Joe", userVM.Name);
         }
 
+        [Test]
+        public void Constructor_NoUsersLoaded_SetsUsersLoadedFalse()
+        {
+            // arrange
+            List<User> users = new List<User>();
+
+            IRepository repository = MockRepository.GenerateStub<IRepository>();
+            repository.Expect(x => x.LoadUserList()).Return(users);
+
+            // act
+            UserViewModel userVM = CreateUserViewModel(repository);
+
+            // assert
+            Assert.IsFalse(userVM.UsersLoaded);
+        }
+
         private static UserViewModel CreateUserViewModel()
         {
             return CreateUserViewModel(MockRepository.GenerateStub<IRepository>());

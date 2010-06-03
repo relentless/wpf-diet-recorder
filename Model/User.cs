@@ -63,9 +63,9 @@ namespace DietRecorder.Model
             List<string> validationFailures = new List<string>();
 
             if (UserName.Length < MIN_NAME_CHARS)
-                validationFailures.Add(string.Format("Name must be at least {0} character long", MIN_NAME_CHARS));
+                validationFailures.Add(string.Format("User Name must be at least {0} character long", MIN_NAME_CHARS));
             else if (UserName.Length > MAX_NAME_CHARS)
-                validationFailures.Add(string.Format("Name cannot be longer than {0} characters", MAX_NAME_CHARS));
+                validationFailures.Add(string.Format("User Name cannot be longer than {0} characters", MAX_NAME_CHARS));
 
             return validationFailures;
         }
