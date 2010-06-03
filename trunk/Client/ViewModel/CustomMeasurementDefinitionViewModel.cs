@@ -126,7 +126,7 @@ namespace DietRecorder.Client.ViewModel
             }
             else
             {
-                ShowValidationFailures(newDefitition.GetValidationFailures());
+                ShowValidationFailures(newDefitition);
             }
         }
 
@@ -136,21 +136,6 @@ namespace DietRecorder.Client.ViewModel
             {
                 MeasurementDefinitions.Remove(SelectedDefinition);
             }
-        }
-
-        private void ShowValidationFailures(List<string> validationFailures)
-        {
-            StringBuilder failuresMessage = new StringBuilder();
-            failuresMessage.Append("Please sort out these issues:");
-            failuresMessage.Append(Environment.NewLine);
-
-            foreach (string failure in validationFailures)
-            {
-                failuresMessage.Append(Environment.NewLine);
-                failuresMessage.Append(failure);
-            }
-
-            _messageDisplay.ShowMessage("Validation Failure", failuresMessage.ToString());
         }
 
         private void SetDefaultValues()

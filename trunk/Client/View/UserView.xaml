@@ -3,26 +3,25 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:views="clr-namespace:DietRecorder.Client.View"
     xmlns:converters="clr-namespace:DietRecorder.Client.Common.Converters"
-    Title="DietRecorder - Users" Height="300" Width="300" Icon="../Icon/tapemeasure.ico">
+    Title="DietRecorder - Users" Height="350" Width="300" Icon="../Icon/tapemeasure.ico" MinHeight="300">
     <Window.Resources>
         <converters:VisibleConverter x:Key="VisibleConverter"/>
         <converters:ReverseVisibleConverter x:Key="ReverseVisibleConverter"/>
         <converters:NullBooleanConverter x:Key="NullBooleanConverter" />
         <converters:ReverseBooleanConverter x:Key="ReverseBooleanConverter" />
     </Window.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+    <Border BorderThickness="5">
+        <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition MinHeight="75"/>
+                <RowDefinition Height="5"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="5"/>
                 <RowDefinition/>
-                <RowDefinition/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="Users" />
-            <ListBox Grid.Row="1" Name="Users" 
+            <ListBox Grid.Row="0" Name="Users" 
                      ItemsSource="{Binding Users}"
                      SelectedItem="{Binding SelectedUser}"
                      IsEnabled="{Binding IsViewMode}">
@@ -34,34 +33,34 @@
             </ListBox>
             <Grid Grid.Row="2" Name="UserGrid">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition MaxWidth="50"/>
+                    <ColumnDefinition  />
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="Name" />
-                    <TextBox Grid.Row="1" 
+                    <TextBlock Grid.Column="0" Text="Name" />
+                    <TextBox Grid.Column="1" 
                              Name="NameText" 
                              Text="{Binding Name}"
                              IsEnabled="{Binding IsViewMode, Converter={StaticResource ReverseBooleanConverter}}"/>
-                </Grid>
-                <Button Grid.Column="1" Name="ModifyUserButton" Content="Modify" Command="{Binding ModifyUserCommand}" IsEnabled="{Binding SelectedUser, Converter={StaticResource NullBooleanConverter}}"/>
+            </Grid>
+            <Grid Grid.Row="4">
+                <views:CustomMeasurementDefinitionView 
+                x:Name="DefinitionView"
+                DataContext="{Binding DefinitionViewModel}"/>
+            </Grid>
+            <Grid Grid.Row="6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition MaxWidth="50"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Name="ModifyUserButton" Content="Modify" Command="{Binding ModifyUserCommand}" IsEnabled="{Binding SelectedUser, Converter={StaticResource NullBooleanConverter}}"/>
                 <Button Grid.Column="2" Name="NewUserButton" Content="New" Command="{Binding NewUserCommand}" Visibility="{Binding IsViewMode, Converter={StaticResource VisibleConverter}}"/>
                 <Button Grid.Column="2" Name="SaveUserButton" Content="Ok" Command="{Binding SaveUserCommand}" Visibility="{Binding IsViewMode, Converter={StaticResource ReverseVisibleConverter}}"/>
-                <Button Grid.Column="3" Name="DeleteUserButton" Content="Delete" Command="{Binding DeleteUserCommand}" IsEnabled="{Binding SelectedUser, Converter={StaticResource NullBooleanConverter}}"/>
-                <Button Grid.Column="3" Name="CancelUserButton" Content="Cancel" Command="{Binding CancelNewUserCommand}" Visibility="{Binding IsViewMode, Converter={StaticResource ReverseVisibleConverter}}"/>
+                <Button Grid.Column="4" Name="DeleteUserButton" Content="Delete" Command="{Binding DeleteUserCommand}" IsEnabled="{Binding SelectedUser, Converter={StaticResource NullBooleanConverter}}"/>
+                <Button Grid.Column="4" Name="CancelUserButton" Content="Cancel" Command="{Binding CancelNewUserCommand}" Visibility="{Binding IsViewMode, Converter={StaticResource ReverseVisibleConverter}}"/>
             </Grid>
         </Grid>
-        <Grid Grid.Row="1">
-            <views:CustomMeasurementDefinitionView 
-            x:Name="DefinitionView"
-            DataContext="{Binding DefinitionViewModel}"/>
-        </Grid>
-    </Grid>
-
+    </Border>
 </Window>

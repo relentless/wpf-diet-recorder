@@ -2,7 +2,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:DietRecorder.Client.Common.Converters"
-    Title="DietRecorder" Height="400" Width="450" Icon="../Icon/tapemeasure.ico" >
+    Title="DietRecorder - Measurements" Height="400" Width="450" Icon="../Icon/tapemeasure.ico" MinHeight="300">
     <Window.Resources>
         <converters:DateConverter x:Key="DateConverter"/>
         <converters:VisibleConverter x:Key="VisibleConverter"/>
@@ -15,11 +15,13 @@
         <Menu DockPanel.Dock="Top">
             <MenuItem Name="UsersMenu" Header="_Users" Command="{Binding ShowUsersCommand}"/>
         </Menu>
+        <Border BorderThickness="5">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition MinHeight="80"/>
+                <RowDefinition Height="Auto" MinHeight="40"/>
             </Grid.RowDefinitions>
             <ComboBox Name="UserCombo" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}">
                 <ComboBox.ItemTemplate>
@@ -28,7 +30,7 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <ListView Grid.Row="1" Name="MeasurementGrid" 
+            <ListView Grid.Row="2" Name="MeasurementGrid" 
                       ItemsSource="{Binding Measurements}" 
                       SelectedItem="{Binding SelectedMeasurement}" 
                       IsEnabled="{Binding ViewMode}"
@@ -37,24 +39,23 @@
                     <GridView>
                         <GridViewColumn Width="75" Header="Date" DisplayMemberBinding="{Binding Date, Converter={StaticResource DateConverter}}"/>
                         <GridViewColumn Width="75" Header="Weight (Kg)" DisplayMemberBinding="{Binding WeightKg}"/>
-                        <GridViewColumn Width="270" Header="Notes" DisplayMemberBinding="{Binding Notes}"/>
+                        <GridViewColumn Width="260" Header="Notes" DisplayMemberBinding="{Binding Notes}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Grid Grid.Row="2" Name="DetailsGrid">
+            <Grid Grid.Row="3" Name="DetailsGrid">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition MaxWidth="120"/>
+                    <ColumnDefinition Width="5"/>
                     <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition Height="5"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <StackPanel Grid.Column="0">
+                <StackPanel Grid.Column="0" Grid.Row="0">
                     <TextBlock Text="Date"/>
                     <TextBox Name="DateText" 
                              Text="{Binding MeasurementDate}"
@@ -62,32 +63,47 @@
                              Background="{Binding MeasurementDateIsCorrectFormat, Converter={StaticResource WarningColorConverter}}">
                     </TextBox>
                 </StackPanel>
-                <StackPanel Grid.Column="1">
+                <StackPanel Grid.Column="0" Grid.Row="1">
                     <TextBlock Text="Weight Kg"/>
                     <TextBox Name="WeightText" Text="{Binding WeightKg}"
                              IsEnabled="{Binding ViewMode, Converter={StaticResource ReverseBooleanConverter}}"
                              Background="{Binding WeightKgIsCorrectFormat, Converter={StaticResource WarningColorConverter}}"/>
                 </StackPanel>
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Notes"/>
-                <TextBox Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" Name="NotesText" 
+                <Grid Grid.Column="2" Grid.Row="0" Grid.RowSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Notes"/>
+                    <TextBox Grid.Row="1" Name="NotesText" 
                          Text="{Binding Notes}"
                          IsEnabled="{Binding ViewMode, Converter={StaticResource ReverseBooleanConverter}}"
-                         Height="50"
                          AcceptsReturn="True"/>
-                <Button Grid.Column="2" Grid.RowSpan="3" Content="new" Width="40" Name="NewButton" 
+                </Grid>
+                
+                <Grid Grid.Row="4" Grid.ColumnSpan="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="5"  />
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Content="new" Width="Auto" Name="NewButton" 
                         Command="{Binding NewMeasurementCommand}" 
                         Visibility="{Binding ViewMode, Converter={StaticResource VisibleConverter}}"
                         IsEnabled="{Binding SelectedUser, Converter={StaticResource NullBooleanConverter}}"/>
-                <Button Grid.Column="3" Grid.RowSpan="3" Content="delete" Width="40" Name="DeleteButton" 
+                    <Button Grid.Column="2"  Content="delete" Width="Auto" Name="DeleteButton" 
                         Command="{Binding RemoveMeasurementCommand}" 
                         Visibility="{Binding ViewMode, Converter={StaticResource VisibleConverter}}"
                         IsEnabled="{Binding SelectedMeasurement, Converter={StaticResource NullBooleanConverter}}"/>
-                <Button Grid.Column="2" Grid.RowSpan="3" Content="ok" Width="40" Name="AddButton" Command="{Binding AddMeasurementCommand}" Visibility="{Binding ViewMode, Converter={StaticResource ReverseVisibleConverter}}"/>
-                <Button Grid.Column="3" Grid.RowSpan="3" Content="cancel" Width="40" Name="CancelButton" Command="{Binding CancelNewMeasurementCommand}" Visibility="{Binding ViewMode, Converter={StaticResource ReverseVisibleConverter}}"/>
-
-                <StackPanel Grid.Row="4" Name="CustomMeasurementsPanel" Grid.ColumnSpan="4" Width="Auto">
-                </StackPanel>
+                    <Button Grid.Column="0" Content="Ok" Width="Auto" Name="AddButton" 
+                        Command="{Binding AddMeasurementCommand}"
+                        Visibility="{Binding ViewMode, Converter={StaticResource ReverseVisibleConverter}}"/>
+                    <Button Grid.Column="2" Grid.RowSpan="3" Content="Cancel" Width="Auto" Name="CancelButton" 
+                        Command="{Binding CancelNewMeasurementCommand}" 
+                        Visibility="{Binding ViewMode, Converter={StaticResource ReverseVisibleConverter}}"/>
+                </Grid>
             </Grid>
         </Grid>
+            </Border>
     </DockPanel>
 </Window>
