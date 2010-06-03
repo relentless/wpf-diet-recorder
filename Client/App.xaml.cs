@@ -11,6 +11,7 @@ using DietRecorder.Client.ViewModel;
 using System.Collections.ObjectModel;
 using DietRecorder.Client.Common;
 using DietRecorder.Common;
+using BlogsPrajeesh.BlogSpot.WPFControls;
 
 namespace DietRecorder.Client
 {
@@ -21,37 +22,53 @@ namespace DietRecorder.Client
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            IRepository repository = new Repository();
-            MessageDisplay messageDisplay = new MessageDisplay();
-            MeasurementViewModel measurementVM = new MeasurementViewModel(repository, messageDisplay, new MeasurementFactory() );
-            CustomMeasurementDefinitionViewModel definitionsVM = new CustomMeasurementDefinitionViewModel(messageDisplay);
-            UserViewModel userVM = new UserViewModel(repository, definitionsVM, messageDisplay);
-            userVM.UsersChanged += measurementVM.LoadUsersFromRepository;
-            UserView userView = null;
+            try
+            {
+                IRepository repository = new Repository();
+                MessageDisplay messageDisplay = new MessageDisplay();
+                MeasurementViewModel measurementVM = new MeasurementViewModel(repository, messageDisplay, new MeasurementFactory());
+                CustomMeasurementDefinitionViewModel definitionsVM = new CustomMeasurementDefinitionViewModel(messageDisplay);
+                UserViewModel userVM = new UserViewModel(repository, definitionsVM, messageDisplay);
+                userVM.UsersChanged += measurementVM.LoadUsersFromRepository;
+                UserView userView = null;
 
-            // open the Users screen
-            measurementVM.ShowUserScreenAction += () =>
-                {
-                    // ensure only one view is loaded, and the same one remains open for multiple requests
-                    userView = userView ?? new UserView();
-
-                    if (!userView.IsLoaded)
+                // open the Users screen
+                measurementVM.ShowUserScreenAction += () =>
                     {
-                        userView.Close();
-                        userView = new UserView();
-                        userView.DataContext = userVM;
-                    }
+                        try
+                        {
+                            // ensure only one view is loaded, and the same one remains open for multiple requests
+                            userView = userView ?? new UserView();
 
-                    userView.Show();
+                            if (!userView.IsLoaded)
+                            {
+                                userView.Close();
+                                userView = new UserView();
+                                userView.DataContext = userVM;
+                            }
 
-                    // I don't know why this has to be set after the view is shown,
-                    // but it's the only way I can make it work
-                    userView.DefinitionView.DataContext = userVM.DefinitionViewModel;
-                };
+                            userView.Show();
 
-            MeasurementView view = new MeasurementView();
-            view.DataContext = measurementVM;
-            view.Show();
+                            // I don't know why this has to be set after the view is shown,
+                            // but it's the only way I can make it work
+                            userView.DefinitionView.DataContext = userVM.DefinitionViewModel;
+                        }
+                        catch (Exception ex)
+                        {
+                            WPFMessageBox.Show("Error", ex.Message, ex.ToString(), WPFMessageBoxImage.Error);
+                            Application.Current.Shutdown();
+                        }
+                    };
+
+                MeasurementView view = new MeasurementView();
+                view.DataContext = measurementVM;
+                view.Show();
+            }
+            catch (Exception ex)
+            {
+                WPFMessageBox.Show("Error", ex.Message, ex.ToString(), WPFMessageBoxImage.Error);
+                Application.Current.Shutdown();
+            }
         }
     }
 }

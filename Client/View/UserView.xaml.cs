@@ -23,13 +23,6 @@ namespace DietRecorder.Client.View
         public UserView()
         {
             InitializeComponent();
-
-            Loaded += new RoutedEventHandler(UserView_Loaded);
-        }
-
-        void UserView_Loaded(object sender, RoutedEventArgs e)
-        {
-            DefinitionView.DataContext = this.DataContext;
         }
     }
 }
