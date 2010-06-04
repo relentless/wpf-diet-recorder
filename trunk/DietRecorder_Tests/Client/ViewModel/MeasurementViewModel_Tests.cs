@@ -316,16 +316,31 @@ namespace DietRecorder_Tests.Client.ViewModel
         }
 
         [Test]
-        public void MeasurementDate_SetWithInvalidDate_TurnsWarningOn()
+        public void MeasurementDate_SetWithInvalidDateInEditMode_TurnsWarningOn()
         {
             // arrange
             MeasurementViewModel measurementVM = CreateMeasurementViewModel(MockRepository.GenerateStub<IRepository>(), null);
-            
+            measurementVM.ViewMode = false;
+
             // act
             measurementVM.MeasurementDate = "invaliddate";
 
             // assert
-            Assert.IsFalse(measurementVM.MeasurementDateIsCorrectFormat);
+            Assert.IsFalse(measurementVM.MeasurementDateIsCorrectFormatInEditMode);
+        }
+
+        [Test]
+        public void MeasurementDate_SetWithInvalidDateInViewMode_TurnsWarningOff()
+        {
+            // arrange
+            MeasurementViewModel measurementVM = CreateMeasurementViewModel(MockRepository.GenerateStub<IRepository>(), null);
+            measurementVM.ViewMode = true;
+
+            // act
+            measurementVM.MeasurementDate = "invaliddate";
+
+            // assert
+            Assert.IsTrue(measurementVM.MeasurementDateIsCorrectFormatInEditMode);
         }
 
         [Test]
@@ -338,19 +353,34 @@ namespace DietRecorder_Tests.Client.ViewModel
             measurementVM.MeasurementDate = "1/1/2010";
 
             // assert
-            Assert.IsTrue(measurementVM.MeasurementDateIsCorrectFormat);
+            Assert.IsTrue(measurementVM.MeasurementDateIsCorrectFormatInEditMode);
         }
 
         [Test]
-        public void WeightKg_SetWithInvalidWeight_TurnsWarningOn() {
+        public void WeightKg_SetWithInvalidWeightInEditMode_TurnsWarningOn() {
             // arrange
             MeasurementViewModel measurementVM = CreateMeasurementViewModel(MockRepository.GenerateStub<IRepository>(), null);
+            measurementVM.ViewMode = false;
 
             // act
             measurementVM.WeightKg = "invalidweight";
 
             // assert
-            Assert.IsFalse(measurementVM.WeightKgIsCorrectFormat);
+            Assert.IsFalse(measurementVM.WeightKgIsCorrectFormatInEditMode);
+        }
+
+        [Test]
+        public void WeightKg_SetWithInvalidWeightInViewMode_TurnsWarningOff()
+        {
+            // arrange
+            MeasurementViewModel measurementVM = CreateMeasurementViewModel(MockRepository.GenerateStub<IRepository>(), null);
+            measurementVM.ViewMode = true;
+
+            // act
+            measurementVM.WeightKg = "invalidweight";
+
+            // assert
+            Assert.IsTrue(measurementVM.WeightKgIsCorrectFormatInEditMode);
         }
 
         [Test]
@@ -362,7 +392,7 @@ namespace DietRecorder_Tests.Client.ViewModel
             measurementVM.WeightKg = "123.456";
 
             // assert
-            Assert.IsTrue(measurementVM.WeightKgIsCorrectFormat);
+            Assert.IsTrue(measurementVM.WeightKgIsCorrectFormatInEditMode);
         }
 
         [Test]

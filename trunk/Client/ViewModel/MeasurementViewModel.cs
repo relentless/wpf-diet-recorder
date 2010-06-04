@@ -143,15 +143,19 @@ namespace DietRecorder.Client.ViewModel {
                 {
                     _weightKg = value;
                     NotifyPropertyChanged("WeightKg");
-                    NotifyPropertyChanged("WeightKgIsCorrectFormat");
+                    NotifyPropertyChanged("WeightKgIsCorrectFormatInEditMode");
+                    NotifyPropertyChanged("MeasurementValuesAreCorrectFormatInEditMode");
                 }
             }
         }
 
-        public bool WeightKgIsCorrectFormat
+        public bool WeightKgIsCorrectFormatInEditMode
         {
             get
             {
+                if (_viewMode)
+                    return true;
+
                 try
                 {
                     Convert.ToDouble(_weightKg);
@@ -177,15 +181,19 @@ namespace DietRecorder.Client.ViewModel {
                 {
                     _measurementDate = value;
                     NotifyPropertyChanged("MeasurementDate");
-                    NotifyPropertyChanged("MeasurementDateIsCorrectFormat");
+                    NotifyPropertyChanged("MeasurementDateIsCorrectFormatInEditMode");
+                    NotifyPropertyChanged("MeasurementValuesAreCorrectFormatInEditMode");
                 }
             }
         }
 
-        public bool MeasurementDateIsCorrectFormat
+        public bool MeasurementDateIsCorrectFormatInEditMode
         {
             get
             {
+                if (_viewMode)
+                    return true;
+
                 try
                 {
                     Convert.ToDateTime(_measurementDate);
@@ -233,6 +241,15 @@ namespace DietRecorder.Client.ViewModel {
                     NotifyPropertyChanged("SelectedUser");
                     NotifyPropertyChanged("Measurements");
                 }
+            }
+        }
+
+        public bool MeasurementValuesAreCorrectFormatInEditMode
+        {
+            get
+            {
+                return MeasurementDateIsCorrectFormatInEditMode &&
+                       WeightKgIsCorrectFormatInEditMode;
             }
         }
         #endregion Properties
@@ -294,7 +311,7 @@ namespace DietRecorder.Client.ViewModel {
         }
 
         private void AddMeasurement() {
-            if (!MeasurementValuesAreCorrectFormat())
+            if (!MeasurementValuesAreCorrectFormatInEditMode)
                 return;
 
             Measurement addedMeasurement = _measurementFactory.Create(Convert.ToDateTime(_measurementDate), Convert.ToDouble(_weightKg), _notes);
@@ -312,14 +329,9 @@ namespace DietRecorder.Client.ViewModel {
         }
 
         private void CancelNewMeasurement() {
+            ViewMode = true;
             SelectedMeasurement = null;
             SelectFirstMeasurement();
-            ViewMode = true;
-        }
-
-        private bool MeasurementValuesAreCorrectFormat() {
-            return MeasurementDateIsCorrectFormat &&
-                    WeightKgIsCorrectFormat;
         }
 
         protected virtual DateTime GetCurrentDate()
