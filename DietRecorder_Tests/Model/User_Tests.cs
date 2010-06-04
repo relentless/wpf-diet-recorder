@@ -20,7 +20,7 @@ namespace DietRecorder_Tests.Model
 
             // assert
             Assert.IsNotEmpty(validationResults, "No validation message");
-            Assert.AreEqual("Name must be at least 1 character long", validationResults[0], "Validation message wrong");
+            Assert.AreEqual("User Name must be at least 1 character long", validationResults[0], "Validation message wrong");
         }
 
         [Test]
@@ -63,7 +63,7 @@ namespace DietRecorder_Tests.Model
 
             // assert
             Assert.IsNotEmpty(validationResults, "No validation message");
-            Assert.AreEqual("Name cannot be longer than 40 characters", validationResults[0], "Validation message wrong");
+            Assert.AreEqual("User Name cannot be longer than 40 characters", validationResults[0], "Validation message wrong");
         }
     }
 }

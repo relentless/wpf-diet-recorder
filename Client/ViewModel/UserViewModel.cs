@@ -252,6 +252,7 @@ namespace DietRecorder.Client.ViewModel
         private void CancelNewUser()
         {
             Mode = ViewMode.View;
+            _definitionViewModel.ResetContents();
             SelectFirstUser();
         }
 

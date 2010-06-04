@@ -58,16 +58,16 @@
                 <StackPanel Grid.Column="0" Grid.Row="0">
                     <TextBlock Text="Date"/>
                     <TextBox Name="DateText" 
-                             Text="{Binding MeasurementDate}"
+                             Text="{Binding MeasurementDate, UpdateSourceTrigger=PropertyChanged}"
                              IsEnabled="{Binding ViewMode, Converter={StaticResource ReverseBooleanConverter}}"
-                             Background="{Binding MeasurementDateIsCorrectFormat, Converter={StaticResource WarningColorConverter}}">
+                             Background="{Binding MeasurementDateIsCorrectFormatInEditMode, Converter={StaticResource WarningColorConverter}}">
                     </TextBox>
                 </StackPanel>
                 <StackPanel Grid.Column="0" Grid.Row="1">
                     <TextBlock Text="Weight Kg"/>
-                    <TextBox Name="WeightText" Text="{Binding WeightKg}"
+                    <TextBox Name="WeightText" Text="{Binding WeightKg, UpdateSourceTrigger=PropertyChanged}"
                              IsEnabled="{Binding ViewMode, Converter={StaticResource ReverseBooleanConverter}}"
-                             Background="{Binding WeightKgIsCorrectFormat, Converter={StaticResource WarningColorConverter}}"/>
+                             Background="{Binding WeightKgIsCorrectFormatInEditMode, Converter={StaticResource WarningColorConverter}}"/>
                 </StackPanel>
                 <Grid Grid.Column="2" Grid.Row="0" Grid.RowSpan="2">
                     <Grid.RowDefinitions>
@@ -97,7 +97,8 @@
                         IsEnabled="{Binding SelectedMeasurement, Converter={StaticResource NullBooleanConverter}}"/>
                     <Button Grid.Column="0" Content="Ok" Width="Auto" Name="AddButton" 
                         Command="{Binding AddMeasurementCommand}"
-                        Visibility="{Binding ViewMode, Converter={StaticResource ReverseVisibleConverter}}"/>
+                        Visibility="{Binding ViewMode, Converter={StaticResource ReverseVisibleConverter}}"
+                            IsEnabled="{Binding MeasurementValuesAreCorrectFormatInEditMode}"/>
                     <Button Grid.Column="2" Grid.RowSpan="3" Content="Cancel" Width="Auto" Name="CancelButton" 
                         Command="{Binding CancelNewMeasurementCommand}" 
                         Visibility="{Binding ViewMode, Converter={StaticResource ReverseVisibleConverter}}"/>
