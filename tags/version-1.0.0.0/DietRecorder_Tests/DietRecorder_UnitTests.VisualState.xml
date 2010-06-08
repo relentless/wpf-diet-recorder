@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
+  <TopNode>[0-1000]C:\Programs\wpf-diet-recorder\DietRecorder_Tests\DietRecorder_UnitTests.nunit</TopNode>
+  <SelectedNode>[0-1000]C:\Programs\wpf-diet-recorder\DietRecorder_Tests\DietRecorder_UnitTests.nunit</SelectedNode>
+  <ExcludeCategories>false</ExcludeCategories>
+  <Nodes>
+    <Node UniqueName="[0-1000]C:\Programs\wpf-diet-recorder\DietRecorder_Tests\DietRecorder_UnitTests.nunit" Expanded="true" />
+    <Node UniqueName="[0-1024]C:\Programs\wpf-diet-recorder\DietRecorder_Tests\bin\Debug\DietRecorder_Tests.dll" Expanded="true" />
+    <Node UniqueName="[0-1025]DietRecorder_Tests" Expanded="true" />
+    <Node UniqueName="[0-1027]DietRecorder_Tests.Client" Expanded="true" />
+    <Node UniqueName="[0-1030]DietRecorder_Tests.Client.Common" Expanded="true" />
+    <Node UniqueName="[0-1018]DietRecorder_Tests.Client.Common.CollectionExtensions_Tests" Expanded="true" />
+    <Node UniqueName="[0-1028]DietRecorder_Tests.Client.ViewModel" Expanded="true" />
+    <Node UniqueName="[0-1008]DietRecorder_Tests.Client.ViewModel.MeasurementViewModel_Tests" Expanded="true" />
+    <Node UniqueName="[0-1006]DietRecorder_Tests.Client.ViewModel.UserViewModel_Tests" Expanded="true" />
+    <Node UniqueName="[0-1029]DietRecorder_Tests.DataAccess" Expanded="true" />
+    <Node UniqueName="[0-1015]DietRecorder_Tests.DataAccess.Repository_Tests" Expanded="true" />
+    <Node UniqueName="[0-1026]DietRecorder_Tests.Model" Expanded="true" />
+    <Node UniqueName="[0-1001]DietRecorder_Tests.Model.User_Tests" Expanded="true" />
+  </Nodes>
+</VisualState>
