@@ -48,10 +48,6 @@ namespace DietRecorder.Client
                             }
 
                             userView.Show();
-
-                            // I don't know why this has to be set after the view is shown,
-                            // but it's the only way I can make it work
-                            userView.DefinitionView.DataContext = userVM.DefinitionViewModel;
                         }
                         catch (Exception ex)
                         {
